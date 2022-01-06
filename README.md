@@ -106,10 +106,14 @@ You can find this repository at https://github.com/KhronosGroup/Vulkan-Samples
 Thanks to the authors of these libraries :
 
 - [OpenGL Mathematics (GLM)](https://github.com/g-truc/glm)
+- [Dear ImGui](https://github.com/ocornut/imgui)
+- [Vulkan Memory Allocator](https://github.com/GPUOpen-LibrariesAndSDKs/VulkanMemoryAllocator)
+- [TinyObjLoader](https://github.com/tinyobjloader/tinyobjloader)
+- [EnTT](https://github.com/skypjack/entt)
 
-[LunarG](http://www.lunarg.com)
+Thanks to [LunarG](http://www.lunarg.com)
 
-[Sascha Willems](https://github.com/SaschaWillems/Vulkan)
+Thanks to [Sascha Willems](https://github.com/SaschaWillems/Vulkan)
 
 Thanks to [ThinMatrix](https://www.youtube.com/user/ThinMatrix/featured)
 
