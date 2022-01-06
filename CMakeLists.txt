@@ -72,9 +72,12 @@ endif()
 
 if(DEFINED SPDLOG_PATH)
   message(STATUS "Usinf spdlog path specified in cmake")
-
-if(NOT TARGET spdlog)
+  include_directories(${SPDLOG_PATH})
+  target_include_directories(${SPDLOG_PATH})
+elseif(NOT TARGET spdlog)
   find_package(spdlog REQUIRED)
+else()
+  message(FATAL_ERROR "Could not find EnTT, please redefine path")
 endif()
 
 include_directories(external)
