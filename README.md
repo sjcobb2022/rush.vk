@@ -52,7 +52,7 @@ A video tutorial series introducing computer graphics for [Vulkan®](https://www
     brew install glm
   ```
  - Additionally for this renderer, a few extra steps are required.
-  - Simply clone spdlog, imgui and vma into the home director 
+  - Simply clone spdlog, imgui and Vulkan Memory Allocator into the home directory and Cmake should be able to find everything that is needed.
 
 - To Build
   ```
