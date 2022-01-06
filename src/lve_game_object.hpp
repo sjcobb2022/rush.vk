@@ -59,17 +59,18 @@ class LveGameObject {
 
   template<typename Component>
   Component addComponent(Component value){
+    
     // #if DEBUG
     // if(Component == LveGameObject::id_t){
     // if(typeid(Component).hash_code)
     // assert( && "Cannot change LveGameObject::id_t of LveGameObject");
+
     if(typeid(Component).hash_code() == typeid(LveGameObject::id_t).hash_code()){
-      std::cerr << "Cannot set id_t of Entity, this is private" << std::endl;
+      throw std::runtime_error("Cannot set id_t of Entity, this is private");
     }
-    // spdlog::critical("Logging component hash code {}", typeid(Component).hash_code());
-    // spdlog::set_level(spdlog::level::debug);
+
     int status;
-    spdlog::info("Creating {} component for entity {}", abi::__cxa_demangle(typeid(Component).name(), 0, 0, &status), getId());
+    spdlog::debug("Creating {} component for entity {}", abi::__cxa_demangle(typeid(Component).name(), 0, 0, &status), getId());
     return m_Registry->emplace<Component>(m_Entity, value);
   }
 
@@ -85,6 +86,11 @@ class LveGameObject {
 
   template<typename Component>
   Component modifyComponent(Component new_val){
+
+    if(typeid(Component).hash_code() == typeid(LveGameObject::id_t).hash_code()){
+      throw std::runtime_error("Cannot modify id_t of Entity, this is private");
+    }
+
     return m_Registry->replace<Component>(m_Entity, new_val);
   }
 
