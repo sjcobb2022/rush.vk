@@ -10,7 +10,9 @@
 // std
 #include <memory>
 #include <unordered_map>
-// #include <cxxabi.h>
+#include <cxxabi.h>
+#include <cstring>
+#include <iostream>
 
 namespace lve {
 
@@ -30,7 +32,6 @@ struct TransformComponent {
 class LveGameObject {
  public:
   using id_t = unsigned int;
-  // using Map = std::unordered_map<id_t, LveGameObject>;
 
   static LveGameObject createGameObject(std::shared_ptr<entt::registry> registry) {
     static id_t currentId = 0;
@@ -49,7 +50,7 @@ class LveGameObject {
 
   id_t getId() {
     // spdlog::debug("Created id: {}", id);
-    return m_Registry->get<id_t>(m_Entity);
+    return m_Registry->get<LveGameObject::id_t>(m_Entity);
   }
 
   entt::entity getEntity(){
@@ -59,9 +60,16 @@ class LveGameObject {
   template<typename Component>
   Component addComponent(Component value){
     // #if DEBUG
-    // int status;
+    // if(Component == LveGameObject::id_t){
+    // if(typeid(Component).hash_code)
+    // assert( && "Cannot change LveGameObject::id_t of LveGameObject");
+    if(typeid(Component).hash_code() == typeid(LveGameObject::id_t).hash_code()){
+      std::cerr << "Cannot set id_t of Entity, this is private" << std::endl;
+    }
+    // spdlog::critical("Logging component hash code {}", typeid(Component).hash_code());
     // spdlog::set_level(spdlog::level::debug);
-    // spdlog::debug("Creating {} component for entity {}", abi::__cxa_demangle(typeid(Component).name(), 0, 0, &status), getComponent<id_t>());
+    int status;
+    spdlog::info("Creating {} component for entity {}", abi::__cxa_demangle(typeid(Component).name(), 0, 0, &status), getId());
     return m_Registry->emplace<Component>(m_Entity, value);
   }
 

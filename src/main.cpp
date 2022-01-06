@@ -7,9 +7,10 @@
 #include <stdexcept>
 
 int main() {
-  lve::FirstApp app{};
-
   spdlog::set_pattern("[%^---%l---%$] %v");
+  
+  lve::FirstApp app{};
+  
   try {
     app.run();
   } catch (const std::exception &e) {

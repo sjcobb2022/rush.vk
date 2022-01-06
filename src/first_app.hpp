@@ -8,6 +8,9 @@
 #include "lve_renderer.hpp"
 #include "lve_window.hpp"
 
+// libs
+#include <GLFW/glfw3.h> 
+
 // std
 #include <memory>
 #include <vector>
@@ -31,8 +34,7 @@ class FirstApp {
  private:
   void loadGameObjects();
 
-
-  LveWindow lveWindow{WIDTH, HEIGHT, "Vulkan Tutorial"};
+  LveWindow lveWindow{WIDTH, HEIGHT, "Volk.renderer"};
   LveDevice lveDevice{lveWindow};
   LveRenderer lveRenderer{lveWindow, lveDevice};
 

@@ -3,6 +3,9 @@
 #include "lve_game_object.hpp"
 #include "lve_window.hpp"
 
+//lib
+#include <glm/glm.hpp>
+
 namespace lve {
 class KeyboardMovementController {
  public:
@@ -24,5 +27,7 @@ class KeyboardMovementController {
   KeyMappings keys{};
   float moveSpeed{3.f};
   float lookSpeed{1.5f};
+  // float horizontalAngle{3.14f};
+  // float verticalAngle{0.0f};
 };
 }  // namespace lve

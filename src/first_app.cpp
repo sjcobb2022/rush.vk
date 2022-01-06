@@ -3,17 +3,17 @@
 #include "keyboard_movement_controller.hpp"
 #include "lve_buffer.hpp"
 #include "lve_camera.hpp"
-#include "systems/simple_render_system.hpp"
 #include "systems/point_light_system.hpp"
+#include "systems/simple_render_system.hpp"
 
 // libs
 #define GLM_FORCE_RADIANS
 #define GLM_FORCE_DEPTH_ZERO_TO_ONE
+#include <spdlog/spdlog.h>
+
+#include <entt/entity/registry.hpp>
 #include <glm/glm.hpp>
 #include <glm/gtc/constants.hpp>
-
-#include <spdlog/spdlog.h>
-#include <entt/entity/registry.hpp>
 
 // std
 #include <array>
@@ -83,14 +83,27 @@ void FirstApp::run() {
 
   viewerObject.addComponent<TransformComponent>(
       TransformComponent{{0.0f, 0.0f, -2.5f} /*translation -2.5*/});
-      
+
   KeyboardMovementController cameraController{};
 
   auto currentTime = std::chrono::high_resolution_clock::now();
-  spdlog::info("this should print before the malloc");
+  // spdlog::info("this should print before the malloc");
+
+  //
+  double curMouseX, curMouseY, newMouseX, newMouseY, dxMouseX, dxMouseY;
+  glfwGetCursorPos(lveWindow.getGLFWwindow(), &curMouseX, &curMouseY);
 
   while (!lveWindow.shouldClose()) {
     glfwPollEvents();
+
+    glfwGetCursorPos(lveWindow.getGLFWwindow(), &newMouseX, &newMouseY);
+
+    // dxMouseX = newMouseX - curMouseX;
+    // dxMouseY = newMouseY - curMouseY;
+    // curMouseX = newMouseX;
+    // curMouseY = newMouseY;
+
+    // spdlog::info("{}   :   {}", dxMouseX, dxMouseY);
 
     auto newTime = std::chrono::high_resolution_clock::now();
     float frameTime =
@@ -101,12 +114,14 @@ void FirstApp::run() {
     TransformComponent cameraTransform = viewerObject.getComponent<TransformComponent>();
     camera.setViewYXZ(cameraTransform.translation, cameraTransform.rotation);
 
+    // spdlog::info("{}   :   {}", xpos, ypos);
+
     float aspect = lveRenderer.getAspectRatio();
     camera.setPerspectiveProjection(glm::radians(50.f), aspect, 0.1f, 100.f);
 
     if (auto commandBuffer = lveRenderer.beginFrame()) {
       int frameIndex = lveRenderer.getFrameIndex();
-      
+
       FrameInfo frameInfo{
           frameIndex,
           frameTime,
@@ -129,17 +144,14 @@ void FirstApp::run() {
       lveRenderer.endSwapChainRenderPass(commandBuffer);
       lveRenderer.endFrame();
     }
-
-
   }
-  
 
   vkDeviceWaitIdle(lveDevice.device());
 }
 
 void FirstApp::loadGameObjects() {
-
-  std::shared_ptr<LveModel>lveModel = LveModel::createModelFromFile(lveDevice, "models/flat_vase.obj");
+  std::shared_ptr<LveModel> lveModel =
+      LveModel::createModelFromFile(lveDevice, "models/flat_vase.obj");
 
   auto flatVase = LveGameObject::createGameObject(m_Registry);
 
