@@ -1,7 +1,7 @@
 #pragma once
 
-#include "lve_camera.hpp"
-#include "lve_game_object.hpp"
+#include "volk_camera.hpp"
+#include "volk_game_object.hpp"
 #include <entt/entity/registry.hpp>
 
 // lib

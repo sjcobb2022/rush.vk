@@ -1,8 +1,8 @@
-#include "first_app.hpp"
+#include "volk_app.hpp"
 
 #include "keyboard_movement_controller.hpp"
 #include "lve_buffer.hpp"
-#include "lve_camera.hpp"
+#include "volk_camera.hpp"
 #include "systems/point_light_system.hpp"
 #include "systems/simple_render_system.hpp"
 
@@ -31,7 +31,7 @@ struct GlobalUbo {
   alignas(16) glm::vec4 lightColor{1.f};  // w is light intensity
 };
 
-FirstApp::FirstApp() {
+App::App() {
   globalPool =
       LveDescriptorPool::Builder(lveDevice)
           .setMaxSets(LveSwapChain::MAX_FRAMES_IN_FLIGHT)
@@ -40,9 +40,9 @@ FirstApp::FirstApp() {
   loadGameObjects();
 }
 
-FirstApp::~FirstApp() {}
+App::~App() {}
 
-void FirstApp::run() {
+void App::run() {
   std::vector<std::unique_ptr<LveBuffer>> uboBuffers(LveSwapChain::MAX_FRAMES_IN_FLIGHT);
 
   for (int i = 0; i < uboBuffers.size(); i++) {
@@ -149,7 +149,7 @@ void FirstApp::run() {
   vkDeviceWaitIdle(lveDevice.device());
 }
 
-void FirstApp::loadGameObjects() {
+void App::loadGameObjects() {
   std::shared_ptr<LveModel> lveModel =
       LveModel::createModelFromFile(lveDevice, "models/flat_vase.obj");
 

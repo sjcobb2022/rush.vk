@@ -1,6 +1,6 @@
 #pragma once
 
-#include "lve_game_object.hpp"
+#include "volk_game_object.hpp"
 #include "lve_window.hpp"
 
 //lib

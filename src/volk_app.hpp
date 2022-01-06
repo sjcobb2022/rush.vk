@@ -4,7 +4,7 @@
 
 #include "lve_descriptors.hpp"
 #include "lve_device.hpp"
-#include "lve_game_object.hpp"
+#include "volk_game_object.hpp"
 #include "lve_renderer.hpp"
 #include "lve_window.hpp"
 
@@ -17,17 +17,17 @@
 
 namespace lve {
 
-class FirstApp {
+class App {
  public:
   static constexpr int WIDTH = 800;
   static constexpr int HEIGHT = 600;
 
 
-  FirstApp();
-  ~FirstApp();
+  App();
+  ~App();
 
-  FirstApp(const FirstApp &) = delete;
-  FirstApp &operator=(const FirstApp &) = delete;
+  App(const App &) = delete;
+  App &operator=(const App &) = delete;
 
   void run();
 

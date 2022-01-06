@@ -1,6 +1,6 @@
 #include "lve_model.hpp"
 
-#include "lve_utils.hpp"
+#include "utils.hpp"
 
 // libs
 #define TINYOBJLOADER_IMPLEMENTATION

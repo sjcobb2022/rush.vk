@@ -1,5 +1,5 @@
 
-#include "first_app.hpp"
+#include "volk_app.hpp"
 
 // std
 #include <cstdlib>
@@ -9,7 +9,7 @@
 int main() {
   spdlog::set_pattern("[%^---%l---%$] %v");
   
-  lve::FirstApp app{};
+  lve::App app{};
   
   try {
     app.run();

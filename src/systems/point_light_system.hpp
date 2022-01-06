@@ -1,9 +1,9 @@
 #pragma once
 
-#include "lve_camera.hpp"
+#include "volk_camera.hpp"
 #include "lve_device.hpp"
-#include "lve_frame_info.hpp"
-#include "lve_game_object.hpp"
+#include "volk_frame_info.hpp"
+#include "volk_game_object.hpp"
 #include "lve_pipeline.hpp"
 
 // std
