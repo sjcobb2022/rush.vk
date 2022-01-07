@@ -11,7 +11,7 @@
 #include <cassert>
 #include <stdexcept>
 
-namespace lve {
+namespace volk {
 
 PointLightSystem::PointLightSystem(
     LveDevice& device, VkRenderPass renderPass, VkDescriptorSetLayout globalSetLayout)

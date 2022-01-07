@@ -15,13 +15,12 @@
 #include <memory>
 #include <vector>
 
-namespace lve {
+namespace volk {
 
 class App {
  public:
   static constexpr int WIDTH = 800;
   static constexpr int HEIGHT = 600;
-
 
   App();
   ~App();

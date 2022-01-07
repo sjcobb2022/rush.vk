@@ -7,7 +7,7 @@
 #include <unordered_map>
 #include <vector>
 
-namespace lve {
+namespace volk {
 
 class LveDescriptorSetLayout {
  public:

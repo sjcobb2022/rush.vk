@@ -12,7 +12,7 @@
 #include <memory>
 #include <vector>
 
-namespace lve {
+namespace volk {
 class LveModel {
  public:
   struct Vertex {

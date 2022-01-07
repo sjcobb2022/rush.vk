@@ -12,7 +12,7 @@
 #define ENGINE_DIR "../"
 #endif
 
-namespace lve {
+namespace volk {
 
 LvePipeline::LvePipeline(
     LveDevice& device,

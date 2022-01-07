@@ -19,16 +19,16 @@
 
 namespace std {
 template <>
-struct hash<lve::LveModel::Vertex> {
-  size_t operator()(lve::LveModel::Vertex const &vertex) const {
+struct hash<volk::LveModel::Vertex> {
+  size_t operator()(volk::LveModel::Vertex const &vertex) const {
     size_t seed = 0;
-    lve::hashCombine(seed, vertex.position, vertex.color, vertex.normal, vertex.uv);
+    volk::hashCombine(seed, vertex.position, vertex.color, vertex.normal, vertex.uv);
     return seed;
   }
 };
 }  // namespace std
 
-namespace lve {
+namespace volk {
 
 LveModel::LveModel(LveDevice &device, const LveModel::Builder &builder) : lveDevice{device} {
   createVertexBuffers(builder.vertices);

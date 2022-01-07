@@ -9,7 +9,7 @@
 #include <set>
 #include <stdexcept>
 
-namespace lve {
+namespace volk {
 
 LveSwapChain::LveSwapChain(LveDevice &deviceRef, VkExtent2D extent)
     : device{deviceRef}, windowExtent{extent} {

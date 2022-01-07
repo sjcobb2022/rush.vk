@@ -5,7 +5,7 @@
 #include <cassert>
 #include <stdexcept>
 
-namespace lve {
+namespace volk {
 
 LveRenderer::LveRenderer(LveWindow& window, LveDevice& device)
     : lveWindow{window}, lveDevice{device} {

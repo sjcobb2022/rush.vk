@@ -1,6 +1,6 @@
 #include "volk_game_object.hpp"
 
-namespace lve {
+namespace volk {
 
 glm::mat4 TransformComponent::mat4() {
     

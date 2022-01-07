@@ -4,7 +4,7 @@
 #include <cassert>
 #include <stdexcept>
 
-namespace lve {
+namespace volk {
 
 // *************** Descriptor Set Layout Builder *********************
 

@@ -9,7 +9,7 @@
 #include <memory>
 #include <vector>
 
-namespace lve {
+namespace volk {
 class LveRenderer {
  public:
   LveRenderer(LveWindow &window, LveDevice &device);

@@ -10,7 +10,7 @@
 #include <memory>
 #include <vector>
 
-namespace lve {
+namespace volk {
 class SimpleRenderSystem {
  public:
   SimpleRenderSystem(

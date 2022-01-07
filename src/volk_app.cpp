@@ -2,9 +2,9 @@
 
 #include "keyboard_movement_controller.hpp"
 #include "lve_buffer.hpp"
-#include "volk_camera.hpp"
 #include "systems/point_light_system.hpp"
 #include "systems/simple_render_system.hpp"
+#include "volk_camera.hpp"
 
 // libs
 #define GLM_FORCE_RADIANS
@@ -21,7 +21,7 @@
 #include <chrono>
 #include <stdexcept>
 
-namespace lve {
+namespace volk {
 
 struct GlobalUbo {
   glm::mat4 projection{1.f};
@@ -39,6 +39,13 @@ App::App() {
           .build();
   loadGameObjects();
 }
+
+// void App::cursorCallback(GLFWwindow *window, double x, double y){
+
+//   // spdlog::info("{}x : {}y", x, y);
+
+//   glfwSetCursorPos(window, 0, 0);
+// }
 
 App::~App() {}
 
@@ -87,23 +94,11 @@ void App::run() {
   KeyboardMovementController cameraController{};
 
   auto currentTime = std::chrono::high_resolution_clock::now();
-  // spdlog::info("this should print before the malloc");
 
-  //
-  double curMouseX, curMouseY, newMouseX, newMouseY, dxMouseX, dxMouseY;
-  glfwGetCursorPos(lveWindow.getGLFWwindow(), &curMouseX, &curMouseY);
+  double mouseX, mouseY;
 
   while (!lveWindow.shouldClose()) {
     glfwPollEvents();
-
-    glfwGetCursorPos(lveWindow.getGLFWwindow(), &newMouseX, &newMouseY);
-
-    // dxMouseX = newMouseX - curMouseX;
-    // dxMouseY = newMouseY - curMouseY;
-    // curMouseX = newMouseX;
-    // curMouseY = newMouseY;
-
-    // spdlog::info("{}   :   {}", dxMouseX, dxMouseY);
 
     auto newTime = std::chrono::high_resolution_clock::now();
     float frameTime =
@@ -184,4 +179,4 @@ void App::loadGameObjects() {
   // create floor model
 }
 
-}  // namespace lve
+}  // namespace volk

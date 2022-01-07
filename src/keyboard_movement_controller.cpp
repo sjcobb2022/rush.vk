@@ -3,7 +3,7 @@
 // std
 #include <limits>
 
-namespace lve {
+namespace volk {
 
 void KeyboardMovementController::moveInPlaneXZ(
     GLFWwindow* window, float dt, LveGameObject& gameObject) {
@@ -15,42 +15,11 @@ void KeyboardMovementController::moveInPlaneXZ(
   if (glfwGetKey(window, keys.lookUp) == GLFW_PRESS) rotate.x += 1.f;
   if (glfwGetKey(window, keys.lookDown) == GLFW_PRESS) rotate.x -= 1.f;
 
-  // rotate.y += dx;
-  // rotate.x -= dy;
-
+  rotate = rotate + rotation_state;
 
   if (glm::dot(rotate, rotate) > std::numeric_limits<float>::epsilon()) {
     gameObjectTransform.rotation += lookSpeed * dt * glm::normalize(rotate);
   }
-  // spdlog::info("{}  :  {}", dx, dy);
-
-  // horizontalAngle += lookSpeed * dt * dx;
-  // verticalAngle += lookSpeed * dy * dy;
-
-  // glm::vec3 rotation = {
-  // glm::cos(verticalAngle) * glm::sin(horizontalAngle),
-  // glm::sin(verticalAngle),
-  // glm::cos(verticalAngle) * glm::cos(horizontalAngle)
-  // };
-
-  // glm::vec3 forwardDir{
-  //     glm::cos(verticalAngle) * glm::sin(horizontalAngle),
-  //     glm::sin(verticalAngle),
-  //     glm::cos(verticalAngle) * glm::cos(horizontalAngle)};
-
-  // glm::vec3 rightDir = glm::vec3(
-  //     glm::sin(horizontalAngle - 3.14f / 2.0f),
-  //     0,
-  //     glm::cos(horizontalAngle - 3.14f / 2.0f));
-
-  // glm::vec3 upDir = glm::cross(rightDir, forwardDir);
-
-  // const glm::vec3 rightDir =
-  // glm::vec3(sin(horizontalAngle - 3.14f / 2.0f), 0, cos(horizontalAngle - 3.14f / 2.0f));
-
-  // const glm::vec3 upDir = glm::cross(rightDir, forwardDir);
-
-  // spdlog::info("{}", direction.x);
 
   // limit pitch values between about +/- 85ish degrees
   gameObjectTransform.rotation.x = glm::clamp(gameObjectTransform.rotation.x, -1.5f, 1.5f);

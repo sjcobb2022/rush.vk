@@ -7,7 +7,7 @@
 // lib
 #include <vulkan/vulkan.h>
 
-namespace lve {
+namespace volk {
 struct FrameInfo {
   int frameIndex;
   float frameTime;

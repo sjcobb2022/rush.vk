@@ -6,7 +6,7 @@
 #include <set>
 #include <unordered_set>
 
-namespace lve {
+namespace volk {
 
 // local callback functions
 static VKAPI_ATTR VkBool32 VKAPI_CALL debugCallback(

@@ -15,7 +15,7 @@
 #include <cassert>
 #include <stdexcept>
 
-namespace lve {
+namespace volk {
 
 struct SimplePushConstantData {
   glm::mat4 modelMatrix{1.f};

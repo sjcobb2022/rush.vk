@@ -6,7 +6,7 @@
 #include <string>
 #include <vector>
 
-namespace lve {
+namespace volk {
 
 struct SwapChainSupportDetails {
   VkSurfaceCapabilitiesKHR capabilities;

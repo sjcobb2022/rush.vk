@@ -5,15 +5,19 @@
 
 #include <string>
 
-namespace lve {
+namespace volk {
 
 class LveWindow {
  public:
   LveWindow(int w, int h, std::string name);
   ~LveWindow();
 
+  
+
   LveWindow(const LveWindow &) = delete;
   LveWindow &operator=(const LveWindow &) = delete;
+
+  // static void cursorPositionCallback(GLFWwindow *window, double x, double y);
 
   bool shouldClose() { return glfwWindowShouldClose(window); }
   VkExtent2D getExtent() { return {static_cast<uint32_t>(width), static_cast<uint32_t>(height)}; }

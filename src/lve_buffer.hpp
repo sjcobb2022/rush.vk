@@ -2,7 +2,7 @@
 
 #include "lve_device.hpp"
 
-namespace lve {
+namespace volk {
 
 class LveBuffer {
  public:

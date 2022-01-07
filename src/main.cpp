@@ -10,7 +10,7 @@
 int main() {
   spdlog::set_pattern("[%^---%l---%$] %v");
   
-  lve::App app{};
+  volk::App app{};
   
   try {
     app.run();

@@ -4,7 +4,7 @@
 #include <cassert>
 #include <limits>
 
-namespace lve {
+namespace volk {
 
 void LveCamera::setOrthographicProjection(
     float left, float right, float top, float bottom, float near, float far) {

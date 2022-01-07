@@ -28,7 +28,7 @@
   ```
 - To Build
   ```
-   cd LittleVulkanEngine
+   cd volk
    ./unixBuild.sh
   ```
 
@@ -70,12 +70,12 @@
 - In windows powershell
 
 ```
- cd littleVulkanEngine
+ cd volk
  mkdir build
  cmake -S . -B .\build\
 ```
 
-- If cmake finished successfully, it will create a LveEngine.sln file in the build directory that can be opened with visual studio. In visual studio right click the Shaders project -> build, to build the shaders. Right click the LveEngine project -> set as startup project. Change from debug to release, and then build and start without debugging.
+- If cmake finished successfully, it will create a volk.sln file in the build directory that can be opened with visual studio. In visual studio right click the Shaders project -> build, to build the shaders. Right click the volk project -> set as startup project. Change from debug to release, and then build and start without debugging.
 
 #### Building for minGW
 
@@ -85,7 +85,7 @@
 - In windows powershell
 
 ```
- cd littleVulkanEngine
+ cd volk
  ./mingwBuild.bat
 ```
 

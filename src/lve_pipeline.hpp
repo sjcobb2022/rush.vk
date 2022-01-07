@@ -6,7 +6,7 @@
 #include <string>
 #include <vector>
 
-namespace lve {
+namespace volk {
 
 struct PipelineConfigInfo {
   PipelineConfigInfo(const PipelineConfigInfo&) = delete;

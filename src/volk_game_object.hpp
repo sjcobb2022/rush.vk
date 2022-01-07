@@ -14,7 +14,7 @@
 #include <cstring>
 #include <iostream>
 
-namespace lve {
+namespace volk {
 
 struct TransformComponent {
   glm::vec3 translation{};
