@@ -80,6 +80,14 @@ else()
   message(FATAL_ERROR "Could not find EnTT, please redefine path")
 endif()
 
+#5. find bullet 
+if(DEFINED BULLET_PATH)
+  message(STATUS "Bullet path finding hasn't been setup yet")
+else()
+  find_package(Bullet REQUIRED)
+  message(STATUS "Found Bullet")
+endif()
+
 include_directories(external)
 
 # If TINYOBJ_PATH not specified in .env.cmake, try fetching from git repo
@@ -122,14 +130,16 @@ if (WIN32)
     ${GLFW_INCLUDE_DIRS}
     ${IMGUI_PATH}
     ${GLM_PATH}
+    ${BULLET_PATH}
     )
 
   target_link_directories(${PROJECT_NAME} PUBLIC
     ${Vulkan_LIBRARIES}
-    ${GLFW_LIB}
+    ${GLFW_LIB}    
+    ${BULLET_PATH}
   )
 
-  target_link_libraries(${PROJECT_NAME} glfw3 vulkan-1 EnTT::EnTT spdlog::spdlog)
+  target_link_libraries(${PROJECT_NAME} glfw3 vulkan-1 EnTT::EnTT spdlog::spdlog Bullet)
 
 elseif (UNIX)
     message(STATUS "CREATING BUILD FOR UNIX")
