@@ -99,7 +99,7 @@ You can find this repository at https://github.com/KhronosGroup/Vulkan-Samples
 
 ## <a name="CreditsAttributions"></a> Credits
 
-Mainly thanks to @BlurryPiano (Brendan Galea) for making a really incredible and educational way to get into developing for vulkan, making a major part of this codebase, and being a really nice guy.
+Mainly thanks to [BlurryPiano](https://github.com/blurrypiano/) (Brendan Galea) for making a really incredible and educational way to get into developing for vulkan, making a major part of this codebase, and being a really nice guy.
 
 Thanks to the authors of these libraries :
 
