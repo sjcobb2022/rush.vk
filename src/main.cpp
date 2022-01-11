@@ -1,7 +1,6 @@
 
 #include "volk_app.hpp"
 
-
 // std
 #include <cstdlib>
 #include <iostream>

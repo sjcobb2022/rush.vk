@@ -1,14 +1,12 @@
 #pragma once
 
 #include "lve_model.hpp"
+#include "components/transform.hpp"
 
 // libs
 #include <spdlog/spdlog.h>
 
 #include <entt/entity/registry.hpp>
-#include <glm/ext.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtx/quaternion.hpp>
 
 // std
 #include <cxxabi.h>
@@ -20,24 +18,6 @@
 
 namespace volk {
 
-struct TransformComponent {
-  glm::vec3 translation{};
-  glm::vec3 scale{1.f, 1.f, 1.f};
-  glm::quat rotation{glm::vec3{0.f}};
-
-  // Matrix corrsponds to Translate * Ry * Rx * Rz * Scale
-  // Rotations correspond to Tait-bryan angles of Y(1), X(2), Z(3)
-  // https://en.wikipedia.org/wiki/Euler_angles#Rotation_matrix
-
-  glm::mat4 mat4();
-
-  glm::mat3 normalMatrix();
-
-  void rotate(float x, float y, float z);
-
-  void rotate(glm::vec3 eulerAngles);
-};
-
 class LveGameObject {
  public:
   using id_t = unsigned int;
@@ -45,8 +25,10 @@ class LveGameObject {
   static LveGameObject createGameObject(std::shared_ptr<entt::registry> registry) {
     static id_t currentId = 0;
 
+    //create ent
     auto ent = registry->create();
 
+    //add id_t to reg
     registry->emplace<id_t>(ent, currentId++);
 
     return LveGameObject{ent, registry};
@@ -58,14 +40,14 @@ class LveGameObject {
   LveGameObject &operator=(LveGameObject &&) = default;
 
   id_t getId() {
-    // spdlog::debug("Created id: {}", id);
+    // spdlog::debug("Created gameObject: {}", );
     return m_Registry->get<LveGameObject::id_t>(m_Entity);
   }
 
   template <typename Component>
   Component addComponent(Component value) {
     if (typeid(Component).hash_code() == typeid(LveGameObject::id_t).hash_code()) {
-      throw std::runtime_error("Cannot set id_t of Entity, this is private");
+      throw std::runtime_error("Cannot change id_t of gameObject, this is private");
     }
 
     int status;
