@@ -11,6 +11,8 @@
 #include <cassert>
 #include <cstring>
 
+#include "vk_mem_alloc.h"
+
 namespace volk {
 
 /**
@@ -63,6 +65,7 @@ LveBuffer::~LveBuffer() {
  */
 VkResult LveBuffer::map(VkDeviceSize size, VkDeviceSize offset) {
   assert(buffer && memory && "Called map on buffer before create");
+  
   return vkMapMemory(lveDevice.device(), memory, offset, size, 0, &mapped);
 }
 
@@ -116,6 +119,7 @@ VkResult LveBuffer::flush(VkDeviceSize size, VkDeviceSize offset) {
   mappedRange.memory = memory;
   mappedRange.offset = offset;
   mappedRange.size = size;
+  // vmaMap
   return vkFlushMappedMemoryRanges(lveDevice.device(), 1, &mappedRange);
 }
 

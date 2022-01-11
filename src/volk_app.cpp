@@ -100,16 +100,21 @@ void App::run() {
   while (!lveWindow.shouldClose()) {
     glfwPollEvents();
 
+    glfwGetCursorPos(lveWindow.getGLFWwindow(), &mouseX, &mouseY);
+
+    // glfwSetCursorPos(lveWindow.getGLFWwindow(), 0, 0);
+
     auto newTime = std::chrono::high_resolution_clock::now();
     float frameTime =
         std::chrono::duration<float, std::chrono::seconds::period>(newTime - currentTime).count();
     currentTime = newTime;
 
+    // cameraController.moveMouse(lveWindow.getGLFWwindow(), frameTime, viewerObject, mouseX,
+    // mouseY);
+
     cameraController.moveInPlaneXZ(lveWindow.getGLFWwindow(), frameTime, viewerObject);
     TransformComponent cameraTransform = viewerObject.getComponent<TransformComponent>();
     camera.setViewYXZ(cameraTransform.translation, cameraTransform.rotation);
-
-    // spdlog::info("{}   :   {}", xpos, ypos);
 
     float aspect = lveRenderer.getAspectRatio();
     camera.setPerspectiveProjection(glm::radians(50.f), aspect, 0.1f, 100.f);
@@ -162,6 +167,7 @@ void App::loadGameObjects() {
   auto smoothVase = LveGameObject::createGameObject(m_Registry);
 
   smoothVase.addComponent<std::shared_ptr<LveModel>>(lveModel);
+  
   smoothVase.addComponent<TransformComponent>(TransformComponent{
       {.5f, .5f, 0.f},  // translation
       {3.f, 1.5f, 3.f}  // scale

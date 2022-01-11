@@ -9,26 +9,42 @@ void KeyboardMovementController::moveInPlaneXZ(
     GLFWwindow* window, float dt, LveGameObject& gameObject) {
   TransformComponent gameObjectTransform = gameObject.getComponent<TransformComponent>();
 
-  glm::vec3 rotate{0};
-  if (glfwGetKey(window, keys.lookRight) == GLFW_PRESS) rotate.y += 1.f;
-  if (glfwGetKey(window, keys.lookLeft) == GLFW_PRESS) rotate.y -= 1.f;
-  if (glfwGetKey(window, keys.lookUp) == GLFW_PRESS) rotate.x += 1.f;
-  if (glfwGetKey(window, keys.lookDown) == GLFW_PRESS) rotate.x -= 1.f;
+  glm::quat& rotation = gameObjectTransform.rotation;
 
-  rotate = rotate + rotation_state;
+  const glm::vec3 forwardDir{
+      // forward vector:
+      // x = 2 * (x*z + w*y)
+      // y = 2 * (y*z - w*x)
+      // z = 1 - 2 * (x*x + y*y)
+      //  glm::cross(
+      //  glm::vec3{
+      2 * (rotation.x * rotation.z + rotation.w * rotation.y),
+      2 * (rotation.y * rotation.z - rotation.w * rotation.x),
+      1 - 2 * (rotation.x * rotation.x + rotation.y * rotation.y),
+      //  glm::vec3{0.f, 0.f, -1.f}
+      //  )
+  };
+  const glm::vec3 rightDir{
+      // left vector
+      // x = 1 - 2 * (y*y + z*z)
+      // y = 2 * (x*y + w*z)
+      // z = 2 * (x*z - w*y)
+      1 - 2 * (rotation.y * rotation.y + rotation.z * rotation.z),
+      2 * (rotation.x * rotation.y + rotation.w * rotation.z),
+      2 * (rotation.x * rotation.z - rotation.w * rotation.y)
+      // -1.f, 0.f, 0.f
+      // forwardDir.z, 0.f, -forwardDir.x
+  };
+  const glm::vec3 upDir{// up vector
+                        // x = 2 * (x*y - w*z)
+                        // y = 1 - 2 * (x*x + z*z)
+                        // z = 2 * (y*z + w*x)
+                        // glm::cross(rightDir, forwardDir) // can do this instead
+                        0.f,
+                        -1.f,
+                        0.f};
 
-  if (glm::dot(rotate, rotate) > std::numeric_limits<float>::epsilon()) {
-    gameObjectTransform.rotation += lookSpeed * dt * glm::normalize(rotate);
-  }
-
-  // limit pitch values between about +/- 85ish degrees
-  gameObjectTransform.rotation.x = glm::clamp(gameObjectTransform.rotation.x, -1.5f, 1.5f);
-  gameObjectTransform.rotation.y = glm::mod(gameObjectTransform.rotation.y, glm::two_pi<float>());
-
-  float yaw = gameObjectTransform.rotation.y;
-  const glm::vec3 forwardDir{sin(yaw), 0.f, cos(yaw)};
-  const glm::vec3 rightDir{forwardDir.z, 0.f, -forwardDir.x};
-  const glm::vec3 upDir{0.f, -1.f, 0.f};
+  // spdlog::info("{} : {} : {}", forwardDir.x, forwardDir.y, forwardDir.z);
 
   glm::vec3 moveDir{0.f};
   if (glfwGetKey(window, keys.moveForward) == GLFW_PRESS) moveDir += forwardDir;
@@ -37,11 +53,47 @@ void KeyboardMovementController::moveInPlaneXZ(
   if (glfwGetKey(window, keys.moveLeft) == GLFW_PRESS) moveDir -= rightDir;
   if (glfwGetKey(window, keys.moveUp) == GLFW_PRESS) moveDir += upDir;
   if (glfwGetKey(window, keys.moveDown) == GLFW_PRESS) moveDir -= upDir;
+  // spdlog::info("{} : {} : {}", moveDir.x, moveDir.y, moveDir.z);
 
   if (glm::dot(moveDir, moveDir) > std::numeric_limits<float>::epsilon()) {
     gameObjectTransform.translation += moveSpeed * dt * glm::normalize(moveDir);
   }
 
+  glm::vec3 rotate{0};
+  if (glfwGetKey(window, keys.lookRight) == GLFW_PRESS) rotate.y += 1.f;
+  if (glfwGetKey(window, keys.lookLeft) == GLFW_PRESS) rotate.y -= 1.f;
+  if (glfwGetKey(window, keys.lookUp) == GLFW_PRESS) rotate.x += 1.f;
+  if (glfwGetKey(window, keys.lookDown) == GLFW_PRESS) rotate.x -= 1.f;
+
+  if (glm::dot(rotate, rotate) > std::numeric_limits<float>::epsilon()) {
+    gameObjectTransform.rotate(lookSpeed * dt * glm::normalize(rotate));
+
+    // TODO
+    //  glm::vec3 eulerAngles = glm::eulerAngles(gameObjectTransform.rotation);
+    //  limit pitch values between about +/- 85ish degrees
+    //  eulerAngles.x = glm::clamp(eulerAngles.x, -1.5f, 1.5f);
+    //  eulerAngles.y = glm::mod(eulerAngles.y, glm::two_pi<float>());
+    //  gameObjectTransform.rotation = glm::quat(eulerAngles);
+  }
+
   gameObject.modifyComponent<TransformComponent>(gameObjectTransform);
 }
-}  // namespace lve
+
+void KeyboardMovementController::moveMouse(
+    GLFWwindow* window, float dt, LveGameObject& gameObject, double x, double y) {
+  TransformComponent gameObjectTransform = gameObject.getComponent<TransformComponent>();
+
+  // glm::vec3 rotate{0};
+
+  // if (glm::dot(rotate, rotate) > std::numeric_limits<float>::epsilon()) {
+  //   gameObjectTransform.rotation += mouseLookSpeed * dt * glm::normalize(rotate);
+  // }
+
+  // gameObjectTransform.rotation.x = glm::clamp(gameObjectTransform.rotation.x, -1.5f, 1.5f);
+  // gameObjectTransform.rotation.y = glm::mod(gameObjectTransform.rotation.y,
+  // glm::two_pi<float>());
+
+  // gameObject.modifyComponent<TransformComponent>(gameObjectTransform);
+}
+
+}  // namespace volk

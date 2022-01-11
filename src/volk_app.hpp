@@ -4,12 +4,12 @@
 
 #include "lve_descriptors.hpp"
 #include "lve_device.hpp"
-#include "volk_game_object.hpp"
 #include "lve_renderer.hpp"
 #include "lve_window.hpp"
+#include "volk_game_object.hpp"
 
 // libs
-#include <GLFW/glfw3.h> 
+#include <GLFW/glfw3.h>
 
 // std
 #include <memory>
@@ -41,4 +41,4 @@ class App {
   std::unique_ptr<LveDescriptorPool> globalPool{};
   std::shared_ptr<entt::registry> m_Registry{std::make_unique<entt::registry>()};
 };
-}  // namespace lve
+}  // namespace volk

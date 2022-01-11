@@ -5,6 +5,7 @@
 
 //lib
 #include <glm/glm.hpp>
+#include <glm/gtx/quaternion.hpp>
 
 namespace volk {
 class KeyboardMovementController {
@@ -22,13 +23,15 @@ class KeyboardMovementController {
     int lookDown = GLFW_KEY_DOWN;
   };
 
+  void moveMouse(GLFWwindow* window, float dt, LveGameObject& gameObject, double x, double y);
+
   void moveInPlaneXZ(GLFWwindow* window, float dt, LveGameObject& gameObject);
 
   // void mouseMoveIn(GLFWwindow* window, float dt, LveGameObject& gameObject, double dxM, double dyM);
 
   KeyMappings keys{};
   float moveSpeed{3.f};
-  float lookSpeed{1.5f};
-  glm::vec3 rotation_state{0};
+  float lookSpeed{1.0f};
+  float mouseLookSpeed{1.5f};
 };
 }  // namespace lve
