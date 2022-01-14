@@ -21,6 +21,9 @@ external/vma/**
 external/imgui
 external/imgui/**
 
+imgui
+imgui/**
+
 c-src
 c-src/**
 
@@ -36,3 +39,8 @@ bullet3/build3/**
 
 
 **/.DS_STORE
+
+glfw
+glfw/*
+glfw/**
+

@@ -70,6 +70,10 @@ class LveDevice {
       VkImage &image,
       VkDeviceMemory &imageMemory);
 
+  VkInstance getInstance(){return instance; };
+
+  VkPhysicalDevice getPhysicalDevice(){ return physicalDevice; }
+
   VkPhysicalDeviceProperties properties;
 
  private:

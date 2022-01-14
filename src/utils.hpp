@@ -1,6 +1,8 @@
 #pragma once
 
 #include <functional>
+#include <glm/glm.hpp>
+#include <glm/gtx/quaternion.hpp>
 
 namespace volk {
 
@@ -11,4 +13,6 @@ void hashCombine(std::size_t& seed, const T& v, const Rest&... rest) {
   (hashCombine(seed, rest), ...);
 };
 
-}  // namespace lve
+glm::quat clampQuatX(glm::quat q, float x);
+
+}  // namespace volk

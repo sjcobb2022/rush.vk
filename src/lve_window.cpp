@@ -31,7 +31,7 @@ void LveWindow::initWindow() {
   glfwSetWindowUserPointer(window, this);
   glfwSetFramebufferSizeCallback(window, framebufferResizeCallback);
   // glfwSetCursorPosCallback(window, LveWindow::cursorPositionCallback);
-  glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+  // glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 }
 
 void LveWindow::createWindowSurface(VkInstance instance, VkSurfaceKHR *surface) {

@@ -99,13 +99,19 @@ endif()
 if(NOT IMGUI_PATH)
   message(STATUS "imgui path not specified using external/imgui")
   set(IMGUI_PATH external/imgui)
+else()
+  message(STATUS "using imgui path specified in .env")
 endif()
 
 file(GLOB_RECURSE SOURCES ${PROJECT_SOURCE_DIR}/src/*.cpp)
 
-# file(GLOB_RECURSE IMGUI_SOURCES ${IMGUI_PATH}/*.cpp ${IMGUI_PATH}/backends/*.cpp)
+# file(GLOB_RECURSE IMGUI_SOURCES)
 
-add_executable(${PROJECT_NAME} ${SOURCES})
+# file(GLOB_RECURSE IMGUI_SOURCES ${IMGUI_PATH}/*.cpp)
+# add_executable(example_glfw_vulkan ${sources} )
+
+
+add_executable(${PROJECT_NAME} ${SOURCES} ${IMGUI_PATH}/backends/imgui_impl_glfw.cpp ${IMGUI_PATH}/backends/imgui_impl_vulkan.cpp ${IMGUI_PATH}/imgui.cpp ${IMGUI_PATH}/imgui_draw.cpp ${IMGUI_PATH}/imgui_demo.cpp ${IMGUI_PATH}/imgui_tables.cpp ${IMGUI_PATH}/imgui_widgets.cpp)
 
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_17)
 
@@ -150,7 +156,7 @@ elseif (UNIX)
         # set(CMAKE_CXX_FLAGS "-framework Cocoa -framework IOKit -framework CoreVideo")
 
         # instead find the libs beforehand so we can link them properly instead of using flags
-        message(STATUS "APPLE - finding necessary libs")
+        message(STATUS "finding necesssary apple libs")
         find_library(COCOA_LIBRARY Cocoa)
         find_library(IOKIT_LIBRARY IOKit)
         find_library(COREVIDEO_LIBRARY CoreVideo)
@@ -163,6 +169,7 @@ elseif (UNIX)
       ${PROJECT_SOURCE_DIR}/src
       ${TINYOBJ_PATH}
       ${IMGUI_PATH}
+      ${IMGUI_PATH}/backends
     )
 
     target_link_libraries(${PROJECT_NAME} ${EXTRA_LIBS} glfw ${Vulkan_LIBRARIES} EnTT::EnTT spdlog::spdlog)

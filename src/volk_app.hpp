@@ -30,6 +30,10 @@ class App {
 
   void run();
 
+  void init_imgui();
+
+  void immediate_submit(std::function<void(VkCommandBuffer cmd)>&& function);
+
  private:
   void loadGameObjects();
 
@@ -40,5 +44,9 @@ class App {
   // note: order of declarations matters
   std::unique_ptr<LveDescriptorPool> globalPool{};
   std::shared_ptr<entt::registry> m_Registry{std::make_unique<entt::registry>()};
+
+  VkCommandBuffer commandBuffer;
+
+  VkDescriptorPool imguiPool;
 };
 }  // namespace volk
