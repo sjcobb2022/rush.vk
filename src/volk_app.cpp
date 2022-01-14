@@ -15,10 +15,9 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/constants.hpp>
 
-#include "imgui/imgui.h"
 #include "imgui/backends/imgui_impl_glfw.h"
 #include "imgui/backends/imgui_impl_vulkan.h"
-
+#include "imgui/imgui.h"
 
 // std
 #include <array>
@@ -47,91 +46,94 @@ App::App() {
   loadGameObjects();
 }
 
-void App::init_imgui(){
-  VkDescriptorPoolSize pool_sizes[] =
-	{
-		{ VK_DESCRIPTOR_TYPE_SAMPLER, 1000 },
-		{ VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 1000 },
-		{ VK_DESCRIPTOR_TYPE_SAMPLED_IMAGE, 1000 },
-		{ VK_DESCRIPTOR_TYPE_STORAGE_IMAGE, 1000 },
-		{ VK_DESCRIPTOR_TYPE_UNIFORM_TEXEL_BUFFER, 1000 },
-		{ VK_DESCRIPTOR_TYPE_STORAGE_TEXEL_BUFFER, 1000 },
-		{ VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, 1000 },
-		{ VK_DESCRIPTOR_TYPE_STORAGE_BUFFER, 1000 },
-		{ VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER_DYNAMIC, 1000 },
-		{ VK_DESCRIPTOR_TYPE_STORAGE_BUFFER_DYNAMIC, 1000 },
-		{ VK_DESCRIPTOR_TYPE_INPUT_ATTACHMENT, 1000 }
-	};
+void App::init_imgui() {
+  VkDescriptorPoolSize pool_sizes[] = {
+      {VK_DESCRIPTOR_TYPE_SAMPLER, 1000},
+      {VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 1000},
+      {VK_DESCRIPTOR_TYPE_SAMPLED_IMAGE, 1000},
+      {VK_DESCRIPTOR_TYPE_STORAGE_IMAGE, 1000},
+      {VK_DESCRIPTOR_TYPE_UNIFORM_TEXEL_BUFFER, 1000},
+      {VK_DESCRIPTOR_TYPE_STORAGE_TEXEL_BUFFER, 1000},
+      {VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, 1000},
+      {VK_DESCRIPTOR_TYPE_STORAGE_BUFFER, 1000},
+      {VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER_DYNAMIC, 1000},
+      {VK_DESCRIPTOR_TYPE_STORAGE_BUFFER_DYNAMIC, 1000},
+      {VK_DESCRIPTOR_TYPE_INPUT_ATTACHMENT, 1000}};
 
   VkDescriptorPoolCreateInfo pool_info = {};
-	pool_info.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO;
-	pool_info.flags = VK_DESCRIPTOR_POOL_CREATE_FREE_DESCRIPTOR_SET_BIT;
-	pool_info.maxSets = 1000;
-	pool_info.poolSizeCount = std::size(pool_sizes);
-	pool_info.pPoolSizes = pool_sizes;
+  pool_info.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO;
+  pool_info.flags = VK_DESCRIPTOR_POOL_CREATE_FREE_DESCRIPTOR_SET_BIT;
+  pool_info.maxSets = 1000;
+  pool_info.poolSizeCount = std::size(pool_sizes);
+  pool_info.pPoolSizes = pool_sizes;
 
   // VkDescriptorPool imguiPool;
 
   vkCreateDescriptorPool(lveDevice.device(), &pool_info, nullptr, &imguiPool);
 
+  IMGUI_CHECKVERSION();
   ImGui::CreateContext();
+
+  // ImGuiIO& io = ImGui::GetIO();
+  // (void)io;
+  // io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;  // Enable Keyboard Controls
+  // io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;      // Enable Docking
+  // io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;    // Enable Multi-Viewport / Platform Windows
 
   ImGui_ImplGlfw_InitForVulkan(lveWindow.getGLFWwindow(), false);
 
   ImGui_ImplVulkan_InitInfo init_info = {};
-	init_info.Instance = lveDevice.getInstance();
-	init_info.PhysicalDevice = lveDevice.getPhysicalDevice();
-	init_info.Device = lveDevice.device();
-	init_info.Queue = lveDevice.graphicsQueue();
-	init_info.DescriptorPool = imguiPool;
-	init_info.MinImageCount = 3;
-	init_info.ImageCount = 3;
-	init_info.MSAASamples = VK_SAMPLE_COUNT_1_BIT;
+  init_info.Instance = lveDevice.getInstance();
+  init_info.PhysicalDevice = lveDevice.getPhysicalDevice();
+  init_info.Device = lveDevice.device();
+  init_info.Queue = lveDevice.graphicsQueue();
+  init_info.DescriptorPool = imguiPool;
+  init_info.MinImageCount = 3;
+  init_info.ImageCount = 3;
+  init_info.MSAASamples = VK_SAMPLE_COUNT_1_BIT;
 
   ImGui_ImplVulkan_Init(&init_info, lveRenderer.getSwapChainRenderPass());
 
   {
-        // Use any command queue
-        VkCommandPool command_pool = lveDevice.getCommandPool();
-        VkCommandBuffer command_buffer = lveDevice.beginSingleTimeCommands();
+    // Use any command queue
+    VkCommandPool command_pool = lveDevice.getCommandPool();
+    VkCommandBuffer command_buffer = lveDevice.beginSingleTimeCommands();
 
-        spdlog::info("initialised command pool and command buffer");
+    spdlog::info("initialised command pool and command buffer");
 
-        // vkResetCommandPool(lveDevice.device(), command_pool, 0);
+    // vkResetCommandPool(lveDevice.device(), command_pool, 0);
 
-        spdlog::info("reset command pool");
-        // check_vk_result(err);
-        // VkCommandBufferBeginInfo begin_info = {};
-        // begin_info.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
-        // begin_info.flags |= VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT;
-        // vkBeginCommandBuffer(command_buffer, &begin_info);
+    spdlog::info("reset command pool");
+    // check_vk_result(err);
+    // VkCommandBufferBeginInfo begin_info = {};
+    // begin_info.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
+    // begin_info.flags |= VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT;
+    // vkBeginCommandBuffer(command_buffer, &begin_info);
 
-        spdlog::info("finished BeginCommandBuffer");
-        // check_vk_result(err);
+    spdlog::info("finished BeginCommandBuffer");
+    // check_vk_result(err);
 
-        ImGui_ImplVulkan_CreateFontsTexture(command_buffer);
+    ImGui_ImplVulkan_CreateFontsTexture(command_buffer);
 
-        spdlog::info("created fotn textures with command buffer");
+    spdlog::info("created fotn textures with command buffer");
 
-        VkSubmitInfo end_info = {};
-        end_info.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
-        end_info.commandBufferCount = 1;
-        end_info.pCommandBuffers = &command_buffer;
-        vkEndCommandBuffer(command_buffer);
-        // lveRenderer.endFrame();
+    VkSubmitInfo end_info = {};
+    end_info.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
+    end_info.commandBufferCount = 1;
+    end_info.pCommandBuffers = &command_buffer;
+    vkEndCommandBuffer(command_buffer);
+    // lveRenderer.endFrame();
 
-        spdlog::info("ended frame");
-        // check_vk_result(err);
-        vkQueueSubmit(lveDevice.graphicsQueue(), 1, &end_info, VK_NULL_HANDLE);
-        // check_vk_result(err);
-        vkDeviceWaitIdle(lveDevice.device());
-        // check_vk_result(err);
-        ImGui_ImplVulkan_DestroyFontUploadObjects();
+    spdlog::info("ended frame");
+    // check_vk_result(err);
+    vkQueueSubmit(lveDevice.graphicsQueue(), 1, &end_info, VK_NULL_HANDLE);
+    // check_vk_result(err);
+    vkDeviceWaitIdle(lveDevice.device());
+    // check_vk_result(err);
+    ImGui_ImplVulkan_DestroyFontUploadObjects();
 
-        spdlog::info("end::::");
-    }
-
-
+    spdlog::info("end:");
+  }
 }
 
 // void App::cursorCallback(GLFWwindow *window, double x, double y){
@@ -144,7 +146,6 @@ void App::init_imgui(){
 App::~App() {}
 
 void App::run() {
-  
   std::vector<std::unique_ptr<LveBuffer>> uboBuffers(LveSwapChain::MAX_FRAMES_IN_FLIGHT);
 
   for (int i = 0; i < uboBuffers.size(); i++) {
@@ -209,81 +210,102 @@ void App::run() {
     ImGui_ImplGlfw_NewFrame();
     ImGui::NewFrame();
 
+    // Create the docking environment
+    // ImGuiWindowFlags windowFlags = ImGuiWindowFlags_NoDocking | ImGuiWindowFlags_NoTitleBar |
+    //                                ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize |
+    //                                ImGuiWindowFlags_NoMove |
+    //                                ImGuiWindowFlags_NoBringToFrontOnFocus |
+    //                                ImGuiWindowFlags_NoNavFocus | ImGuiWindowFlags_NoBackground;
+
+    // ImGuiID dockSpaceId = ImGui::GetID("InvisibleWindowDockSpace");
+    // ImGui::DockSpace(dockSpaceId, ImVec2(0.0f, 0.0f), ImGuiDockNodeFlags_PassthruCentralNode);
+
+    // ImGui::End();
+
     bool show_demo_window = true;
-
-    // ImGui::ShowDemoWindow(true);
-
-    // bool show_demo_window = true;
-
     if (show_demo_window) ImGui::ShowDemoWindow(&show_demo_window);
+
+    auto newTime = std::chrono::high_resolution_clock::now();
+    float frameTime =
+        std::chrono::duration<float, std::chrono::seconds::period>(newTime - currentTime).count();
+    currentTime = newTime;
+
+    // cameraController.moveMouse(lveWindow.getGLFWwindow(), frameTime, viewerObject, mouseX,
+    // mouseY);
+
+    cameraController.moveInPlaneXZ(lveWindow.getGLFWwindow(), frameTime, viewerObject);
+    TransformComponent cameraTransform = viewerObject.getComponent<TransformComponent>();
+    camera.setViewYXZ(cameraTransform.translation, cameraTransform.rotation);
+
+    float aspect = lveRenderer.getAspectRatio();
+    camera.setPerspectiveProjection(glm::radians(50.f), aspect, 0.1f, 100.f);
+
 
     // Rendering
     ImGui::Render();
-    // ImDrawData* draw_data = ImGui::GetDrawData();
-    // const bool is_minimized =
-        // (draw_data->DisplaySize.x <= 0.0f || draw_data->DisplaySize.y <= 0.0f);
 
-    // if (!is_minimized) {
-      // glfwSetCursorPos(lveWindow.getGLFWwindow(), 0, 0);
+    if ((commandBuffer = lveRenderer.beginFrame())) {
 
-      auto newTime = std::chrono::high_resolution_clock::now();
-      float frameTime =
-          std::chrono::duration<float, std::chrono::seconds::period>(newTime - currentTime).count();
-      currentTime = newTime;
+      int frameIndex = lveRenderer.getFrameIndex();
 
-      // cameraController.moveMouse(lveWindow.getGLFWwindow(), frameTime, viewerObject, mouseX,
-      // mouseY);
+      FrameInfo frameInfo{
+          frameIndex,
+          frameTime,
+          commandBuffer,
+          camera,
+          globalDescriptorSets[frameIndex],
+          m_Registry};
 
-      cameraController.moveInPlaneXZ(lveWindow.getGLFWwindow(), frameTime, viewerObject);
-      TransformComponent cameraTransform = viewerObject.getComponent<TransformComponent>();
-      camera.setViewYXZ(cameraTransform.translation, cameraTransform.rotation);
+      // update
+      GlobalUbo ubo{};
+      ubo.projection = camera.getProjection();
+      ubo.view = camera.getView();
+      uboBuffers[frameIndex]->writeToBuffer(&ubo);
+      uboBuffers[frameIndex]->flush();
 
-      float aspect = lveRenderer.getAspectRatio();
-      camera.setPerspectiveProjection(glm::radians(50.f), aspect, 0.1f, 100.f);
+      // render
+      lveRenderer.beginSwapChainRenderPass(commandBuffer);
+      simpleRenderSystem.renderGameObjects(frameInfo);
+      pointLightSystem.render(frameInfo);
 
-      ImGuiIO& io = ImGui::GetIO(); (void)io;
+      // ImGui::EndFrame();
 
-      if ((commandBuffer = lveRenderer.beginFrame())) {
+      ImGui_ImplVulkan_RenderDrawData(ImGui::GetDrawData(), commandBuffer);
 
-        // ImGui::Render();
+      // ImGuiIO& io = ImGui::GetIO();
+      // if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable) {
+      //   GLFWwindow* backup_current_context = glfwGetCurrentContext();
+      //   ImGui::UpdatePlatformWindows();
+      //   ImGui::RenderPlatformWindowsDefault();
+      //   glfwMakeContextCurrent(backup_current_context);
+      // }
 
-        int frameIndex = lveRenderer.getFrameIndex();
+      lveRenderer.endSwapChainRenderPass(commandBuffer);
+      lveRenderer.endFrame();
 
-        FrameInfo frameInfo{
-            frameIndex,
-            frameTime,
-            commandBuffer,
-            camera,
-            globalDescriptorSets[frameIndex],
-            m_Registry};
+      // ImGui_ImplVulkan_RenderDrawData(ImGui::GetDrawData(), lveDevice.beginSingleTimeCommands());
 
-        // update
-        GlobalUbo ubo{};
-        ubo.projection = camera.getProjection();
-        ubo.view = camera.getView();
-        uboBuffers[frameIndex]->writeToBuffer(&ubo);
-        uboBuffers[frameIndex]->flush();
+      // ImGuiIO& io = ImGui::GetIO();
 
-        // render
-        lveRenderer.beginSwapChainRenderPass(commandBuffer);
-        simpleRenderSystem.renderGameObjects(frameInfo);
-        pointLightSystem.render(frameInfo);
-        ImGui_ImplVulkan_RenderDrawData(ImGui::GetDrawData(), commandBuffer);
-        lveRenderer.endSwapChainRenderPass(commandBuffer);
-        lveRenderer.endFrame();
-      }
+      // if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable) {
+      //   GLFWwindow* backup_current_context = glfwGetCurrentContext();
+      //   ImGui::UpdatePlatformWindows();
+      //   ImGui::RenderPlatformWindowsDefault();
+      //   glfwMakeContextCurrent(backup_current_context);
+      // }
+
+    }
     // }
   }
 
-  //cleanup
+  // cleanup
   vkDeviceWaitIdle(lveDevice.device());
   vkDestroyDescriptorPool(lveDevice.device(), imguiPool, nullptr);
   ImGui_ImplVulkan_Shutdown();
   ImGui_ImplGlfw_Shutdown();
   ImGui::DestroyContext();
 
-  // ImGui_ImplVulkanH_DestroyWindow(g_Instance, g_Device, &g_MainWindowData, g_Allocator); //TODOs
-
+  // ImGui_ImplVulkanH_DestroyWindow(lveDevice.getInstance(), lveDevice.device(), ImGui_, g_Allocator); //TODOs
 }
 
 void App::loadGameObjects() {
