@@ -12,11 +12,6 @@ LveWindow::LveWindow(int w, int h, std::string name) : width{w}, height{h}, wind
   initWindow();
 }
 
-// void LveWindow::cursorPositionCallback(GLFWwindow *window, double x, double y) {
-//   spdlog::info("x::{}   :   y::{}", x, y);
-//   glfwSetCursorPos(window, 0, 0);
-// }
-
 LveWindow::~LveWindow() {
   glfwDestroyWindow(window);
   glfwTerminate();
