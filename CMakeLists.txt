@@ -87,7 +87,8 @@ endif()
 #   message(STATUS "bullet physics source dir")
 # endif()
 
-include_directories(libs)
+include_directories(libs/tinyonjloader)
+include_directories(libs/imgui)
 
 # If TINYOBJ_PATH not specified in .env.cmake, try fetching from git repo
 if (NOT TINYOBJ_PATH)
@@ -104,11 +105,13 @@ endif()
 
 file(GLOB_RECURSE SOURCES ${PROJECT_SOURCE_DIR}/src/*.cpp)
 
+
 add_executable(${PROJECT_NAME} 
 ${SOURCES}
 ${IMGUI_PATH}/backends/imgui_impl_glfw.cpp 
 ${IMGUI_PATH}/backends/imgui_impl_vulkan.cpp 
-${IMGUI_PATH}/imgui.cpp ${IMGUI_PATH}/imgui_draw.cpp 
+${IMGUI_PATH}/imgui.cpp 
+${IMGUI_PATH}/imgui_draw.cpp 
 ${IMGUI_PATH}/imgui_demo.cpp 
 ${IMGUI_PATH}/imgui_tables.cpp 
 ${IMGUI_PATH}/imgui_widgets.cpp
@@ -116,20 +119,9 @@ ${IMGUI_PATH}/imgui_widgets.cpp
 
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_17)
 
-# if(CMAKE_BUILD_TYPE == Debug)
-#   message(STATUS "this is in debug mode")
-# endif()
-
-# set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -DDEBUG")
-
-# message(STATUS "${CMAKE_CXX_FLAGS_DEBUG}")
-
-# message(STATUS "$<$<CONFIG:DEBUG>:DEBUG")
-
-
 set_property(TARGET ${PROJECT_NAME} PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/build")
 
-target_compile_definitions(${PROJECT_NAME} PRIVATE $<$<CONFIG:DEBUG>:"_DEBUG">)
+target_compile_definitions(${PROJECT_NAME} PRIVATE $<$<CONFIG:DEBUG>:"DEBUG">)
 
 if (WIN32)
   message(STATUS "CREATING BUILD FOR WINDOWS")
