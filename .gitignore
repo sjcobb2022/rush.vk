@@ -16,39 +16,17 @@ models/viking_room.obj
 imgui.ini
 .env.cmake
 
-external/vma
-external/vma/**
-external/imgui
-external/imgui/**
-
 imgui
 imgui/**
 
-c-src
-c-src/**
-
 platform_build
 platform_build/**
-
-bullet3
-bullet3/
-bullet3/**
-
-bullet3/build3
-bullet3/build3/**
-
 
 **/.DS_STORE
 
 glfw
 glfw/*
 glfw/**
-
-newSystemImplementation
-newSystemImplementation/**
-
-libs
-libs/**
 
 **/**.test
 
