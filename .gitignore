@@ -30,6 +30,6 @@ glfw/**
 
 **/**.test
 
-
+libs/**/build
 
 _imgui_reference
