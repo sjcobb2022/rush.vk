@@ -1,0 +1,27 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build dependencies",
+            "type": "shell",
+            "command": "cd ${workspaceFolder}/libs/entt && mkdir -p build && cd build && cmake -S .. -B . && make install && cd ${workspaceFolder} && cd ${workspaceFolder}/libs/glfw && mkdir -p build && cd build && cmake -S .. -B . && make install && cd ${workspaceFolder} && cd ${workspaceFolder}/libs/spdlog && mkdir -p build && cd build && cmake -S .. -B . && make install && cd ${workspaceFolder}",
+            "group": "none",
+            "presentation": {
+                "reveal": "always",
+                "panel": "new"
+            },
+            "runOptions": {
+                "runOn": "folderOpen",
+            }
+        },
+        {
+            "label": "build",
+            "type": "shell",
+            "command": "mkdir -p build && cd build && cmake -S ../ -B ./ && cmake --build . && cmake --build . --target Shaders",
+            "problemMatcher": [],
+            "group": "build"
+        }
+    ]
+}

@@ -2,8 +2,6 @@
 build
 build/**
 
-.vscode
-
 **/.env
 **/.obj
 *.spv
@@ -32,4 +30,5 @@ glfw/**
 
 libs/**/build
 
-_imgui_reference
+reference
+reference/**
