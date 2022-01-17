@@ -1,6 +1,6 @@
 #include "app.hpp"
 
-namespace utr
+namespace volk
 {
 
     App::App() {}

@@ -7,18 +7,18 @@
 //std
 #include <string>
 
-namespace utr
+namespace volk
 {
 
     /**
      * @brief wrapper around glfw window
      */
 
-    class UtrWindow
+    class vWindow
     {
     public:
-        UtrWindow(int w, int h, std::string window_title);
-        ~UtrWindow();
+        vWindow(int w, int h, std::string window_title);
+        ~vWindow();
 
 
     private:

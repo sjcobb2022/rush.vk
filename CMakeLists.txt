@@ -53,8 +53,6 @@ else()
 	message(STATUS "Using glfw lib at: ${GLFW_LIB}")
 endif()
 
-# message(NOTE "does this work")
-
 # 3 Set EnTT path in .env.cmake
 if(DEFINED ENTT_PATH)
   message(STATUS "Using EnTT path specified in .env -- uses single include")
