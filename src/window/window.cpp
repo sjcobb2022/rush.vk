@@ -1,9 +1,9 @@
 
 #include "window.hpp"
 
-namespace utr {
+namespace volk {
 
-    UtrWindow::UtrWindow(int w, int h, std::string name){
+    vWindow::vWindow(int w, int h, std::string name){
 
         
 
