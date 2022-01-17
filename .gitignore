@@ -46,3 +46,10 @@ glfw/**
 
 newSystemImplementation
 newSystemImplementation/**
+
+libs
+libs/**
+
+**/**.test
+
+_imgui_reference
