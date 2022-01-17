@@ -13,7 +13,7 @@ namespace volk
         glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
         glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
 
-        std::string windowName = "UnTitled Renderer";
+        std::string windowName = "volk . render";
 
         GLFWwindow *window = glfwCreateWindow(800, 600,
                                               windowName.c_str(),

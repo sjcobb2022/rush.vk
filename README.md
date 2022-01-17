@@ -24,8 +24,6 @@
     sudo apt install vulkan-tools
     sudo apt install libvulkan-dev
     sudo apt install vulkan-validationlayers-dev spirv-tools
-    sudo apt install libglfw3-dev
-    sudo apt install libglm-dev
     sudo apt install cmake
   ```
 - To Build
@@ -50,8 +48,6 @@
 
   ```
     brew install cmake
-    brew install glfw
-    brew install glm
   ```
  - Additionally for this renderer, a few extra steps are required.
   - Simply clone spdlog, imgui and Vulkan Memory Allocator into the home directory and Cmake should be able to find everything that is needed.
@@ -71,8 +67,6 @@
 - [Download and install Windows Vulkan sdk](https://vulkan.lunarg.com/)
 - [Download and install Windows cmake x64 installer](https://cmake.org/download/)
   - Make sure to select "Add cmake to the system Path for all users"
-- [Download GLFW](https://www.glfw.org/download.html) (64-bit precompiled binary)
-- [Download GLM](https://github.com/g-truc/glm/releases)
 - Download and open the project and rename "envWindowsExample.cmake" to ".env.cmake"
 - Update the filepath variables in .env.cmake to your installation locations
 
@@ -80,11 +74,15 @@
 
 - In windows powershell
 
+ - **Note**: First build all project dependencies. If using vscode, this can be done with the `build dependencies` task
+ - Otherwise run the command: `cd volk\libs\entt && mkdir -p build && cd build && cmake -S .. -B . && make install && cd ..\..\..\.. && cd volk\libs\glfw && mkdir -p build && cd build && cmake -S .. -B . && make install && cd ..\..\..\.. && cd volk/libs/spdlog && mkdir -p build && cd build && cmake -S .. -B . && make install && cd ..\..\..\..`
+
 ```
  cd volk
  mkdir build
  cmake -S . -B .\build\
 ```
+
 
 - In VSCode
     - Run default build command

@@ -7,35 +7,34 @@
 // std
 #include <memory>
 #include <vector>
+#include <string>
 
 namespace volk
 {
     class App
     {
-        public:
+    public:
+        static constexpr int WIDTH = 800;
+        static constexpr int HEIGHT = 600;
 
-            static constexpr int WIDTH = 800;
-            static constexpr int HEIGHT = 600;
+        App();
+        ~App();
 
-            App();
-            ~App();
+        App(const App &) = delete;
+        App &operator=(const App &) = delete;
 
-            App(const App &) = delete;
-            App &operator=(const App &) = delete;
+        void run();
 
-            void run();
+        void setup(std::function<void(entt::registry sceneRegistry, int placeHolderforCam)> &&setupFunction);
 
-            void setup(std::function<void(entt::registry sceneRegistry, int placeHolderforCam)>&& setupFunction);
+        void loop(std::function<void(entt::registry sceneRegistry, int placeHolderforCam)> &&loopFunction);
 
-            void loop(std::function<void(entt::registry sceneRegistry, int placeHolderforCam)>&& loopFunction);
+        void end(std::function<void(entt::registry sceneRegistry, int placeHolderforCam)> &&endFunction);
 
-            void end(std::function<void(entt::registry sceneRegistry, int placeHolderforCam)>&& endFunction);
-        
-        private:
-            GLFWwindow* initWindow();
+    private:
+        GLFWwindow *initWindow();
 
-            void cleanUpWindow(GLFWwindow *window);
-        
+        void cleanUpWindow(GLFWwindow *window);
     };
 
-} //namespace utr
+} // namespace utr

@@ -176,6 +176,7 @@ elseif (UNIX)
       ${IMGUI_PATH}/backends
     )
 
+    # Referencing APPLE_LIBS is possible here because it returns an empty string otherwise
     target_link_libraries(${PROJECT_NAME} ${APPLE_LIBS} glfw ${Vulkan_LIBRARIES} EnTT::EnTT spdlog::spdlog)
 
 endif()
