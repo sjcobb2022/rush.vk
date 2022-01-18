@@ -103,8 +103,17 @@ else()
   message(STATUS "using imgui path specified in .env")
 endif()
 
-file(GLOB_RECURSE SOURCES ${PROJECT_SOURCE_DIR}/src/*.cpp)
+# include_directories(libs/vma/include)
 
+if(NOT VMA_PATH)
+  message(STATUS "vma path not specified. Using libs/vma")
+  set(VMA_INCLUDE libs/vma/include)
+else()
+  message(STATUS "using vma path specified in .env ")
+  set(VMA_INCLUDE VMA_PATH/include)
+endif()
+
+file(GLOB_RECURSE SOURCES ${PROJECT_SOURCE_DIR}/src/*.cpp)
 
 add_executable(${PROJECT_NAME} 
 ${SOURCES}
@@ -141,6 +150,7 @@ if (WIN32)
     ${TINYOBJ_PATH}
     ${GLFW_INCLUDE_DIRS}
     ${IMGUI_PATH}
+    ${VMA_INCLUDE}
     ${GLM_PATH}
     )
 
@@ -174,6 +184,7 @@ elseif (UNIX)
       ${TINYOBJ_PATH}
       ${IMGUI_PATH}
       ${IMGUI_PATH}/backends
+      ${VMA_INCLUDE}
     )
 
     # Referencing APPLE_LIBS is possible here because it returns an empty string otherwise
