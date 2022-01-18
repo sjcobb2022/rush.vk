@@ -1,4 +1,4 @@
-# Volk
+# Rush.vk
 
 ## Table of Contents
 - [Building](#Building)

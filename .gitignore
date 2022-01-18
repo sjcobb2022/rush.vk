@@ -29,6 +29,11 @@ glfw/**
 **/**.test
 
 libs/**/build
+libs/**/build/
+libs/**/build/**
+
+libs/entt/build
+libs/entt/build/**
 
 reference
 reference/**
