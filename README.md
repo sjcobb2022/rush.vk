@@ -61,13 +61,13 @@
  >```cd volk\libs\entt && mkdir -p build && cd build && cmake -S .. -B . && make install && cd ..\..\..\.. && cd volk\libs\glfw && mkdir -p build && cd build && cmake -S .. -B . && make install && cd ..\..\..\.. && cd volk/libs/spdlog && mkdir -p build && cd build && cmake -S .. -B . && make install && cd ..\..\..\..```
 
 - To Build
-      - Shell
-        ```
-        cd volk
-        ./build.sh
-        ```
-      - Vscode build
-        - <kbd>SHIFT</kbd>+<kbd>⌘</kbd>+<kbd>B</kbd>
+  - Shell
+    ```
+      cd volk
+      ./build.sh
+    ```
+  - Vscode build
+    - <kbd>SHIFT</kbd>+<kbd>⌘</kbd>+<kbd>B</kbd>
 
 ### <a name="WindowsBuild"></a> Windows build instructions
 
