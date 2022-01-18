@@ -6,7 +6,7 @@
         {
             "label": "build dependencies",
             "type": "shell",
-            "command": "cd ${workspaceFolder}/libs/entt && mkdir -p build && cd build && cmake -S .. -B . && make install && cd ${workspaceFolder} && cd ${workspaceFolder}/libs/glfw && mkdir -p build && cd build && cmake -S .. -B . && make install && cd ${workspaceFolder} && cd ${workspaceFolder}/libs/spdlog && mkdir -p build && cd build && cmake -S .. -B . && make install && cd ${workspaceFolder}",
+            "command": "cd ${workspaceFolder}/libs/entt && mkdir -p build && cd build && cmake -S .. -B . && make install && cd ${workspaceFolder} && cd ${workspaceFolder}/libs/glfw && mkdir -p build && cd build && cmake -S .. -B . && make install && cd ${workspaceFolder} && cd ${workspaceFolder}/libs/spdlog && mkdir -p build && cd build && cmake -S .. -B . && make install && cd ${workspaceFolder} && cd ${workspaceFolder}/libs/glm && mkdir -p build && cd build && cmake -S .. -B . && make install && cd ${workspaceFolder}",
             "group": "none",
             "presentation": {
                 "reveal": "always",
