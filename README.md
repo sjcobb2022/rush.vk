@@ -17,10 +17,10 @@
 
 - For example
   ```
-    sudo apt install vulkan-tools
-    sudo apt install libvulkan-dev
-    sudo apt install vulkan-validationlayers-dev spirv-tools
-    sudo apt install cmake
+  sudo apt install vulkan-tools
+  sudo apt install libvulkan-dev
+  sudo apt install vulkan-validationlayers-dev spirv-tools
+  sudo apt install cmake
   ```
 
 >**Note**: First build all project dependencies. This can be done with the `build dependencies` task in vscode
