@@ -31,7 +31,7 @@ namespace rush
 
         std::string windowName = "rush . vk";
 
-        GLFWwindow *window = glfwCreateWindow(800, 600,
+        GLFWwindow *window = glfwCreateWindow(App::WIDTH, App::HEIGHT,
                                               windowName.c_str(),
                                               nullptr, nullptr);
 
