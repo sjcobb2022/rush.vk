@@ -26,11 +26,14 @@
     sudo apt install vulkan-validationlayers-dev spirv-tools
     sudo apt install cmake
   ```
-   - Additionally to ensure dependencies are installed run the command
-   ```
-   cd volk
-   cd libs/entt && mkdir -p build && cd build && cmake -S .. -B . && make install && cd ../../.. && cd libs/glfw && mkdir -p build && cd build && cmake -S .. -B . && make install && cd ../../.. && cd libs/spdlog && mkdir -p build && cd build && cmake -S .. -B . && make install && cd ../../..
-   ```
+
+>**Note**: First build all project dependencies. This can be done with the `build dependencies` task in VSCode
+ > If not using vscode, run the command:
+ > 
+ >```
+ > cd volk
+ > cd libs/entt && mkdir -p build && cd build && cmake -S .. -B . && make install && cd ../../.. && cd volk/libs/glfw && mkdir -p build && cd build && cmake -S .. -B . && make install && cd ../../.. && cd libs/spdlog && mkdir -p build && cd build && cmake -S .. -B . && make install && cd ../../..
+ > ```
 
 - To Build
     - Shell
@@ -38,9 +41,8 @@
         cd volk
         ./build.sh
         ```
-    - Vscode build
-        - Run the defualt build command from the build.json file
-        - Run 
+    - Vscode
+       - <kbd>SHIFT</kbd>+<kbd>CTRL</kbd>+<kbd>B</kbd>
 
 
 ### <a name="MacOSBuild"></a> MacOS Build Instructions
@@ -53,11 +55,10 @@
 - Then in a terminal window
   ```brew install cmake```
 
-- Additionally to ensure dependencies are installed run the command
-  ```
-  cd volk
-  cd libs/entt && mkdir -p build && cd build && cmake -S .. -B . && make install && cd ../../.. && cd libs/glfw && mkdir -p build && cd build && cmake -S .. -B . && make install && cd ../../.. && cd libs/spdlog && mkdir -p build && cd build && cmake -S .. -B . && make install && cd ../../..
-  ```
+ >**Note**: First build all project dependencies. This can be done with the `build dependencies` task in VSCode
+ > If not using vscode, run the command:
+ > 
+ >```cd volk\libs\entt && mkdir -p build && cd build && cmake -S .. -B . && make install && cd ..\..\..\.. && cd volk\libs\glfw && mkdir -p build && cd build && cmake -S .. -B . && make install && cd ..\..\..\.. && cd volk/libs/spdlog && mkdir -p build && cd build && cmake -S .. -B . && make install && cd ..\..\..\..```
 
 - To Build
       - Shell
@@ -65,10 +66,8 @@
         cd volk
         ./build.sh
         ```
-
-- Vscode build
-    - Run the defualt build command from the build.json file
-    - Run the executable
+      - Vscode build
+        - <kbd>SHIFT</kbd>+<kbd>⌘</kbd>+<kbd>B</kbd>
 
 ### <a name="WindowsBuild"></a> Windows build instructions
 
@@ -80,19 +79,21 @@
 
 #### Building for Visual Studio 2019
 
+
+ >**Note**: First build all project dependencies. This can be done with the `build dependencies` task in VSCode
+ > If not using vscode, run the command:
+ > 
+ >```cd volk\libs\entt && mkdir -p build && cd build && cmake -S .. -B . && make install && cd ..\..\..\.. && cd volk\libs\glfw && mkdir -p build && cd build && cmake -S .. -B . && make install && cd ..\..\..\.. && cd volk/libs/spdlog && mkdir -p build && cd build && cmake -S .. -B . && make install && cd ..\..\..\..```
+
+**Build**
 - In windows powershell
-
- - **Note**: First build all project dependencies. If using vscode, this can be done with the `build dependencies` task
- - Otherwise run the command: `cd volk\libs\entt && mkdir -p build && cd build && cmake -S .. -B . && make install && cd ..\..\..\.. && cd volk\libs\glfw && mkdir -p build && cd build && cmake -S .. -B . && make install && cd ..\..\..\.. && cd volk/libs/spdlog && mkdir -p build && cd build && cmake -S .. -B . && make install && cd ..\..\..\..`
-
-```
- cd volk
- mkdir build
- cmake -S . -B .\build\
-```
-
+  ```
+  cd volk
+  mkdir build
+  cmake -S . -B .\build\
+  ```
 - In VSCode
-    - Run default build command
+    - <kbd>SHIFT</kbd>+<kbd>CTRL</kbd>+<kbd>B</kbd>
 
 - If cmake finished successfully, it will create a volk.sln file in the build directory that can be opened with visual studio. In visual studio right click the Shaders project -> build, to build the shaders. Right click the volk project -> set as startup project. Change from debug to release, and then build and start without debugging.
 
