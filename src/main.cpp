@@ -9,11 +9,10 @@
 #include <iostream>
 #include <stdexcept>
 
-// #include <fstream>
 
 int main()
 {
-    volk::App app{};
+    rush::App app{};
 
     try
     {

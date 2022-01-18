@@ -7,7 +7,7 @@
 //std
 #include <string>
 
-namespace volk
+namespace rush
 {
 
     /**

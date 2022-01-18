@@ -1,22 +1,27 @@
 #pragma once
 
-#include <entt/entity/registry.hpp>
-#include <GLFW/glfw3.h>
+// libs
+#define GLM_FORCE_RADIANS
+#define GLM_FORCE_DEPTH_ZERO_TO_ONE
 #include <spdlog/spdlog.h>
+
+#include <entt/entity/registry.hpp>
+
+// libs
+#include <GLFW/glfw3.h>
 
 // std
 #include <memory>
 #include <vector>
-#include <string>
 
-namespace volk
+namespace rush
 {
     class App
     {
-        
+
     public:
-        static constexpr int WIDTH = 800;
-        static constexpr int HEIGHT = 600;
+        // static constexpr int WIDTH = 800;
+        // static constexpr int HEIGHT = 600;
 
         App();
         ~App();
