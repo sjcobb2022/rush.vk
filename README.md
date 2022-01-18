@@ -17,7 +17,7 @@
 
 ### <a name="UnixBuild"></a> Unix Build Instructions
 
-- Install the dependencies: cmake, glm, vulkan and glfw
+- Install the dependencies: cmake, glm, vulkan and glfw, spdl
 
 - For example
   ```
@@ -26,6 +26,12 @@
     sudo apt install vulkan-validationlayers-dev spirv-tools
     sudo apt install cmake
   ```
+   - Additionally to ensure dependencies are installed run the command
+   ```
+   cd volk
+   cd libs/entt && mkdir -p build && cd build && cmake -S .. -B . && make install && cd ../../.. && cd libs/glfw && mkdir -p build && cd build && cmake -S .. -B . && make install && cd ../../.. && cd libs/spdlog && mkdir -p build && cd build && cmake -S .. -B . && make install && cd ../../..
+   ```
+
 - To Build
     - Shell
         ```
@@ -45,12 +51,13 @@
 - [Download and install Homebrew](https://brew.sh/)
 
 - Then in a terminal window
+  ```brew install cmake```
 
+- Additionally to ensure dependencies are installed run the command
   ```
-    brew install cmake
+  cd volk
+  cd libs/entt && mkdir -p build && cd build && cmake -S .. -B . && make install && cd ../../.. && cd libs/glfw && mkdir -p build && cd build && cmake -S .. -B . && make install && cd ../../.. && cd libs/spdlog && mkdir -p build && cd build && cmake -S .. -B . && make install && cd ../../..
   ```
- - Additionally for this renderer, a few extra steps are required.
-  - Simply clone spdlog, imgui and Vulkan Memory Allocator into the home directory and Cmake should be able to find everything that is needed.
 
 - To Build
       - Shell
@@ -58,9 +65,10 @@
         cd volk
         ./build.sh
         ```
-    - Vscode build
-        - Run the defualt build command from the build.json file
-        - Run the executable
+
+- Vscode build
+    - Run the defualt build command from the build.json file
+    - Run the executable
 
 ### <a name="WindowsBuild"></a> Windows build instructions
 
@@ -82,7 +90,6 @@
  mkdir build
  cmake -S . -B .\build\
 ```
-
 
 - In VSCode
     - Run default build command
