@@ -122,6 +122,8 @@ Thanks to the authors of these libraries :
 - [Vulkan Memory Allocator](https://github.com/GPUOpen-LibrariesAndSDKs/VulkanMemoryAllocator)
 - [TinyObjLoader](https://github.com/tinyobjloader/tinyobjloader)
 - [EnTT](https://github.com/skypjack/entt)
+- [spdlog](https://github.com/gabime/spdlog)
+- [GLFW](https://github.com/glfw/glfw)
 
 ### <a name="PeopleAndGroups"></a> People and Groups
 
