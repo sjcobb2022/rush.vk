@@ -68,8 +68,8 @@
 - To Build
   - Shell
     ```
-      cd volk
-      ./build.sh
+    cd volk
+    ./build.sh
     ```
   - Vscode build
     - <kbd>SHIFT</kbd>+<kbd>⌘</kbd>+<kbd>B</kbd>
@@ -89,9 +89,9 @@
 > If not using vscode, run the command:
 > 
 >```
-> cd volk
-> cd libs\entt && mkdir -p build && cd build && cmake -S .. -B . && make install && cd ..\..\.. && cd volk\libs\glfw && mkdir -p build && cd build && cmake -S .. -B . && make install && cd ..\..\.. && cd libs\spdlog && mkdir -p build && cd build && cmake -S .. -B . && make install && cd ..\..\..
-> ```
+>cd volk
+>cd libs\entt && mkdir -p build && cd build && cmake -S .. -B . && make install && cd ..\..\.. && cd volk\libs\glfw && mkdir -p build && cd build && cmake -S .. -B . && make install && cd ..\..\.. && cd libs\spdlog && mkdir -p build && cd build && cmake -S .. -B . && make install && cd ..\..\..
+>```
 
 - In windows powershell
   ```
