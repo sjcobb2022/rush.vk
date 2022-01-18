@@ -55,10 +55,13 @@
 - Then in a terminal window
   ```brew install cmake```
 
- >**Note**: First build all project dependencies. This can be done with the `build dependencies` task in VSCode
+>**Note**: First build all project dependencies. This can be done with the `build dependencies` task in VSCode
  > If not using vscode, run the command:
  > 
- >```cd volk\libs\entt && mkdir -p build && cd build && cmake -S .. -B . && make install && cd ..\..\..\.. && cd volk\libs\glfw && mkdir -p build && cd build && cmake -S .. -B . && make install && cd ..\..\..\.. && cd volk/libs/spdlog && mkdir -p build && cd build && cmake -S .. -B . && make install && cd ..\..\..\..```
+ >```
+ > cd volk
+ > cd libs/entt && mkdir -p build && cd build && cmake -S .. -B . && make install && cd ../../.. && cd volk/libs/glfw && mkdir -p build && cd build && cmake -S .. -B . && make install && cd ../../.. && cd libs/spdlog && mkdir -p build && cd build && cmake -S .. -B . && make install && cd ../../..
+ > ```
 
 - To Build
   - Shell
@@ -79,13 +82,14 @@
 
 #### Building for Visual Studio 2019
 
-
- >**Note**: First build all project dependencies. This can be done with the `build dependencies` task in VSCode
+>**Note**: First build all project dependencies. This can be done with the `build dependencies` task in VSCode
  > If not using vscode, run the command:
  > 
- >```cd volk\libs\entt && mkdir -p build && cd build && cmake -S .. -B . && make install && cd ..\..\..\.. && cd volk\libs\glfw && mkdir -p build && cd build && cmake -S .. -B . && make install && cd ..\..\..\.. && cd volk/libs/spdlog && mkdir -p build && cd build && cmake -S .. -B . && make install && cd ..\..\..\..```
+ >```
+ > cd volk
+ > cd libs\entt && mkdir -p build && cd build && cmake -S .. -B . && make install && cd ..\..\.. && cd volk\libs\glfw && mkdir -p build && cd build && cmake -S .. -B . && make install && cd ..\..\.. && cd libs\spdlog && mkdir -p build && cd build && cmake -S .. -B . && make install && cd ..\..\..
+ > ```
 
-**Build**
 - In windows powershell
   ```
   cd volk
