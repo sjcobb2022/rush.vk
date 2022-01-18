@@ -33,7 +33,7 @@
 > 
 >```
 > cd volk
-> cd libs/entt && mkdir -p build && cd build && cmake -S .. -B . && make install && cd ../../.. && cd volk/libs/glfw && mkdir -p build && cd build && cmake -S .. -B . && make install && cd ../../.. && cd libs/spdlog && mkdir -p build && cd build && cmake -S .. -B . && make install && cd ../../..
+> cd libs/entt && mkdir -p build && cd build && cmake -S .. -B . && make install && cd ../../.. && cd volk/libs/glfw && mkdir -p build && cd build && cmake -S .. -B . && make install && cd ../../.. && cd libs/spdlog && mkdir -p build && cd build && cmake -S .. -B . && make install && cd ../../.. && cd libs/glm && mkdir -p build && cd build && cmake -S .. -B . && make install && cd ../../..
 > ```
 
 - To Build
@@ -62,7 +62,7 @@
 > 
 >```
 > cd volk
-> cd libs/entt && mkdir -p build && cd build && cmake -S .. -B . && make install && cd ../../.. && cd volk/libs/glfw && mkdir -p build && cd build && cmake -S .. -B . && make install && cd ../../.. && cd libs/spdlog && mkdir -p build && cd build && cmake -S .. -B . && make install && cd ../../..
+> cd libs/entt && mkdir -p build && cd build && cmake -S .. -B . && make install && cd ../../.. && cd volk/libs/glfw && mkdir -p build && cd build && cmake -S .. -B . && make install && cd ../../.. && cd libs/spdlog && mkdir -p build && cd build && cmake -S .. -B . && make install && cd ../../.. && cd libs/glm && mkdir -p build && cd build && cmake -S .. -B . && make install && cd ../../..
 > ```
 
 - To Build
@@ -90,7 +90,7 @@
 > 
 >```
 >cd volk
->cd libs\entt && mkdir -p build && cd build && cmake -S .. -B . && make install && cd ..\..\.. && cd volk\libs\glfw && mkdir -p build && cd build && cmake -S .. -B . && make install && cd ..\..\.. && cd libs\spdlog && mkdir -p build && cd build && cmake -S .. -B . && make install && cd ..\..\..
+>cd libs\entt && mkdir -p build && cd build && cmake -S .. -B . && make install && cd ..\..\.. && cd volk\libs\glfw && mkdir -p build && cd build && cmake -S .. -B . && make install && cd ..\..\.. && cd libs\spdlog && mkdir -p build && cd build && cmake -S .. -B . && make install && cd ..\..\.. && cd libs\glm && mkdir -p build && cd build && cmake -S .. -B . && make install && cd ..\..\..
 >```
 
 - In windows powershell
