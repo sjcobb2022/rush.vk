@@ -2,7 +2,7 @@
 
 namespace volk
 {
-
+    
     App::App() {}
 
     App::~App() {}
@@ -13,9 +13,9 @@ namespace volk
         glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
         glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
 
-        std::string windowName = "volk . render";
+        std::string windowName = "rush . vk";
 
-        GLFWwindow *window = glfwCreateWindow(800, 600,
+        GLFWwindow *window = glfwCreateWindow(App::WIDTH, App::HEIGHT,
                                               windowName.c_str(),
                                               nullptr, nullptr);
 
