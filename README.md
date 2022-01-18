@@ -27,13 +27,14 @@
     sudo apt install cmake
   ```
 
->**Note**: First build all project dependencies. This can be done with the `build dependencies` task in VSCode
- > If not using vscode, run the command:
- > 
- >```
- > cd volk
- > cd libs/entt && mkdir -p build && cd build && cmake -S .. -B . && make install && cd ../../.. && cd volk/libs/glfw && mkdir -p build && cd build && cmake -S .. -B . && make install && cd ../../.. && cd libs/spdlog && mkdir -p build && cd build && cmake -S .. -B . && make install && cd ../../..
- > ```
+>**Note**: First build all project dependencies. This can be done with the `build dependencies` task in vscode
+>
+> If not using vscode, run the command:
+> 
+>```
+> cd volk
+> cd libs/entt && mkdir -p build && cd build && cmake -S .. -B . && make install && cd ../../.. && cd volk/libs/glfw && mkdir -p build && cd build && cmake -S .. -B . && make install && cd ../../.. && cd libs/spdlog && mkdir -p build && cd build && cmake -S .. -B . && make install && cd ../../..
+> ```
 
 - To Build
     - Shell
@@ -41,7 +42,7 @@
         cd volk
         ./build.sh
         ```
-    - Vscode
+    - vscode
        - <kbd>SHIFT</kbd>+<kbd>CTRL</kbd>+<kbd>B</kbd>
 
 
@@ -55,13 +56,14 @@
 - Then in a terminal window
   ```brew install cmake```
 
->**Note**: First build all project dependencies. This can be done with the `build dependencies` task in VSCode
- > If not using vscode, run the command:
- > 
- >```
- > cd volk
- > cd libs/entt && mkdir -p build && cd build && cmake -S .. -B . && make install && cd ../../.. && cd volk/libs/glfw && mkdir -p build && cd build && cmake -S .. -B . && make install && cd ../../.. && cd libs/spdlog && mkdir -p build && cd build && cmake -S .. -B . && make install && cd ../../..
- > ```
+>**Note**: First build all project dependencies. This can be done with the `build dependencies` task in vscode
+>
+> If not using vscode, run the command:
+> 
+>```
+> cd volk
+> cd libs/entt && mkdir -p build && cd build && cmake -S .. -B . && make install && cd ../../.. && cd volk/libs/glfw && mkdir -p build && cd build && cmake -S .. -B . && make install && cd ../../.. && cd libs/spdlog && mkdir -p build && cd build && cmake -S .. -B . && make install && cd ../../..
+> ```
 
 - To Build
   - Shell
@@ -82,13 +84,14 @@
 
 #### Building for Visual Studio 2019
 
->**Note**: First build all project dependencies. This can be done with the `build dependencies` task in VSCode
- > If not using vscode, run the command:
- > 
- >```
- > cd volk
- > cd libs\entt && mkdir -p build && cd build && cmake -S .. -B . && make install && cd ..\..\.. && cd volk\libs\glfw && mkdir -p build && cd build && cmake -S .. -B . && make install && cd ..\..\.. && cd libs\spdlog && mkdir -p build && cd build && cmake -S .. -B . && make install && cd ..\..\..
- > ```
+>**Note**: First build all project dependencies. This can be done with the `build dependencies` task in vscode
+>
+> If not using vscode, run the command:
+> 
+>```
+> cd volk
+> cd libs\entt && mkdir -p build && cd build && cmake -S .. -B . && make install && cd ..\..\.. && cd volk\libs\glfw && mkdir -p build && cd build && cmake -S .. -B . && make install && cd ..\..\.. && cd libs\spdlog && mkdir -p build && cd build && cmake -S .. -B . && make install && cd ..\..\..
+> ```
 
 - In windows powershell
   ```
@@ -96,7 +99,7 @@
   mkdir build
   cmake -S . -B .\build\
   ```
-- In VSCode
+- In vscode
     - <kbd>SHIFT</kbd>+<kbd>CTRL</kbd>+<kbd>B</kbd>
 
 - If cmake finished successfully, it will create a volk.sln file in the build directory that can be opened with visual studio. In visual studio right click the Shaders project -> build, to build the shaders. Right click the volk project -> set as startup project. Change from debug to release, and then build and start without debugging.
