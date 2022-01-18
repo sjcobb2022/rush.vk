@@ -13,7 +13,7 @@
 
 int main()
 {
-    volk::App app;
+    volk::App app{};
 
     try
     {
