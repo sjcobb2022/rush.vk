@@ -184,7 +184,7 @@ elseif (UNIX)
       ${TINYOBJ_PATH}
       ${IMGUI_PATH}
       ${IMGUI_PATH}/backends
-      ${VMA_INCLUDE}
+      ${VMA_PATH}
     )
 
     # Referencing APPLE_LIBS is possible here because it returns an empty string otherwise

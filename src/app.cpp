@@ -1,4 +1,5 @@
 #include "app.hpp"
+#include "core/rush_pipeline.hpp"
 
 // libs
 #define GLM_FORCE_RADIANS
@@ -10,6 +11,10 @@
 #include <glm/gtc/constants.hpp>
 
 #include <GLFW/glfw3.h>
+
+// #include "imgui.h"
+// #include "backends/imgui_impl_glfw.h"
+// #include "backends/imgui_impl_vulkan.h"
 
 // std
 #include <array>
@@ -29,7 +34,7 @@ namespace rush
         glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
         glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
 
-        std::string windowName = "rush . vk";
+        std::string windowName = "rush.vk";
 
         GLFWwindow *window = glfwCreateWindow(App::WIDTH, App::HEIGHT,
                                               windowName.c_str(),
@@ -44,6 +49,8 @@ namespace rush
     {
 
         GLFWwindow *window = initWindow();
+
+        Core test{};
 
         while (!glfwWindowShouldClose(window))
         {

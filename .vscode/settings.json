@@ -74,6 +74,13 @@
         "unordered_map": "cpp",
         "unordered_set": "cpp",
         "vector": "cpp",
-        "filesystem": "cpp"
+        "filesystem": "cpp",
+        "clocale": "cpp",
+        "future": "cpp",
+        "numeric": "cpp",
+        "random": "cpp",
+        "regex": "cpp",
+        "span": "cpp",
+        "variant": "cpp"
     },
 }
