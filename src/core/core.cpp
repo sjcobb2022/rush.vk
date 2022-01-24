@@ -1,6 +1,6 @@
 #define VMA_IMPLEMENTATION
 
-#include "rush_pipeline.hpp"
+#include "core.hpp"
 
 #include "extensions.hpp"
 
@@ -12,6 +12,7 @@
 
 #include <vulkan/vulkan.h>
 #include <GLFW/glfw3.h>
+#include <spdlog/spdlog.h>
 
 // #include "vk_mem_alloc.h"
 
@@ -24,6 +25,27 @@ namespace rush
         const VkDebugUtilsMessengerCallbackDataEXT *pCallbackData,
         void *pUserData)
     {
+        // spdlog::
+        // util::VkSeveritySpdlog[messageSeverity]("pCallbackData->pMessage");
+        switch (messageSeverity)
+        {
+        case VK_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT:
+            spdlog::debug(pCallbackData->pMessage);
+            break;
+        case VK_DEBUG_UTILS_MESSAGE_SEVERITY_INFO_BIT_EXT:
+            spdlog::info(pCallbackData->pMessage);
+            break;
+        case VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT:
+            spdlog::warn(pCallbackData->pMessage);
+            break;
+        case VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT:
+            spdlog::error(pCallbackData->pMessage);
+        default:
+            //only other case is VK_DEBUG_UTILS_MESSAGE_SEVERITY_FLAG_BITS_MAX_ENUM_EXT
+            spdlog::critical(pCallbackData->pMessage);
+            break;
+        }
+
         std::cerr << "validation layer: " << pCallbackData->pMessage << std::endl;
 
         return VK_FALSE;
@@ -46,12 +68,12 @@ namespace rush
         createInfo.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
         createInfo.pApplicationInfo = &appInfo;
 
-        auto extensions = vkext::getExtensions();
+        auto extensions = vkext::getExtensions(enableValidationLayers);
         createInfo.enabledExtensionCount = static_cast<uint32_t>(extensions.size());
         createInfo.ppEnabledExtensionNames = extensions.data();
 
         VkDebugUtilsMessengerCreateInfoEXT debugCreateInfo;
-        if (enableValidationLayers) // set to bool
+        if (enableValidationLayers)
         {
             createInfo.enabledLayerCount = static_cast<uint32_t>(validationLayers.size());
             createInfo.ppEnabledLayerNames = validationLayers.data();
@@ -77,7 +99,7 @@ namespace rush
 
         if (vkCreateInstance(&createInfo, nullptr, &m_Instance) != VK_SUCCESS)
         {
-            throw std::runtime_error("failed to create instance!");
+            throw std::runtime_error("failed to create vk instance");
         }
 
         vkext::hasGflwRequiredInstanceExtensions();
