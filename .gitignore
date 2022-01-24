@@ -1,39 +1,25 @@
-**/a.out
+# ignore build
 build
 build/**
 
+# ignore env and non-needed assets
 **/.env
 **/.obj
 *.spv
-
-littleVulkanEngine/sandbox/**
-*.a
-
-textures_
-models/viking_room.obj
-imgui.ini
 .env.cmake
 
-imgui
-imgui/**
+# ignore compiler stuff (in case build is not ignored properly)
+*.a
 
-platform_build
-platform_build/**
 
-**/.DS_STORE
-
-glfw
-glfw/*
-glfw/**
-
-**/**.test
-
+# Make sure dependencies are ok.
 libs/**/build
 libs/**/build/
 libs/**/build/**
 
-libs/entt/build
-libs/entt/build/**
-
+# personal reference folder for old code and ideas.
 reference
 reference/**
+
+# Annoying apple caching thing
+**/.DS_STORE
