@@ -13,7 +13,7 @@ namespace rush
     namespace vkext
     {
 
-        std::vector<const char *> getExtensions();
+        std::vector<const char *> getExtensions(bool enableValidationLayers);
 
         void hasGflwRequiredInstanceExtensions();
 

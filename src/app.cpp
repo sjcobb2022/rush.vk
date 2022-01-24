@@ -1,5 +1,5 @@
 #include "app.hpp"
-#include "core/rush_pipeline.hpp"
+#include "core/core.hpp"
 
 // libs
 #define GLM_FORCE_RADIANS

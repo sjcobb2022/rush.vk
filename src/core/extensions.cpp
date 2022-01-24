@@ -11,15 +11,12 @@
 // #define VMA_IMPLEMENTATION
 // #include "vk_mem_alloc.h"
 
-// #define VMA_IMPLEMENTATION
-// #include "vk_mem_alloc.h"
-
 namespace rush
 {
     namespace vkext
     {
 
-        std::vector<const char *> getExtensions()
+        std::vector<const char *> getExtensions(bool enableValidationLayers)
         {
             uint32_t glfwExtensionCount = 0;
             const char **glfwExtensions;
@@ -55,7 +52,7 @@ namespace rush
             }
 
             std::cout << "required extensions:" << std::endl;
-            auto requiredExtensions = getExtensions();
+            auto requiredExtensions = getExtensions(false);
             for (const auto &required : requiredExtensions)
             {
                 std::cout << "\t" << required << std::endl;
