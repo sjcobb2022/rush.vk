@@ -14,6 +14,20 @@ int main()
 {
     rush::App app{};
 
+    //create a scene.
+    //something in the setup function.
+    //in the setup function
+    //take in the scene
+    //register a component
+    //when registering component, takes in a functional
+    //functional used to define the behaviour of the component
+    //e.g. registerComponent<T>(std::functional); --> implementation
+    //registerComponent<Renderable>([&](Scene sc, FrameInfo FI, ... maybe other stuff){
+    // vkCommandBuffer() 
+    //})
+    //would need a way to represent relationships (like a registry.view thing)
+    //registerComponents<T, T, Args...>([&](Scene sc, FrameInfo FI, T Args...){doStuff();})
+
     try
     {
         app.run();

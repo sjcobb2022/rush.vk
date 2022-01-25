@@ -25,9 +25,26 @@ int main(){
 
     app.end(std::function<void(Scene scene, Camera cam)>& func); //cleanup if necessary
 
-    app.turn_imgui_off = true || false; //option to disable imgui
+    app.imguiEnabled = true || false; //option to disable imgui
 
-    app.ui.add(ImGuiSomethingIdk) //.....????
+    app.addImgui([&](){
+        ImGuiBegin("Special window");
+        ImGuiDoStuff();
+        ImGuiEnd();
+    }]) //.....????
+
+    //create a scene.
+    //something in the setup function.
+    //in the setup function
+    //take in the scene
+    //register a component
+    //when registering component, takes in a functional
+    //functional used to define the behaviour of the component
+    //e.g. 
+    registerComponent<T>(std::functional); //--> implementation
+    registerComponent<Renderable>([&](Scene sc, FrameInfo FI, T Args...){vkCommandBuffer(...)})
+    //would need a way to represent relationships (like a registry.view thing)
+    registerComponents<T, T, Args...>([&](Scene sc, FrameInfo FI, T Args...){doStuff();})
 
     //would be considerably easier to intergrate imgui since working from the the beggining and can focus more on tight intergration between the two
     //might need to add it as a seperate render pass or as a render subpass

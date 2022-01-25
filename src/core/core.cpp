@@ -51,7 +51,9 @@ namespace rush
         return VK_FALSE;
     }
 
-    Core::Core() { createInstanceVk(); };
+    Core::Core() {
+        createInstanceVk(); 
+    };
     Core::~Core(){};
 
     void Core::createInstanceVk(bool enableValidationLayers)
@@ -103,6 +105,7 @@ namespace rush
         }
 
         vkext::hasGflwRequiredInstanceExtensions();
+        
     };
 
 } // namespace rush
