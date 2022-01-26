@@ -2,6 +2,9 @@
 
 #include <spdlog/spdlog.h>
 
+// #define VMA_IMPLEMENTATION
+// #include "vk_mem_alloc.h"
+
 #include <cstdlib>
 #include <iostream>
 #include <cstring>
@@ -43,34 +46,33 @@ static VKAPI_ATTR VkBool32 VKAPI_CALL validationLayerDebugCallback(
 rush::device::deviceInfo rush::device::createDevice(GLFWwindow *window)
 {
 
-    spdlog::info("creates something i guess");
+    // spdlog::info("creates something i guess");
 
     rush::device::deviceInfo device;
 
     bool enableValidationLayers = true;
 
-    // createInstance();
-    // setupDebugMessenger();
-    // createSurface();
-    // pickPhysicalDevice();
-    // createLogicalDevice();
-    // createCommandPool();
-
-    device.Instance = rush::device::createVkInstance(enableValidationLayers, device.ValidationLayers);
+    device.Instance = rush::device::createVkInstance(enableValidationLayers, &device);
 
     if (enableValidationLayers)
     {
-        device.DebugMessenger = rush::device::createDebugMessenger(device.Instance);
+        device.DebugMessenger = rush::device::createDebugMessenger(&device);
     }
 
     device.Surface = rush::device::createSurface(window, device.Instance);
 
+    device.PhysicalDevice = rush::device::choosePhysicalDevice(device.Instance, device.Surface, device.DeviceExtensions, &device.Properties);
+
+    device.Device = rush::device::createLogicalDevice(&device);
+
+    device.CommandPool = rush::device::createCommandPool(device.Device, device.PhysicalDevice, device.Surface);
+
     return device;
 
-    // add to global deletion queue or something
+    // TODO: add to global deletion queue or something
 };
 
-VkInstance rush::device::createVkInstance(bool enableValidationLayers, const std::vector<const char *> ValidationLayers)
+VkInstance rush::device::createVkInstance(bool enableValidationLayers, rush::device::deviceInfo *device)
 {
     VkApplicationInfo appInfo = {};
     appInfo.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
@@ -92,8 +94,8 @@ VkInstance rush::device::createVkInstance(bool enableValidationLayers, const std
 
     if (enableValidationLayers)
     {
-        createInfo.enabledLayerCount = static_cast<uint32_t>(ValidationLayers.size());
-        createInfo.ppEnabledLayerNames = ValidationLayers.data();
+        createInfo.enabledLayerCount = static_cast<uint32_t>(device->ValidationLayers.size());
+        createInfo.ppEnabledLayerNames = device->ValidationLayers.data();
 
         debugCreateInfo = {};
         debugCreateInfo.sType = VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT;
@@ -137,6 +139,44 @@ VkSurfaceKHR rush::device::createSurface(GLFWwindow *window, VkInstance instance
     return surface;
 }
 
+VkPhysicalDevice rush::device::choosePhysicalDevice(VkInstance instance_, VkSurfaceKHR surface_, std::vector<const char *> deviceExtensions_, VkPhysicalDeviceProperties *properties_)
+{
+    VkPhysicalDevice physicalDevice;
+
+    uint32_t deviceCount = 0;
+    vkEnumeratePhysicalDevices(instance_, &deviceCount, nullptr);
+    if (deviceCount == 0)
+    {
+        throw std::runtime_error("failed to find GPUs with Vulkan support!");
+    }
+
+    spdlog::debug("Device count {}", deviceCount);
+
+    std::vector<VkPhysicalDevice> devices(deviceCount);
+
+    vkEnumeratePhysicalDevices(instance_, &deviceCount, devices.data());
+
+    for (const auto &device : devices)
+    {
+        if (rush::device::isVkDeviceSuitable(device, surface_, deviceExtensions_))
+        {
+            physicalDevice = device;
+            break;
+        }
+    }
+
+    if (physicalDevice == VK_NULL_HANDLE)
+    {
+        throw std::runtime_error("failed to find a suitable GPU!");
+    }
+
+    vkGetPhysicalDeviceProperties(physicalDevice, properties_);
+
+    spdlog::debug("physical device: {}", properties_->deviceName);
+
+    return physicalDevice;
+}
+
 // <----- EXTENSIONS ----->
 std::vector<const char *> rush::device::getExtensions(bool enableValidationLayers)
 {
@@ -150,7 +190,7 @@ std::vector<const char *> rush::device::getExtensions(bool enableValidationLayer
     extensions.push_back("VK_KHR_get_physical_device_properties2");
 #endif
 
-    if (enableValidationLayers) // TODO: set this to a boolean to disable validation layers
+    if (enableValidationLayers)
     {
         extensions.push_back(VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
     }
@@ -165,21 +205,22 @@ void rush::device::hasGflwRequiredInstanceExtensions()
     std::vector<VkExtensionProperties> extensions(extensionCount);
     vkEnumerateInstanceExtensionProperties(nullptr, &extensionCount, extensions.data());
 
-    std::cout << "available extensions:" << std::endl;
+    spdlog::debug("available extensions: ");
     std::unordered_set<std::string> available;
     for (const auto &extension : extensions)
     {
-        std::cout << "\t" << extension.extensionName << std::endl;
+        // std::cout << "\t" << extension.extensionName << std::endl;
+        spdlog::debug("\t {}", extension.extensionName);
         available.insert(extension.extensionName);
     }
 
-    std::cout << "required extensions:" << std::endl;
+    spdlog::debug("required extensions: ");
 
     auto requiredExtensions = getExtensions(false);
 
     for (const auto &required : requiredExtensions)
     {
-        std::cout << "\t" << required << std::endl;
+        spdlog::debug("\t {}", required);
         if (available.find(required) == available.end())
         {
             throw std::runtime_error("Missing required glfw extension");
@@ -201,13 +242,13 @@ void rush::device::populateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateI
     createInfo.pUserData = nullptr; // Optional
 }
 
-VkDebugUtilsMessengerEXT rush::device::createDebugMessenger(VkInstance instance)
+VkDebugUtilsMessengerEXT rush::device::createDebugMessenger(deviceInfo *device)
 {
     VkDebugUtilsMessengerCreateInfoEXT createInfo;
     rush::device::populateDebugMessengerCreateInfo(createInfo);
 
     VkDebugUtilsMessengerEXT debugMessenger;
-    if (rush::device::CreateDebugUtilsMessengerEXT(instance, &createInfo, nullptr, &debugMessenger) != VK_SUCCESS)
+    if (rush::device::CreateDebugUtilsMessengerEXT(device->Instance, &createInfo, nullptr, &debugMessenger) != VK_SUCCESS)
     {
         throw std::runtime_error("failed to set up debug messenger!");
     }
@@ -234,7 +275,7 @@ VkResult rush::device::CreateDebugUtilsMessengerEXT(
     }
 }
 
-void DestroyDebugUtilsMessengerEXT(
+void rush::device::DestroyDebugUtilsMessengerEXT(
     VkInstance instance,
     VkDebugUtilsMessengerEXT debugMessenger,
     const VkAllocationCallbacks *pAllocator)
@@ -246,4 +287,204 @@ void DestroyDebugUtilsMessengerEXT(
     {
         func(instance, debugMessenger, pAllocator);
     }
+}
+
+bool rush::device::isVkDeviceSuitable(VkPhysicalDevice physicalDevice, VkSurfaceKHR surface_, std::vector<const char *> deviceExtensions_)
+{
+    rush::device::QueueFamilyIndices indices = rush::device::findQueueFamilies(physicalDevice, surface_);
+
+    bool extensionsSupported = checkDeviceExtensionSupport(physicalDevice, deviceExtensions_);
+
+    bool swapChainAdequate = false;
+
+    if (extensionsSupported)
+    {
+        rush::device::SwapChainSupportDetails swapChainSupport = querySwapChainSupport(physicalDevice, surface_);
+        swapChainAdequate = !swapChainSupport.formats.empty() && !swapChainSupport.presentModes.empty();
+    }
+
+    VkPhysicalDeviceFeatures supportedFeatures;
+    vkGetPhysicalDeviceFeatures(physicalDevice, &supportedFeatures);
+
+    return indices.presentFamilyHasValue && indices.graphicsFamilyHasValue && extensionsSupported && swapChainAdequate &&
+           supportedFeatures.samplerAnisotropy;
+}
+
+bool rush::device::checkDeviceExtensionSupport(VkPhysicalDevice physicalDevice, std::vector<const char *> deviceExtensions_)
+{
+    uint32_t extensionCount;
+    vkEnumerateDeviceExtensionProperties(physicalDevice, nullptr, &extensionCount, nullptr);
+    std::vector<VkExtensionProperties> availableExtensions(extensionCount);
+    vkEnumerateDeviceExtensionProperties(
+        physicalDevice,
+        nullptr,
+        &extensionCount,
+        availableExtensions.data());
+
+    std::set<std::string> requiredExtensions(deviceExtensions_.begin(), deviceExtensions_.end());
+
+    for (const auto &extension : availableExtensions)
+    {
+        requiredExtensions.erase(extension.extensionName);
+    }
+
+    return requiredExtensions.empty();
+}
+
+rush::device::QueueFamilyIndices rush::device::findQueueFamilies(VkPhysicalDevice physicalDevice, VkSurfaceKHR surface_)
+{
+    rush::device::QueueFamilyIndices indices;
+
+    uint32_t queueFamilyCount = 0;
+    vkGetPhysicalDeviceQueueFamilyProperties(physicalDevice, &queueFamilyCount, nullptr);
+
+    std::vector<VkQueueFamilyProperties> queueFamilies(queueFamilyCount);
+    vkGetPhysicalDeviceQueueFamilyProperties(physicalDevice, &queueFamilyCount, queueFamilies.data());
+
+    int i = 0;
+
+    for (const auto &queueFamily : queueFamilies)
+    {
+        if (queueFamily.queueCount > 0 && queueFamily.queueFlags & VK_QUEUE_GRAPHICS_BIT)
+        {
+            indices.graphicsFamily = i;
+            indices.graphicsFamilyHasValue = true;
+        }
+        VkBool32 presentSupport = false;
+        vkGetPhysicalDeviceSurfaceSupportKHR(physicalDevice, i, surface_, &presentSupport);
+        if (queueFamily.queueCount > 0 && presentSupport)
+        {
+            indices.presentFamily = i;
+            indices.presentFamilyHasValue = true;
+        }
+        if (indices.presentFamilyHasValue && indices.presentFamilyHasValue)
+        {
+            break;
+        }
+
+        i++;
+    }
+
+    return indices;
+}
+
+rush::device::SwapChainSupportDetails rush::device::querySwapChainSupport(VkPhysicalDevice physicalDevice, VkSurfaceKHR surface_)
+{
+    rush::device::SwapChainSupportDetails details;
+    vkGetPhysicalDeviceSurfaceCapabilitiesKHR(physicalDevice, surface_, &details.capabilities);
+
+    uint32_t formatCount;
+    vkGetPhysicalDeviceSurfaceFormatsKHR(physicalDevice, surface_, &formatCount, nullptr);
+
+    if (formatCount != 0)
+    {
+        details.formats.resize(formatCount);
+        vkGetPhysicalDeviceSurfaceFormatsKHR(physicalDevice, surface_, &formatCount, details.formats.data());
+    }
+
+    uint32_t presentModeCount;
+    vkGetPhysicalDeviceSurfacePresentModesKHR(physicalDevice, surface_, &presentModeCount, nullptr);
+
+    if (presentModeCount != 0)
+    {
+        details.presentModes.resize(presentModeCount);
+        vkGetPhysicalDeviceSurfacePresentModesKHR(
+            physicalDevice,
+            surface_,
+            &presentModeCount,
+            details.presentModes.data());
+    }
+
+    return details;
+}
+
+VkDevice rush::device::createLogicalDevice(deviceInfo *deviceInfo, bool enableValidationLayers)
+{
+    VkDevice device_;
+
+    rush::device::QueueFamilyIndices indices = findQueueFamilies(deviceInfo->PhysicalDevice, deviceInfo->Surface);
+
+    std::vector<VkDeviceQueueCreateInfo> queueCreateInfos;
+    std::set<uint32_t> uniqueQueueFamilies = {indices.graphicsFamily, indices.presentFamily};
+
+    float queuePriority = 1.0f;
+    for (uint32_t queueFamily : uniqueQueueFamilies)
+    {
+        VkDeviceQueueCreateInfo queueCreateInfo = {};
+        queueCreateInfo.sType = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO;
+        queueCreateInfo.queueFamilyIndex = queueFamily;
+        queueCreateInfo.queueCount = 1;
+        queueCreateInfo.pQueuePriorities = &queuePriority;
+        queueCreateInfos.push_back(queueCreateInfo);
+    }
+
+    VkPhysicalDeviceFeatures deviceFeatures = {};
+    deviceFeatures.samplerAnisotropy = VK_TRUE;
+
+    VkDeviceCreateInfo createInfo = {};
+    createInfo.sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
+
+    createInfo.queueCreateInfoCount = static_cast<uint32_t>(queueCreateInfos.size());
+    createInfo.pQueueCreateInfos = queueCreateInfos.data();
+
+    createInfo.pEnabledFeatures = &deviceFeatures;
+    createInfo.enabledExtensionCount = static_cast<uint32_t>(deviceInfo->DeviceExtensions.size());
+    createInfo.ppEnabledExtensionNames = deviceInfo->DeviceExtensions.data();
+
+    // might not really be necessary anymore because device specific validation layers
+    // have been deprecated
+    if (enableValidationLayers)
+    {
+        createInfo.enabledLayerCount = static_cast<uint32_t>(deviceInfo->ValidationLayers.size());
+        createInfo.ppEnabledLayerNames = deviceInfo->ValidationLayers.data();
+    }
+    else
+    {
+        createInfo.enabledLayerCount = 0;
+    }
+
+    if (vkCreateDevice(deviceInfo->PhysicalDevice, &createInfo, nullptr, &device_) != VK_SUCCESS)
+    {
+        throw std::runtime_error("failed to create logical device!");
+    }
+
+    vkGetDeviceQueue(device_, indices.graphicsFamily, 0, &deviceInfo->GraphicsQueue);
+    vkGetDeviceQueue(device_, indices.presentFamily, 0, &deviceInfo->PresentQueue);
+
+    return device_;
+}
+
+VkCommandPool rush::device::createCommandPool(VkDevice device_, VkPhysicalDevice physicalDevice_, VkSurfaceKHR surface_)
+{
+    VkCommandPool commandPool;
+
+    rush::device::QueueFamilyIndices queueFamilyIndices = rush::device::findQueueFamilies(physicalDevice_, surface_);
+
+    VkCommandPoolCreateInfo poolInfo = {};
+    poolInfo.sType = VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO;
+    poolInfo.queueFamilyIndex = queueFamilyIndices.graphicsFamily;
+    poolInfo.flags =
+        VK_COMMAND_POOL_CREATE_TRANSIENT_BIT | VK_COMMAND_POOL_CREATE_RESET_COMMAND_BUFFER_BIT;
+
+    if (vkCreateCommandPool(device_, &poolInfo, nullptr, &commandPool) != VK_SUCCESS)
+    {
+        throw std::runtime_error("failed to create command pool!");
+    }
+
+    return commandPool;
+}
+
+void rush::device::cleanup(deviceInfo *device, bool enableValidationLayers)
+{
+    vkDestroyCommandPool(device->Device, device->CommandPool, nullptr);
+    vkDestroyDevice(device->Device, nullptr);
+
+    if (enableValidationLayers)
+    {
+        rush::device::DestroyDebugUtilsMessengerEXT(device->Instance, device->DebugMessenger, nullptr);
+    }
+
+    vkDestroySurfaceKHR(device->Instance, device->Surface, nullptr);
+    vkDestroyInstance(device->Instance, nullptr);
+    device = nullptr;
 }

@@ -1,5 +1,7 @@
 #pragma once
 
+#include "device.hpp"
+
 #include <vulkan/vulkan.h>
 
 // std
@@ -16,7 +18,7 @@ namespace rush
     {
 
     public:
-        Core();
+        Core(GLFWwindow *window);
         ~Core();
 
     private:
@@ -31,6 +33,7 @@ namespace rush
         VmaAllocator m_Allocator;
         void createInstanceVk(bool enableValidationLayers = true);
         VkInstance m_Instance;
+        rush::device::deviceInfo device{};
     };
 
 }

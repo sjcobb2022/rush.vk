@@ -50,7 +50,7 @@ namespace rush
 
         GLFWwindow *window = initWindow();
 
-        Core test{};
+        Core test{window};
 
         while (!glfwWindowShouldClose(window))
         {
