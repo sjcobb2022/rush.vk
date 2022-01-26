@@ -3,12 +3,20 @@
 
 #include <glm/glm.hpp>
 #include <spdlog/spdlog.h>
+#include <entt/entity/registry.hpp>
 
 // std
 #include <cstdlib>
 #include <iostream>
 #include <stdexcept>
 
+struct velocity{
+    glm::vec3 vel;
+};
+
+struct position{
+    glm::vec3 pos;
+};
 
 int main()
 {
@@ -29,12 +37,16 @@ int main()
     //when registering component, takes in a functional
     //functional used to define the behaviour of the component
     //e.g. registerComponent<T>(std::functional); --> implementation
-    //registerComponent<Renderable>([&](Scene sc, FrameInfo FI, ... maybe other stuff){
-    // vkCommandBuffer() 
+    //registerComponentFunction<Renderable>([&](Scene sc, FrameInfo FI, ... maybe other stuff){
+    // vkCommandBuffer();
     //})
+    //MAKE IT A TEMPLATED TYPE
+    //template <typename... Args>
+    //registerLoopInput<T>()
+    //registerSetupInput<T>
     //would need a way to represent relationships (like a registry.view thing)
-    //registerComponents<T, T, Args...>([&](Scene sc, FrameInfo FI, T Args...){doStuff();})
-
+    //registerComponents<T, T, Args...>([&](Scene sc, FrameInfo FI, T Args...){doStuff();};
+    
     try
     {
         app.run();

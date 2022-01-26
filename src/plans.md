@@ -16,35 +16,51 @@ int main(){
     App app{};
 
     // functions should probably be global and static when compiling.
-    // to to share state they should either use global or some sort of data queue: e.g. to pass data onto next have to do something along the lines of `nextStage.push_back(a bunch of data)`
+    //use equality or reference std::functions to pass on data, meaning that anything in the scope of the main function is accessible in the loop.
     //alternatively ensure that nothing is stored in any of the scopes and only use data that is stored in the scene.
     //test if global state in the main file is carried on with function pointers
-    app.setup(std::function<void(Scene scene, Camera cam)>& func); //init values such as 
+    app.addSetupInstruction(std::function<void(Scene scene, Camera cam, FrameInfo f)>& func); //init values such as 
 
-    app.loop(std::function<void(Scene scene, Camera cam)>& func); //changes that happen in the loop
+    app.addFlag()
 
-    app.end(std::function<void(Scene scene, Camera cam)>& func); //cleanup if necessary
+    enum rushLoopFlags{
+        Rush_SceneFlag = 1 << 0
+        Rush_FrameInfoFlag = 1 << 1
+        Rush_CameraFlag = 1 << 2
+    }
+
+    app.addSetupInstruction([=](){
+        //create a scene.
+        //something in the setup function.
+        //in the setup function
+        //take in the scene
+        //register a component
+        //when registering component, takes in a functional
+        //functional used to define the behaviour of the component
+        //e.g.
+        //maybe request for data
+        // registerInput<Scene, FrameInfo>();
+        app.setEnumBits<T>(enumBits)
+        app.registerComponent<T>(std::functional, enumBits = defaultEnumBits); //--> implementation
+        app.registerComponentForRender<Renderable>([&](Scene sc, FrameInfo fi, T Args...){vkCommand())})
+
+        app.registerGroupForRender<T, T, Args...>([=](Scene sc, FrameInfo fi, Args...));
+        // registerComponents<T, T, T Args...>([&](Scene sc, FrameInfo FI, T Args...){doStuff();})
+    })
+
+    //changes that happen in the loop
+    app.addLoopInstruction(std::function<void(Scene scene, Camera cam, FrameInfo f)>& func);
+    
+    //cleanup if necessary
+    app.addEndInstruction(std::function<void(Scene scene, Camera cam, FrameInfo f)>& func); 
 
     app.imguiEnabled = true || false; //option to disable imgui
 
-    app.addImgui([&](){
+    app.addImGuiPanel([&](){
         ImGuiBegin("Special window");
         ImGuiDoStuff();
         ImGuiEnd();
     }]) //.....????
-
-    //create a scene.
-    //something in the setup function.
-    //in the setup function
-    //take in the scene
-    //register a component
-    //when registering component, takes in a functional
-    //functional used to define the behaviour of the component
-    //e.g. 
-    registerComponent<T>(std::functional); //--> implementation
-    registerComponent<Renderable>([&](Scene sc, FrameInfo FI, T Args...){vkCommandBuffer(...)})
-    //would need a way to represent relationships (like a registry.view thing)
-    registerComponents<T, T, Args...>([&](Scene sc, FrameInfo FI, T Args...){doStuff();})
 
     //would be considerably easier to intergrate imgui since working from the the beggining and can focus more on tight intergration between the two
     //might need to add it as a seperate render pass or as a render subpass
