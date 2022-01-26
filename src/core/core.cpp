@@ -1,8 +1,6 @@
-#define VMA_IMPLEMENTATION
-
 #include "core.hpp"
 
-#include "extensions.hpp"
+#include "device.hpp"
 
 // std headers
 #include <cstring>
