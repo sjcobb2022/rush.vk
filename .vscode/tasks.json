@@ -19,7 +19,7 @@
         {
             "label": "build",
             "type": "shell",
-            "command": "mkdir -p build && cd build && cmake -S ../ -B ./ && cmake --build . && cmake --build . --target Shaders && ./volk && cd ${workspaceFolder}",
+            "command": "mkdir -p build && cd build && cmake -S ../ -B ./ && cmake --build . && cmake --build . --target Shaders && ./rush_vk && cd ${workspaceFolder}",
             "problemMatcher": [],
             "group": {
                 "kind": "build",
