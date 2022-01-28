@@ -11,5 +11,5 @@ namespace rush{
         entt::entity prev{entt::null};
         entt::entity next{entt::null};
         entt::entity parent{entt::null};
-    }
+    };
 }
