@@ -1,5 +1,9 @@
 #include "app.hpp"
 #include "core/core.hpp"
+#include "ECS/scene.hpp"
+
+#include "ECS/components/relationship.hpp"
+#include "ECS/components/transform.hpp"
 
 // libs
 #define GLM_FORCE_RADIANS
@@ -24,6 +28,10 @@
 
 namespace rush
 {
+    struct ignore_t
+    {
+    };
+
     App::App() {}
 
     App::~App() {}
@@ -49,6 +57,24 @@ namespace rush
     {
 
         GLFWwindow *window = initWindow();
+
+        Scene scene{};
+
+        auto ent = scene.m_Registry.create();
+
+        scene.m_Registry.emplace<c_Transform>(ent, c_Transform{});
+        scene.m_Registry.emplace<c_Relationship>(ent, c_Relationship{});
+
+        auto view = scene.m_Registry.view<c_Transform>();
+
+        scene.createRuntimeViewIterator<c_Transform, c_Relationship>(
+            [&](auto ent)
+            {
+                // spdlog::
+            },
+            entt::exclude<ignore_t>);
+
+        scene.flushViewIterators();
 
         Core test{window};
 

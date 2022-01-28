@@ -6,13 +6,22 @@
 
 // #include "group_storage.hpp"
 
-#include <functional>
-#include <vector>
-#include <deque>
-#include <array>
+#include <functional> //std::function
+#include <vector>     //std::vector
+#include <deque>      //std::deque
 #include <memory>
 
-struct ignore_t{};
+#ifndef __clang__
+#include <execution>
+#include <algorithm>
+#endif
+
+#include <cstdlib>
+
+
+struct ignore_t
+{
+};
 
 namespace rush
 {
@@ -25,9 +34,9 @@ namespace rush
         ~Scene();
 
         template <typename... Components, typename... Exclude>
-        void createRuntimeViewIterator(std::function<void(entt::entity)> &&func, entt::exclude_t<Exclude...> = {})
+        void createRuntimeViewIterator(std::function<void(entt::entity)> &&func, entt::exclude_t<Exclude...> = {}, bool experimentalUseParallel = false)
         {
-            renderViews.push_back(
+            runtimeViewFunctors.push_back(
                 [&]()
                 {
                     auto view = entt::runtime_view{};
@@ -41,21 +50,34 @@ namespace rush
                      { view.exclude(m_Registry.storage<Exclude>()); }(),
                      ...);
 
-                    // parrallel mode?
-                    //  std::for_each(std::execution::par_unseq, view.begin(), view.end(), [&view](auto entity) {
-                    //      func(entity);
-                    //  });
+                    // auto view = m_Registry.view<Components...>(entt::exclude<Exclude...>);
 
-                    for (auto ent : view)
+                    if (experimentalUseParallel)
                     {
-                        func(ent);
+                        
+#ifndef __clang__
+                        std::for_each(std::execution::par_unseq, view.begin(), view.end(),
+                                      [&view](auto entity)
+                                      { func(entity); });
+#else
+                        spdlog::critical("Clang does not support parallel implementation yet");
+                        throw std::runtime_error("Clang does not support parallel implementation yet");
+#endif
+
+                    }
+                    else
+                    {
+                        for (auto ent : view)
+                        {
+                            func(ent);
+                        }
                     }
                 });
         }
 
         void flushViewIterators()
         {
-            for (auto it = renderViews.rbegin(); it != renderViews.rend(); it++)
+            for (auto it = runtimeViewFunctors.rbegin(); it != runtimeViewFunctors.rend(); it++)
             {
                 (*it)(); // call functors
             }
@@ -64,6 +86,6 @@ namespace rush
         entt::registry m_Registry;
 
     private:
-        std::deque<std::function<void()>> renderViews;
+        std::deque<std::function<void()>> runtimeViewFunctors;
     };
 }
