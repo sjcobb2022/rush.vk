@@ -87,8 +87,8 @@ endif()
 #   message(STATUS "bullet physics source dir")
 # endif()
 
-include_directories(libs/tinyonjloader)
-include_directories(libs/imgui)
+# include_directories(libs/tinyonjloader)
+# include_directories(libs/imgui)
 
 # If TINYOBJ_PATH not specified in .env.cmake, try fetching from git repo
 if (NOT TINYOBJ_PATH)
@@ -108,9 +108,10 @@ endif()
 if(NOT VMA_PATH)
   message(STATUS "vma path not specified. Using libs/vma")
   set(VMA_INCLUDE libs/vma/include)
+  # find_package(libVulkanMemoryAllocator)
 else()
   message(STATUS "using vma path specified in .env ")
-  set(VMA_INCLUDE VMA_PATH/include)
+  set(VMA_INCLUDE ${VMA_PATH}/include)
 endif()
 
 file(GLOB_RECURSE SOURCES ${PROJECT_SOURCE_DIR}/src/*.cpp)

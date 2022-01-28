@@ -18,7 +18,6 @@
 
 #include <cstdlib>
 
-
 struct ignore_t
 {
 };
@@ -54,7 +53,7 @@ namespace rush
 
                     if (experimentalUseParallel)
                     {
-                        
+
 #ifndef __clang__
                         std::for_each(std::execution::par_unseq, view.begin(), view.end(),
                                       [&view](auto entity)
@@ -63,7 +62,6 @@ namespace rush
                         spdlog::critical("Clang does not support parallel implementation yet");
                         throw std::runtime_error("Clang does not support parallel implementation yet");
 #endif
-
                     }
                     else
                     {
