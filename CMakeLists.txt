@@ -109,12 +109,17 @@ if(NOT VMA_PATH)
   message(STATUS "vma path not specified. Using libs/vma")
   set(VMA_INCLUDE libs/vma/include)
   # find_package(libVulkanMemoryAllocator)
+  # find_library(VMA_LIBRARY 
+  # NAMES libVulkanMemoryAllocator VulkanMemoryAllocator HINTS "usr/lib/local")
+  # message(STATUS "found VMA ${VMA_LIBRARY}")
+  # target_link_libraries(${PROJECT_NAME} VulkanMemoryAllocator)
 else()
   message(STATUS "using vma path specified in .env ")
   set(VMA_INCLUDE ${VMA_PATH}/include)
 endif()
 
 file(GLOB_RECURSE SOURCES ${PROJECT_SOURCE_DIR}/src/*.cpp)
+
 
 add_executable(${PROJECT_NAME} 
 ${SOURCES}
