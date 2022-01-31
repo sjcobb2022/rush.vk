@@ -11,5 +11,5 @@ namespace rush
     {
         m_Registry.clear();
     }
-
+    
 }

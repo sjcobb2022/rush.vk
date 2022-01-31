@@ -60,20 +60,28 @@ namespace rush
 
         Scene scene{};
 
-        auto ent = scene.m_Registry.create();
+        // auto ent = scene.createEntity();
 
-        scene.m_Registry.emplace<c_Transform>(ent, c_Transform{});
-        scene.m_Registry.emplace<c_Relationship>(ent, c_Relationship{});
+        // scene.emplace<c_Transform, c_Relationship>(ent, c_Transform{glm::vec3{10.0f, 2.0f, 2.0f}}, c_Relationship{});
 
-        auto view = scene.m_Registry.view<c_Transform>();
+        auto en0 = scene.create();
+        auto en1 = scene.create();
 
-        scene.createRuntimeViewIterator<c_Transform, c_Relationship>(
-            [&](auto ent)
-            {
-                // spdlog::
-            },
-            entt::exclude<ignore_t>);
 
+        scene.emplace<c_Transform>(en0, c_Transform{});
+        scene.emplace<c_Transform>(en1, c_Transform{});
+        
+        scene.createRuntimeViewIterator(
+            [&](entt::entity entity, c_Transform &transform){
+                // spdlog::info("test");
+            }
+        );
+
+        // scene.createRuntimeViewIterator([](){});
+
+        // assert(scene.get<c_Transform>(ent).translation.x == 10.0f);
+
+        
         scene.flushViewIterators();
 
         Core test{window};
