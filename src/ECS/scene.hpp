@@ -1,9 +1,6 @@
 #pragma once
 #include <entt/entity/registry.hpp>
-#include <entt/entity/entity.hpp>
 #include <spdlog/spdlog.h>
-
-#include "components/transform.hpp"
 
 // #include "group_storage.hpp"
 
@@ -26,6 +23,7 @@ class has_valid_operator
     typedef char valid;
     typedef long invalid;
 
+    //checks if operator 
     template <typename C>
     static valid check(decltype(&C::operator()));
     template <typename C>
@@ -37,6 +35,10 @@ public:
         value = sizeof(check<T>(0)) == sizeof(char)
     };
 };
+
+//
+template< typename T >
+inline constexpr bool has_valid_operator_v = has_valid_operator<T>::value;
 
 struct ignore_t
 {
@@ -114,10 +116,10 @@ namespace rush
             }
         }
 
-        template <typename F>
+        template <typename Func>
         inline void each(Func && func)
         {
-            if constexpr (has_valid_operator<Func>::value)
+            if constexpr (has_valid_operator_v<Func>)
             {
                 spdlog::debug("Each Function :: has_parenthesis");
                 Each<decltype(&Func::operator())>::each(std::forward<Func>(func), m_Registry);
@@ -139,9 +141,8 @@ namespace rush
         // https://gist.github.com/nikki93/3cee41b34af3cefe5733d9a5fc502876#file-entity-hh-L72
 
         template <typename T>
-        struct Each
-        {
-        };
+        struct Each{};
+
         template <typename R, typename C>
         struct Each<R (C::*)(entt::entity ent) const>
         {
@@ -152,6 +153,7 @@ namespace rush
                 reg.each(std::forward<F>(f));
             }
         };
+
         template <typename R, typename C, typename T, typename... Ts>
         struct Each<R (C::*)(entt::entity ent, T &, Ts &...) const>
         {
