@@ -25,6 +25,12 @@
                 "kind": "build",
                 "isDefault": true
             }
+        },
+        {
+            "label": "build_dependencies_windows",
+            "type": "shell",
+            "command": "cd ${workspaceFolder}/libs && cd entt && cmake -S . -B build -D BUILD_SHARED_LIBS=TRUE && cmake --build build --config Release --target install && cd .. && cd spdlog && cmake -S . -B build -D BUILD_SHARED_LIBS=TRUE && cmake --build build --config Release --target install && cd ..",
+            "problemMatcher": [],
         }
     ]
 }
