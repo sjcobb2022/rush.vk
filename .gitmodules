@@ -16,3 +16,6 @@
 [submodule "libs/glm"]
 	path = libs/glm
 	url = https://github.com/g-truc/glm.git
+[submodule "libs/KTX-Software"]
+	path = libs/KTX-Software
+	url = https://github.com/KhronosGroup/KTX-Software.git
