@@ -4,9 +4,9 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "build dependencies",
+            "label": "update_dependencies",
             "type": "shell",
-            "command": "git submodule foreach 'mkdir -p build && cd build cmake -S .. -B . -DGLFW_BUILD_TESTS=0 -DGLFW_BUILD_EXAMPLES=0 -DBUILD_TESTING=0 && make install || :'",
+            "command": "git submodule update --init",
             "group": "none",
             "presentation": {
                 "reveal": "always",
@@ -19,7 +19,7 @@
         {
             "label": "build",
             "type": "shell",
-            "command": "mkdir -p build && cd build && cmake -S ../ -B ./ && cmake --build . && cmake --build . --target Shaders && ./rush_vk && cd ${workspaceFolder}",
+            "command": "cmake -S . -B build && cmake --build build && cmake --build build --target Shaders && ./rush_vk && cd ${workspaceFolder}",
             "problemMatcher": [],
             "group": {
                 "kind": "build",
@@ -29,7 +29,7 @@
         {
             "label": "build_dependencies_windows",
             "type": "shell",
-            "command": "cd ${workspaceFolder}/libs && cd entt && cmake -S . -B build -D BUILD_SHARED_LIBS=TRUE && cmake --build build --config Release --target install && cd .. && cd spdlog && cmake -S . -B build -D BUILD_SHARED_LIBS=TRUE && cmake --build build --config Release --target install && cd ..",
+            "command": "cd ${workspaceFolder}/libs && cd entt && cmake -S . -B build -D BUILD_SHARED_LIBS=TRUE && cmake --build build --config Release --target install && cd .. && cd spdlog && cmake -S . -B build -D BUILD_SHARED_LIBS=TRUE && cmake --build build --config Release --target install && cd .. && cd KTX-Software && cmake -S . -B build && cmake --build build --config Release --target install && cd ..",
             "problemMatcher": [],
         }
     ]
