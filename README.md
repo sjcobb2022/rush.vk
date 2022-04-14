@@ -1,5 +1,7 @@
 # Rush.vk
 
+> REMEMBER TO `git clone --recursive`
+
 ## Table of Contents
 - [Building](#Building)
   - [Building for Unix](#UnixBuild)
