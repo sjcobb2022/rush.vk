@@ -7,6 +7,7 @@ build/**
 **/.obj
 *.spv
 .env.cmake
+.env.**.cmake
 
 # ignore compiler stuff (in case build is not ignored properly)
 *.a
