@@ -19,7 +19,7 @@
         {
             "label": "build",
             "type": "shell",
-            "command": "cmake -S . -B build && cmake --build build && cmake --build build --target Shaders && ./rush_vk && cd ${workspaceFolder}",
+            "command": "cmake -S . -B build && cmake --build build && cmake --build build --target Shaders",
             "problemMatcher": [],
             "group": {
                 "kind": "build",
