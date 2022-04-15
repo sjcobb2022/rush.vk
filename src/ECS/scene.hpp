@@ -62,7 +62,7 @@ namespace rush
         }
 
         template<typename Component>
-        Component emplace(entt::entity ent, Component Val){
+        Component& emplace(entt::entity ent, Component Val){
             return m_Registry.emplace<Component>(ent, Val);
         }
 
@@ -74,7 +74,7 @@ namespace rush
         }
 
         template<typename Component>
-        Component get(entt::entity ent){
+        Component& get(entt::entity ent){
             return m_Registry.get<Component>(ent);
         }
 
@@ -87,6 +87,8 @@ namespace rush
         void destroy(iterator_t begin, iterator_t end){
             m_Registry.destroy(begin, end);
         }
+
+
 
         template <typename F>
         void createRuntimeViewIterator(F &&f)
@@ -137,7 +139,7 @@ namespace rush
         std::deque<std::function<void()>> runtimeViewFunctors;
 
         //<-------- DO NOT TOUCH :: WILL CAUSE SEGFAULTS -------->
-        // Credits to Nikki93 for this templating fuckery
+        // Credits to Nikki93 for help implementing her templating fuckery
         // https://gist.github.com/nikki93/3cee41b34af3cefe5733d9a5fc502876#file-entity-hh-L72
 
         template <typename T>
@@ -172,7 +174,6 @@ namespace rush
             template <typename F>
             static void each(F &&f, entt::registry &reg)
             {
-
                 spdlog::debug("Each struct :: pointer components");
                 reg.view<T, Ts...>().each([&](entt::entity ent, T &t, Ts &...ts)
                                           { f(ent, &t, &ts...); });
