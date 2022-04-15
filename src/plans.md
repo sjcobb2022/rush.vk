@@ -8,7 +8,7 @@ These are all the concept code structures that I might consider when rebuilding 
 ### Concept #1 :: Variable approach to literally everything
 
 ```cpp
-
+#pragma once
 #include "core.cpp"
 
 int main(){
@@ -19,56 +19,19 @@ int main(){
     //use equality or reference std::functions to pass on data, meaning that anything in the scope of the main function is accessible in the loop.
     //alternatively ensure that nothing is stored in any of the scopes and only use data that is stored in the scene.
     //test if global state in the main file is carried on with function pointers
-    app.addSetupInstruction(std::function<void(Scene scene, Camera cam, FrameInfo f)>& func); //init values such as 
-
-    app.addFlag()
-
-    enum rushLoopFlags{
-        Rush_SceneFlag = 1 << 0
-        Rush_FrameInfoFlag = 1 << 1
-        Rush_CameraFlag = 1 << 2
-    }
 
     app.registerStage("display_to_texture",[&](){
         
     });
-
-    app.addSetupInstruction([=](){
-        //create a scene.
-        //something in the setup function.
-        //in the setup function
-        //take in the scene
-        //register a component
-        //when registering component, takes in a functional
-        //functional used to define the behaviour of the component
-        //e.g.
-        //maybe request for data
-        // registerInput<Scene, FrameInfo>();
-        app.setEnumBits<T>(enumBits)
-        app.registerComponent<T>(std::functional, enumBits = defaultEnumBits); //--> implementation
-        app.registerComponentForRender<Renderable>([&](Scene sc, FrameInfo fi, T Args...){vkCommand())})
-
-        app.registerGroupForRender<T, T, Args...>([=](Scene sc, FrameInfo fi, Args...));
-        // registerComponents<T, T, T Args...>([&](Scene sc, FrameInfo FI, T Args...){doStuff();})
-    });
-
-    //changes that happen in the loop
-    app.addLoopInstruction(std::function<void(Scene scene, Camera cam, FrameInfo f)>& func);
     
     //cleanup if necessary
     app.addEndInstruction(std::function<void(Scene scene, Camera cam, FrameInfo f)>& func); 
-
-    app.imguiEnabled = true || false; //option to disable imgui
 
     app.addImGuiPanel([&](){
         ImGuiBegin("Special window");
         ImGuiDoStuff();
         ImGuiEnd();
     }]); //.....????
-
-    //would be considerably easier to intergrate imgui since working from the the beggining and can focus more on tight intergration between the two
-    //might need to add it as a seperate render pass or as a render subpass
-    //consider using pipeline barriers
 
     try{
         app.run()

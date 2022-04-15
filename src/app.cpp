@@ -69,16 +69,10 @@ namespace rush
         scene.emplace<c_Transform>(en1, c_Transform{});
 
         scene.each(
-            [&](entt::entity entity, c_Transform* t){
-                // spdlog::info("translation x: {}");
+            [&](entt::entity entity, c_Transform& t){
+                spdlog::info("translation x: {}", t.translation.x);
             }
         );
-
-        scene.createRuntimeViewIterator([](){});
-
-        // assert(scene.get<c_Transform>(ent).translation.x == 10.0f);
-
-        scene.flushViewIterators();
 
         Core test{window};
 
