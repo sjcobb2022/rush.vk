@@ -29,7 +29,7 @@
         {
             "label": "build_dependencies_windows",
             "type": "shell",
-            "command": "cd ${workspaceFolder}/libs && cd entt && cmake -S . -B build -D BUILD_SHARED_LIBS=TRUE && cmake --build build --config Release --target install && cd .. && cd spdlog && cmake -S . -B build -D BUILD_SHARED_LIBS=TRUE && cmake --build build --config Release --target install && cd .. && cd KTX-Software && cmake -S . -B build && cmake --build build --config Release --target install && cd ..",
+            "command": "cd ${workspaceFolder}/libs && cd entt && cmake -S . -B build -D BUILD_SHARED_LIBS=TRUE && cmake --build build --config Release --target install && cd .. && cd spdlog && cmake -S . -B build -D BUILD_SHARED_LIBS=TRUE && cmake --build build --config Release --target install && cd .. && cd KTX-Software && cmake -S . -B build -D KTX_FEATURE_TESTS=OFF  && cmake --build build --config Release --target install && cd .. && cd glfw && cmake -S . -B build -D BUILD_SHARED_LIBS=TRUE && cmake --build build --config Release --target install && cd ..",
             "problemMatcher": [],
         }
     ]

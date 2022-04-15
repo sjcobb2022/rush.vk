@@ -63,76 +63,57 @@ else()
   message(STATUS "Found EnTT")
 endif()
 
-#4 find spdlog -- couldn't be beother to define the 
-
+#4 find spdlog
 if(DEFINED SPDLOG_PATH)
   message(STATUS "Usinf spdlog path specified in cmake")
   # include_directories(${SPDLOG_PATH})
   target_include_directories(${PROJECT_NAME} ${SPDLOG_PATH}/include)
 elseif(NOT TARGET spdlog)
   find_package(spdlog REQUIRED)
+  message(STATUS "Found spdlog")
 else()
   message(FATAL_ERROR "Could not find EnTT. Please define path in .env or install library -- note to self: add git submodule??")
 endif()
 
-#5. find bullet 
-# if(DEFINED BULLET_PATH)
-#   message(STATUS "Bullet path finding hasn't been setup yet")
-# else()
-#   find_package(Bullet REQUIRED)
-#   message(STATUS "Found Bullet :: not implemented")
-#   # set(BULLET_LIBS BulletDynamics BulletCollision LinearMath)
-#   # message(STATUS "dir::: ${BULLET_PHYSICS_SOURCE_DIR}")
-#   # set(BULLET_EXECUTABLE ${BULLET_DI}/build3/bullet.rc)
-#   message(STATUS "bullet physics source dir")
-# endif()
-
-# include_directories(libs/tinyonjloader)
-# include_directories(libs/imgui)
-
-# If TINYOBJ_PATH not specified in .env.cmake, try fetching from git repo
+# If TINYOBJ_PATH not specified in .env.cmake, get from local copy
 if (NOT TINYOBJ_PATH)
-  message(STATUS "TINYOBJ_PATH not specified in .env.cmake, using libs/tinyobjloader")
+  message(STATUS "TINYOBJ_PATH not specified in .env.cmake. Using libs/tinyobjloader")
   set(TINYOBJ_PATH libs/tinyobjloader)
 endif()
 
+# If IMGUI path not specified in .env.cmake, get from local copy
 if(NOT IMGUI_PATH)
   message(STATUS "imgui path not specified using libs/imgui")
   set(IMGUI_PATH libs/imgui)
 else()
-  message(STATUS "using imgui path specified in .env")
+  message(STATUS "Using ImGui path specified in .env")
 endif()
 
-# include_directories(libs/vma/include)
-
+# If VMA path not specified in .env.cmake, get from local copy
 if(NOT VMA_PATH)
-  message(STATUS "vma path not specified. Using libs/vma")
+  message(STATUS "VMA_PATH not specified in .env.cmake. Using libs/vma")
   set(VMA_INCLUDE libs/vma/include)
-  # find_package(libVulkanMemoryAllocator)
-  # find_library(VMA_LIBRARY 
-  # NAMES libVulkanMemoryAllocator VulkanMemoryAllocator HINTS "usr/lib/local")
-  # message(STATUS "found VMA ${VMA_LIBRARY}")
-  # target_link_libraries(${PROJECT_NAME} VulkanMemoryAllocator)
 else()
-  message(STATUS "using vma path specified in .env ")
+  message(STATUS "Using VMA path specified in .env")
   set(VMA_INCLUDE ${VMA_PATH}/include)
 endif()
 
 file(GLOB_RECURSE SOURCES ${PROJECT_SOURCE_DIR}/src/*.cpp)
 
 
-add_executable(${PROJECT_NAME} 
-${SOURCES}
-${IMGUI_PATH}/backends/imgui_impl_glfw.cpp 
-${IMGUI_PATH}/backends/imgui_impl_vulkan.cpp 
-${IMGUI_PATH}/imgui.cpp 
-${IMGUI_PATH}/imgui_draw.cpp 
-${IMGUI_PATH}/imgui_demo.cpp 
-${IMGUI_PATH}/imgui_tables.cpp 
-${IMGUI_PATH}/imgui_widgets.cpp
+add_executable(
+  ${PROJECT_NAME} 
+  ${SOURCES}
+  ${IMGUI_PATH}/backends/imgui_impl_glfw.cpp 
+  ${IMGUI_PATH}/backends/imgui_impl_vulkan.cpp 
+  ${IMGUI_PATH}/imgui.cpp 
+  ${IMGUI_PATH}/imgui_draw.cpp 
+  ${IMGUI_PATH}/imgui_demo.cpp 
+  ${IMGUI_PATH}/imgui_tables.cpp 
+  ${IMGUI_PATH}/imgui_widgets.cpp
 )
 
-target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_17)
+# target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_17)
 
 set_property(TARGET ${PROJECT_NAME} PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/build")
 
@@ -140,7 +121,6 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE $<$<CONFIG:DEBUG>:"DEBUG">)
 
 if (WIN32)
   message(STATUS "CREATING BUILD FOR WINDOWS")
-
   if (USE_MINGW)
     target_include_directories(${PROJECT_NAME} PUBLIC
       ${MINGW_PATH}/include
