@@ -29,6 +29,10 @@ int main(){
         Rush_CameraFlag = 1 << 2
     }
 
+    app.registerStage("display_to_texture",[&](){
+        
+    });
+
     app.addSetupInstruction([=](){
         //create a scene.
         //something in the setup function.
@@ -46,7 +50,7 @@ int main(){
 
         app.registerGroupForRender<T, T, Args...>([=](Scene sc, FrameInfo fi, Args...));
         // registerComponents<T, T, T Args...>([&](Scene sc, FrameInfo FI, T Args...){doStuff();})
-    })
+    });
 
     //changes that happen in the loop
     app.addLoopInstruction(std::function<void(Scene scene, Camera cam, FrameInfo f)>& func);
@@ -60,7 +64,7 @@ int main(){
         ImGuiBegin("Special window");
         ImGuiDoStuff();
         ImGuiEnd();
-    }]) //.....????
+    }]); //.....????
 
     //would be considerably easier to intergrate imgui since working from the the beggining and can focus more on tight intergration between the two
     //might need to add it as a seperate render pass or as a render subpass
