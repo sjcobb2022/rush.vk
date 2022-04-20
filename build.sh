@@ -1,6 +1,4 @@
 #!/bin/bash
-mkdir -p build
-cd build
-cmake -S .. -B ./
+cmake -S . -B ./build
+cmake --build . --target Shaders && cmake --build .
 make && make Shaders && ./rush_vk
-cd ..

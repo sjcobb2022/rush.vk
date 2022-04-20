@@ -41,7 +41,7 @@ endif()
 
 # If IMGUI path not specified in .env.cmake, get from local copy
 if(NOT IMGUI_PATH)
-  message(STATUS "imgui path not specified using libs/imgui")
+  message(STATUS "imgui path not specified in ${LOCAL_ENV}. Using libs/imgui")
   set(IMGUI_PATH libs/imgui)
 else()
   message(STATUS "Using ImGui path specified in ${LOCAL_ENV}")
