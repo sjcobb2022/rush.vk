@@ -32,7 +32,6 @@ namespace rush
 
         void run();
 
-        // void registerSetupIn
 
         void setup(std::function<void(entt::registry sceneRegistry, int placeHolderforCam)> &&setupFunction);
 
@@ -45,7 +44,6 @@ namespace rush
 
         void cleanUpWindow(GLFWwindow *window);
 
-        // std::vector<>;
     };
 
 } // namespace utr
