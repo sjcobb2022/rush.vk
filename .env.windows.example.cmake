@@ -1,0 +1,11 @@
+
+set(VULKAN_SDK_PATH  "YOUR PATH TO VULKAN")
+# set(ENTT_PATH "libs/entt")
+set(GLFW_PATH "YOUR PATH TO GLFW")
+# set(ENTT_PATH "libs/entt")
+set(GLM_PATH "YOUR PATH TO GLM")
+# set(ENTT_PATH "libs/entt")
+set(SPDLOG_PATH "YOUR PATH TO SPDLOG")
+# set(ENTT_PATH "libs/entt")
+set(ENTT_PATH "YOUR PATH TO ENTT")
+# set(ENTT_PATH "libs/entt")
