@@ -1,6 +1,6 @@
 #include "app.hpp"
-#include "core/core.hpp"
-#include "ECS/scene.hpp"
+#include "backends/vulkan/core.hpp"
+#include "core/scene.hpp"
 
 #include "ECS/components/relationship.hpp"
 #include "ECS/components/transform.hpp"
