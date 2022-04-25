@@ -83,7 +83,7 @@ if(NOT TARGET shaderc OR NOT ENV{USE_SHADERC})
     )
 endif()
 
-target_link_libraries(${PROJECT_NAME} PUBLIC spdlog::spdlog)
+target_link_libraries(${PROJECT_NAME} PUBLIC spdlog)
 target_link_libraries(${PROJECT_NAME} PUBLIC glfw)
 
 target_link_libraries(${PROJECT_NAME} PUBLIC imgui)
