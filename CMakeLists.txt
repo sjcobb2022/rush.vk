@@ -8,7 +8,6 @@ endif()
 
 message(STATUS "Local .env.cmake: ${LOCAL_ENV}")
 
-
 cmake_minimum_required(VERSION 3.16.0)
 set(NAME rush_vk)
 project(${NAME} VERSION 0.1.0)
@@ -93,3 +92,5 @@ target_link_libraries(${PROJECT_NAME} PUBLIC VulkanMemoryAllocator)
 target_link_libraries(${PROJECT_NAME} PUBLIC EnTT::EnTT)
 
 target_include_directories(${PROJECT_NAME} PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/src")
+
+target_compile_definitions(${PROJECT_NAME} PRIVATE $<$<CONFIG:DEBUG>:"DEBUG">)
