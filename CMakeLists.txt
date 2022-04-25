@@ -17,7 +17,7 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake/modules")
 
 
-message(NOTICE "Find Vulkan loader and Shaderc")
+message(NOTICE "Find Vulkan Loader and Shaderc")
 find_package(Vulkan REQUIRED)
 find_package(Shaderc REQUIRED)
 
@@ -59,7 +59,7 @@ target_link_libraries(${PROJECT_NAME} PUBLIC Vulkan::Vulkan)
 target_link_libraries(${PROJECT_NAME} PUBLIC shaderc)
 
 if(NOT TARGET shaderc OR NOT ENV{USE_SHADERC})
-    message(WARNING "Building shaders without ShaderC")
+    message(NOTICE "Building shaders without ShaderC")
 
     file(GLOB_RECURSE GLSL_SOURCE_FILES
     "${PROJECT_SOURCE_DIR}/shaders/*.frag"
