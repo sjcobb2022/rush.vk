@@ -16,3 +16,6 @@
 [submodule "libs/KTX-Software"]
 	path = libs/KTX-Software
 	url = https://github.com/KhronosGroup/KTX-Software.git
+[submodule "libs/imgui"]
+	path = libs/imgui
+	url = https://github.com/sjcobb2022/imgui.git
