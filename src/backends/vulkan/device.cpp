@@ -38,7 +38,7 @@ static VKAPI_ATTR VkBool32 VKAPI_CALL validationLayerDebugCallback(
         break;
     }
 
-    std::cerr << "validation layer: " << pCallbackData->pMessage << std::endl;
+    // std::cerr << "validation layer: " << pCallbackData->pMessage << std::endl;
 
     return VK_FALSE;
 }
