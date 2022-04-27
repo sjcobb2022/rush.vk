@@ -75,12 +75,15 @@ namespace rush
         }
     }
 
+    //building doesnt do anything :))
+    InstanceBuilder::InstanceBuilder() {}
+    
     Instance &InstanceBuilder::build() const
     {
         // get available extensions and layers
         auto sys_inf = rush::get_system_info();
-
         // init app info struct
+        
         VkApplicationInfo app_info = {};
         app_info.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
         app_info.pNext = nullptr;
@@ -115,6 +118,7 @@ namespace rush
         {
             extensions.push_back(VK_KHR_GET_PHYSICAL_DEVICE_PROPERTIES_2_EXTENSION_NAME);
         }
+
 #if defined(VK_KHR_portability_enumeration)
         bool portability_enumeration_support =
             rush::check_extension_supported(sys_inf.available_extensions, VK_KHR_PORTABILITY_ENUMERATION_EXTENSION_NAME);
@@ -134,6 +138,7 @@ namespace rush
             throw std::runtime_error("Requested vulkan extension not present");
         }
 
+
         for (auto &layer : info.layers)
             layers.push_back(layer);
 
@@ -142,6 +147,7 @@ namespace rush
         {
             layers.push_back("VK_LAYER_KHRONOS_validation");
         }
+
 
         std::vector<VkBaseOutStructure *> pNext_chain;
 
@@ -160,6 +166,7 @@ namespace rush
         VkInstanceCreateInfo create_info = {};
         create_info.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
         rush::setup_pNext_chain(create_info, pNext_chain);
+
 
         create_info.flags = info.flags;
         create_info.pApplicationInfo = &app_info;

@@ -3,7 +3,7 @@
 namespace rush
 {
 
-    SystemInfo& get_system_info()
+    SystemInfo get_system_info()
     {
         // GET AVAILABLE LAYERS
         bool validation_layers_available = false;
@@ -45,6 +45,7 @@ namespace rush
             }
         }
 
+
         for (auto &layer : layers)
         {
             std::vector<VkExtensionProperties> layer_extensions;
@@ -66,13 +67,7 @@ namespace rush
             }
         };
 
-        SystemInfo info = {};
-        info.layers = layers;
-        info.extensions = extensions;
-        info.validation_layers_available = validation_layers_available;
-        info.debug_utils_available = debug_utils_available;
-
-        return info;
+        return SystemInfo{layers, extensions, validation_layers_available, debug_utils_available};
     }
 
     bool check_extension_supported(

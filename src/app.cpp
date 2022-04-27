@@ -79,6 +79,7 @@ namespace rush
         while (!glfwWindowShouldClose(window))
         {
             glfwPollEvents();
+            // spdlog::info("AAAAAA");
         }
 
         glfwDestroyWindow(window);

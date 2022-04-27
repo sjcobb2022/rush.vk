@@ -79,7 +79,7 @@ namespace rush
         InstanceBuilder &enable_layer(const char *layer);
         InstanceBuilder &enable_extension(const char *ext);
 
-        InstanceBuilder &request_validation_layers(const bool enable_layers);
+        InstanceBuilder &request_validation_layers(const bool enable_layers = true);
         InstanceBuilder &enable_validation_layers(const bool enable_layers);
 
         /**
@@ -99,7 +99,7 @@ namespace rush
         {
             const char *application_name;
             uint32_t application_v;
-            const char *engine_name;
+            const char *engine_name = "Rush Engine";
             uint32_t engine_v;
             uint32_t api_v;
 

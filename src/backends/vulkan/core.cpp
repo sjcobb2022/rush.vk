@@ -1,6 +1,7 @@
 #include "core.hpp"
 
 #include "device.hpp"
+#include "vkinstance.hpp"
 
 // std headers
 #include <cstring>
@@ -11,6 +12,8 @@
 #include <vulkan/vulkan.h>
 #include <GLFW/glfw3.h>
 #include <spdlog/spdlog.h>
+
+
 
 // #include "vk_mem_alloc.h"
 
@@ -44,14 +47,18 @@ namespace rush
             break;
         }
 
-        std::cerr << "validation layer: " << pCallbackData->pMessage << std::endl;
+        // std::cerr << "validation layer: " << pCallbackData->pMessage << std::endl;
 
         return VK_FALSE;
     }
 
-    Core::Core(GLFWwindow *window) : device{rush::device::createDevice(window)}
+    Core::Core(GLFWwindow *window)
     {
         // device = rush::device::createDevice(window);
+        rush::InstanceBuilder builder;
+        auto instance = builder.set_app_name ("Example Vulkan Application")
+                        .request_validation_layers ()
+                        .build ();
     };
 
     Core::~Core()

@@ -17,7 +17,7 @@ namespace rush
         bool debug_utils_available;
     };
 
-    SystemInfo &get_system_info();
+    SystemInfo get_system_info();
 
     bool check_extension_supported(std::vector<VkExtensionProperties> const &available_extensions, const char *extension_name);
 
