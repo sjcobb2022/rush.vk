@@ -69,17 +69,10 @@ namespace rush
             return m_Registry.emplace<Component>(ent, Val);
         }
 
-<<<<<<< HEAD
         template <typename... Components>
         void emplace(entt::entity ent, Components &&...Args)
         {
             (m_Registry.emplace<Components>(ent, std::forward<Components>(Args)), ...);
-=======
-        template<typename... Components>
-        void emplace(entt::entity ent, Components... Args){
-            (m_Registry.emplace<Components>(ent, Args), ...);
-            return;
->>>>>>> 4df05279646587a92c15e8cbfd5a3e3bd5931cb1
         }
 
         template <typename Component>
