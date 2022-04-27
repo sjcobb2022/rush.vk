@@ -17,15 +17,15 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake/modules")
 
 
-message(STATUS " :: Find Vulkan loader and Shaderc")
+message(NOTICE "Find Vulkan Loader and Shaderc")
 find_package(Vulkan REQUIRED)
 find_package(Shaderc REQUIRED)
 
 
-message(STATUS " :: Adding Vulkan Memory Allocator")
+message(NOTICE "Adding Vulkan Memory Allocator")
 add_subdirectory(libs/vma)
 
-message(STATUS " :: Adding GLFW")
+message(NOTICE "Adding GLFW")
 
 if(WIN32)
 	add_compile_definitions(_GLFW_WIN32=1)
@@ -38,16 +38,16 @@ set(GLFW_VULKAN_STATIC ON CACHE BOOL "" FORCE)
 set(GLFW_USE_WAYLAND ON CACHE BOOL "" FORCE)
 add_subdirectory(libs/glfw)
 
-message(STATUS " :: Adding spdlog")
+message(NOTICE "Adding spdlog")
 add_subdirectory(libs/spdlog)
 
-message(STATUS " :: Adding glm")
+message(NOTICE "Adding GLM")
 add_subdirectory(libs/glm)
 
-message(STATUS " :: Adding imgui")
+message(NOTICE "Adding imgui")
 add_subdirectory(libs/imgui)
 
-message(STATUS " :: Adding entt")
+message(NOTICE "Adding entt")
 add_subdirectory(libs/entt)
 
 file(GLOB_RECURSE SOURCES CONFIGURE_DEPENDS "${PROJECT_SOURCE_DIR}/src/*.hpp" "${PROJECT_SOURCE_DIR}/src/*.cpp")
@@ -59,7 +59,7 @@ target_link_libraries(${PROJECT_NAME} PUBLIC Vulkan::Vulkan)
 target_link_libraries(${PROJECT_NAME} PUBLIC shaderc)
 
 if(NOT TARGET shaderc OR NOT ENV{USE_SHADERC})
-    message(STATUS " :: Building shaders without ShaderC")
+    message(NOTICE "Building shaders without ShaderC")
 
     file(GLOB_RECURSE GLSL_SOURCE_FILES
     "${PROJECT_SOURCE_DIR}/shaders/*.frag"

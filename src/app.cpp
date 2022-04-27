@@ -53,26 +53,19 @@ namespace rush
         return window;
     }
 
+
     void App::run()
     {
 
         GLFWwindow *window = initWindow();
 
         Scene scene{};
-
-        auto en0 = scene.create();
-        auto en1 = scene.create();
-
-        spdlog::info("Created 2 entities :: {}", scene.registry().alive());
-
-        scene.emplace<c_Transform>(en0, c_Transform{});
-        scene.emplace<c_Transform>(en1, c_Transform{});
-
-        scene.each(
-            [&](entt::entity entity, c_Transform& t){
-                spdlog::info("translation x: {}", t.translation.x);
-            }
-        );
+        
+        // scene.each(
+        //     [&](entt::entity entity, c_Transform& t){
+        //         spdlog::info("translation x: {}", t.translation.x);
+        //     }
+        // );
 
         Core test{window};
 
