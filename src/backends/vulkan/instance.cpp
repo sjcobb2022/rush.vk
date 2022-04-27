@@ -1,7 +1,7 @@
-#include "vkinstance.hpp"
+#include "instance.hpp"
 
-#include "vkextensions.hpp"
-#include "vkutil.hpp"
+#include "extensions.hpp"
+#include "vk_util.hpp"
 
 #include <spdlog/spdlog.h>
 

@@ -1,7 +1,7 @@
 #include "core.hpp"
 
 #include "device.hpp"
-#include "vkinstance.hpp"
+#include "instance.hpp"
 
 // std headers
 #include <cstring>

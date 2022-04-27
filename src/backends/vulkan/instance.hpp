@@ -7,11 +7,6 @@
 
 // std
 #include <vector>
-#include <cstdlib>
-#include <iostream>
-#include <cstring>
-#include <set>
-#include <unordered_set>
 
 // forward decleration
 const char *to_string_message_severity(VkDebugUtilsMessageSeverityFlagBitsEXT s);

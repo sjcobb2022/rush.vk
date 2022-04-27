@@ -1,4 +1,4 @@
-#include "vkextensions.hpp"
+#include "extensions.hpp"
 
 namespace rush
 {
@@ -44,7 +44,6 @@ namespace rush
                 debug_utils_available = true;
             }
         }
-
 
         for (auto &layer : layers)
         {
