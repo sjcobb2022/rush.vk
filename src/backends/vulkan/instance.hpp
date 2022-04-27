@@ -9,7 +9,6 @@
 #include <vector>
 
 // forward decleration
-const char *to_string_message_severity(VkDebugUtilsMessageSeverityFlagBitsEXT s);
 const char *to_string_message_type(VkDebugUtilsMessageTypeFlagsEXT s);
 
 namespace rush
