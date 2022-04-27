@@ -167,7 +167,6 @@ namespace rush
         create_info.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
         rush::setup_pNext_chain(create_info, pNext_chain);
 
-
         create_info.flags = info.flags;
         create_info.pApplicationInfo = &app_info;
         create_info.enabledExtensionCount = static_cast<uint32_t>(extensions.size());
