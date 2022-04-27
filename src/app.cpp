@@ -63,8 +63,6 @@ namespace rush
         auto en0 = scene.create();
         auto en1 = scene.create();
 
-        spdlog::info("Created 2 entities :: {}", scene.registry().alive());
-
         scene.emplace<c_Transform>(en0, c_Transform{});
         scene.emplace<c_Transform>(en1, c_Transform{});
 
@@ -79,7 +77,6 @@ namespace rush
         while (!glfwWindowShouldClose(window))
         {
             glfwPollEvents();
-            // spdlog::info("AAAAAA");
         }
 
         glfwDestroyWindow(window);
