@@ -136,7 +136,7 @@ namespace rush
         std::deque<std::function<void()>> runtimeViewFunctors;
 
         //<-------- DO NOT TOUCH :: WILL CAUSE SEGFAULTS -------->
-        // Credits to Nikki93 for helping me with her templating fuckery
+        // Credits to Nikki93 for helping me implement this template fuckery
         // https://gist.github.com/nikki93/3cee41b34af3cefe5733d9a5fc502876#file-entity-hh-L72
 
         template <typename T>
