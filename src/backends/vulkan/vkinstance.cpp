@@ -26,7 +26,7 @@ const char *to_string_message_type(VkDebugUtilsMessageTypeFlagsEXT s)
 
 namespace rush
 {
-    
+
     
     VkResult createDebugUtilsMessengerEXT(VkInstance instance,
                                           PFN_vkDebugUtilsMessengerCallbackEXT debug_callback,
@@ -143,23 +143,23 @@ namespace rush
             layers.push_back("VK_LAYER_KHRONOS_validation");
         }
 
-        // std::vector<VkBaseOutStructure *> pNext_chain;
+        std::vector<VkBaseOutStructure *> pNext_chain;
 
-        // VkDebugUtilsMessengerCreateInfoEXT messengerCreateInfo = {};
-        // if (info.use_debug_messenger)
-        // {
-        //     messengerCreateInfo.sType = VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT;
-        //     messengerCreateInfo.pNext = nullptr;
-        //     messengerCreateInfo.messageSeverity = info.debug_message_severity;
-        //     messengerCreateInfo.messageType = info.debug_message_type;
-        //     messengerCreateInfo.pfnUserCallback = info.debug_callback;
-        //     messengerCreateInfo.pUserData = info.debug_user_data_pointer;
-        //     pNext_chain.push_back(reinterpret_cast<VkBaseOutStructure *>(&messengerCreateInfo));
-        // }
+        VkDebugUtilsMessengerCreateInfoEXT messengerCreateInfo = {};
+        if (info.use_debug_messenger)
+        {
+            messengerCreateInfo.sType = VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT;
+            messengerCreateInfo.pNext = nullptr;
+            messengerCreateInfo.messageSeverity = info.debug_message_severity;
+            messengerCreateInfo.messageType = info.debug_message_type;
+            messengerCreateInfo.pfnUserCallback = info.debug_callback;
+            messengerCreateInfo.pUserData = info.debug_user_data_pointer;
+            pNext_chain.push_back(reinterpret_cast<VkBaseOutStructure *>(&messengerCreateInfo));
+        }
 
         VkInstanceCreateInfo create_info = {};
         create_info.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
-        // rush::setup_pNext_chain(create_info, pNext_chain);
+        rush::setup_pNext_chain(create_info, pNext_chain);
 
         create_info.flags = info.flags;
         create_info.pApplicationInfo = &app_info;
