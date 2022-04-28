@@ -23,7 +23,7 @@ class has_valid_operator
     typedef char valid;
     typedef long invalid;
 
-    //checks if operator 
+    // checks if operator
     template <typename C>
     static valid check(decltype(&C::operator()));
     template <typename C>
@@ -37,7 +37,7 @@ public:
 };
 
 //
-template< typename T >
+template <typename T>
 inline constexpr bool has_valid_operator_v = has_valid_operator<T>::value;
 
 struct ignore_t
@@ -53,41 +53,45 @@ namespace rush
         Scene();
         ~Scene();
 
-        entt::registry& registry(){
+        entt::registry &registry()
+        {
             return m_Registry;
         }
 
-        entt::entity create(){
+        entt::entity create()
+        {
             return m_Registry.create();
         }
 
-        template<typename Component>
-        Component& emplace(entt::entity ent, Component Val){
+        template <typename Component>
+        Component &emplace(entt::entity ent, Component Val)
+        {
             return m_Registry.emplace<Component>(ent, Val);
         }
 
-        template<typename... Components>
-        void emplace(entt::entity ent, Components... Args){
-            (m_Registry.emplace<Components>(ent, Args), ...);
-            return;
+        template <typename... Components>
+        void emplace(entt::entity ent, Components &&...Args)
+        {
+            (m_Registry.emplace<Components>(ent, std::forward<Components>(Args)), ...);
         }
 
-        template<typename Component>
-        Component& get(entt::entity ent){
+        template <typename Component>
+        Component &get(entt::entity ent)
+        {
             return m_Registry.get<Component>(ent);
         }
 
-        void destroy(entt::entity ent){
+        void destroy(entt::entity ent)
+        {
             m_Registry.destroy(ent);
             return;
         }
 
-        template<typename iterator_t>
-        void destroy(iterator_t begin, iterator_t end){
+        template <typename iterator_t>
+        void destroy(iterator_t begin, iterator_t end)
+        {
             m_Registry.destroy(begin, end);
         }
-
-
 
         template <typename F>
         void createRuntimeViewIterator(F &&f)
@@ -117,7 +121,7 @@ namespace rush
         }
 
         template <typename Func>
-        inline void each(Func && func)
+        inline void each(Func &&func)
         {
             if constexpr (has_valid_operator_v<Func>)
             {
@@ -140,7 +144,9 @@ namespace rush
         // https://gist.github.com/nikki93/3cee41b34af3cefe5733d9a5fc502876#file-entity-hh-L72
 
         template <typename T>
-        struct Each{};
+        struct Each
+        {
+        };
 
         template <typename R, typename C>
         struct Each<R (C::*)(entt::entity ent) const>
