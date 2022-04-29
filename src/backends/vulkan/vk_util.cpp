@@ -69,35 +69,4 @@ namespace rush
         }
     }
 
-    inline VKAPI_ATTR VkBool32 VKAPI_CALL default_debug_callback(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity,
-                                                                 VkDebugUtilsMessageTypeFlagsEXT messageType,
-                                                                 const VkDebugUtilsMessengerCallbackDataEXT *pCallbackData,
-                                                                 void *)
-    {
-        const char *s_message_type = to_string_message_type(messageType);
-
-        switch (messageSeverity)
-        {
-        case VK_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT:
-            spdlog::debug(" {} :: {} ", s_message_type, pCallbackData->pMessage);
-            break;
-        case VK_DEBUG_UTILS_MESSAGE_SEVERITY_INFO_BIT_EXT:
-            spdlog::info(" {} :: {} ", s_message_type, pCallbackData->pMessage);
-            break;
-        case VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT:
-            spdlog::warn(" {} :: {} ", s_message_type, pCallbackData->pMessage);
-            break;
-        case VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT:
-            spdlog::error(" {} :: {} ", s_message_type, pCallbackData->pMessage);
-        default:
-            // only other case is VK_DEBUG_UTILS_MESSAGE_SEVERITY_FLAG_BITS_MAX_ENUM_EXT
-            spdlog::critical(" {} :: {} ", s_message_type, pCallbackData->pMessage);
-            break;
-        }
-
-        //has  to return vk false otherwise it errors.
-
-        return VK_FALSE;
-    }
-
 }

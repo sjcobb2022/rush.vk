@@ -31,7 +31,7 @@ namespace rush
 
     Core::~Core()
     {
-        rush::device::cleanup(&device);
+        // rush::device::cleanup(&device);
     };
 
 } // namespace rush

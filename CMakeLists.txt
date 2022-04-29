@@ -19,7 +19,7 @@ set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake/modules")
 
 message(NOTICE "Find Vulkan Loader and Shaderc")
 find_package(Vulkan REQUIRED)
-# find_package(Shaderc REQUIRED)
+find_package(Shaderc REQUIRED)
 
 
 message(NOTICE "Adding Vulkan Memory Allocator")
@@ -56,18 +56,28 @@ add_executable(${PROJECT_NAME} ${SOURCES})
 
 target_link_libraries(${PROJECT_NAME} PUBLIC Vulkan::Vulkan)
 
+target_link_libraries(${PROJECT_NAME} PUBLIC shaderc)
 
 if(NOT TARGET shaderc OR NOT ENV{USE_SHADERC})
     message(NOTICE "Building shaders without ShaderC")
 
+    find_program(GLSL_VALIDATOR glslangValidator HINTS 
+      ${Vulkan_GLSLANG_VALIDATOR_EXECUTABLE} 
+      /usr/bin 
+      /usr/local/bin 
+      ${VULKAN_SDK_PATH}/Bin
+      ${VULKAN_SDK_PATH}/Bin32
+      $ENV{VULKAN_SDK}/Bin/ 
+      $ENV{VULKAN_SDK}/Bin32/)
+
     file(GLOB_RECURSE GLSL_SOURCE_FILES
-    "${PROJECT_SOURCE_DIR}/shaders/*.frag"
-    "${PROJECT_SOURCE_DIR}/shaders/*.vert"
+    "${PROJECT_SOURCE_DIR}/assets/shaders/*.frag"
+    "${PROJECT_SOURCE_DIR}/assets/shaders/*.vert"
     )
 
     foreach(GLSL ${GLSL_SOURCE_FILES})
     get_filename_component(FILE_NAME ${GLSL} NAME)
-    set(SPIRV "${PROJECT_SOURCE_DIR}/shaders/${FILE_NAME}.spv")
+    set(SPIRV "${PROJECT_SOURCE_DIR}/assets/shaders/${FILE_NAME}.spv")
     add_custom_command(
         OUTPUT ${SPIRV}
         COMMAND ${GLSL_VALIDATOR} -V ${GLSL} -o ${SPIRV}
@@ -79,8 +89,6 @@ if(NOT TARGET shaderc OR NOT ENV{USE_SHADERC})
         Shaders
         DEPENDS ${SPIRV_BINARY_FILES}
     )
-else()
-target_link_libraries(${PROJECT_NAME} PUBLIC shaderc)
 endif()
 
 target_link_libraries(${PROJECT_NAME} PUBLIC spdlog::spdlog)
