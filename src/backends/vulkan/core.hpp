@@ -4,6 +4,8 @@
 
 #include <vulkan/vulkan.h>
 
+#include <GLFW/glfw3.h>
+
 // std
 #include <string>
 #include <vector>
@@ -17,6 +19,11 @@ namespace rush
     public:
         Core(GLFWwindow *window);
         ~Core();
-    
+
+    private:
+
+        void createInstanceVk(bool enableValidationLayers = true);
+        VkInstance m_Instance;
+        // rush::device::deviceInfo device;
     };
 }
