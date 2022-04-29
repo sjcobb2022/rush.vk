@@ -26,12 +26,12 @@ int main()
 {
     rush::App app{};
 
-    // spdlog::formatter();
-    spdlog::set_pattern("[%^-=%l=-%$] %v");
+//     // spdlog::formatter();
+//     spdlog::set_pattern("[%^-=%l=-%$] %v");
 
-#if _DEBUG || !NDEBUG || DEBUG
-    spdlog::set_level(spdlog::level::debug);
-#endif
+// #if _DEBUG || !NDEBUG || DEBUG
+//     spdlog::set_level(spdlog::level::debug);
+// #endif
     // create a scene.
     // something in the setup function.
     // in the setup function

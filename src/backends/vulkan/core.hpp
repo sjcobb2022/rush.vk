@@ -13,17 +13,17 @@
 namespace rush
 {
 
-    class Core
-    {
+    // class Core
+    // {
 
-    public:
-        Core(GLFWwindow *window);
-        ~Core();
+    // public:
+    //     Core(GLFWwindow *window);
+    //     ~Core();
 
-    private:
+    // private:
 
-        void createInstanceVk(bool enableValidationLayers = true);
-        VkInstance m_Instance;
-        // rush::device::deviceInfo device;
-    };
+    //     void createInstanceVk(bool enableValidationLayers = true);
+    //     // VkInstance m_Instance;
+    //     // rush::device::deviceInfo device;
+    // };
 }

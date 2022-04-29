@@ -6,8 +6,8 @@
 // #include <string>
 // #include <vector>
 
-// namespace rush
-// {
+namespace rush
+{
 
 //     namespace device
 //     {
@@ -88,6 +88,6 @@
 //                                            VkDebugUtilsMessengerEXT debugMessenger,
 //                                            const VkAllocationCallbacks *pAllocator);
         
-//         void cleanup(deviceInfo *device, bool enableValidationLayers = true);
-//     }
-// }
+    //     void cleanup(deviceInfo *device, bool enableValidationLayers = true);
+    // }
+}

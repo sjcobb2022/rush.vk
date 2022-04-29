@@ -20,18 +20,18 @@
 namespace rush
 {
 
-    Core::Core(GLFWwindow *window)
-    {
-        // device = rush::device::createDevice(window);
-        rush::InstanceBuilder builder;
-        auto instance = builder.set_app_name ("Test VK App")
-                        .request_validation_layers()
-                        .build();
-    };
+    // Core::Core(GLFWwindow *window)
+    // {
+    //     // device = rush::device::createDevice(window);
+    //     // rush::InstanceBuilder builder;
+    //     // auto instance = builder.set_app_name ("Test VK App")
+    //     //                 .request_validation_layers()
+    //     //                 .build();
+    // };
 
-    Core::~Core()
-    {
-        // rush::device::cleanup(&device);
-    };
+    // Core::~Core()
+    // {
+    //     // rush::device::cleanup();
+    // };
 
 } // namespace rush
