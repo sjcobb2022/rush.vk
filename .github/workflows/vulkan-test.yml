@@ -36,7 +36,7 @@ jobs:
             vulkan-use-cache: true
         
         - name: Setup ubuntu
-          run: sudo apt-get -qq install -y wayland-protocols libxinerama-dev xorg-dev libudev-dev libxrandr-dev libasound2-dev libjack-dev libglu1-mesa-dev libglib2.0-dev libsndfile1-dev libsamplerate0-dev libpulse-dev libibus-1.0-dev
+          run: sudo apt-get -qq install -y wayland-protocols xkbcommon libxinerama-dev xorg-dev libudev-dev libxrandr-dev libasound2-dev libjack-dev libglu1-mesa-dev libglib2.0-dev libsndfile1-dev libsamplerate0-dev libpulse-dev libibus-1.0-dev
           if: runner.os == 'Linux'
 
         - name: Compile
