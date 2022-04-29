@@ -11,7 +11,7 @@ jobs:
             # - ubuntu-20.04
             # - macos-11
           compiler:
-          # - gcc
+          - gcc
           include:
             - os: "windows-latest"
               compiler: "msvc"
