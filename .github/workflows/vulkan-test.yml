@@ -7,11 +7,12 @@ jobs:
         fail-fast: false
         matrix:
           os:
-            - windows-latest
-            # - ubuntu-20.04
+            # - windows-latest
+            - ubuntu-20.04
             # - macos-11
           compiler:
           - gcc
+          - clang
           include:
             - os: "windows-latest"
               compiler: "msvc"
@@ -37,8 +38,3 @@ jobs:
             CC: ${{ matrix.compiler }}
             CXX: ${{ matrix.compiler }}
           run: cmake -S . -B build && cmake --build build
-
-
-
-   
-      
