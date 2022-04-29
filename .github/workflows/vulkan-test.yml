@@ -40,7 +40,4 @@ jobs:
           if: runner.os == 'Linux'
 
         - name: Compile
-          env:
-            # CC: ${{ matrix.compiler }}
-            # CXX: ${{ matrix.compiler }}
           run: cmake -S . -B build && cmake --build build
