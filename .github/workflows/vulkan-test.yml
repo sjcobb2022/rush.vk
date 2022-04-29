@@ -7,8 +7,8 @@ jobs:
         fail-fast: false
         matrix:
           os:
-            - ubuntu-20.04
-            - macos-11
+            - ubuntu-latest
+            - macos-latest
           compiler:
           - gcc
           - llvm
