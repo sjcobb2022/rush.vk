@@ -24,9 +24,9 @@ namespace rush
     {
         // device = rush::device::createDevice(window);
         rush::InstanceBuilder builder;
-        auto instance = builder.set_app_name ("Example Vulkan Application")
+        auto instance = builder.set_app_name ("Test VK App")
                         .request_validation_layers()
-                        .build ();
+                        .build();
     };
 
     Core::~Core()
