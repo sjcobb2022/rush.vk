@@ -1,5 +1,5 @@
 #include "app.hpp"
-#include "backends/vulkan/core.hpp"
+// #include "backends/vulkan/core.hpp"
 #include "core/scene.hpp"
 
 #include "ECS/components/relationship.hpp"
@@ -57,7 +57,7 @@ namespace rush
     void App::run()
     {
 
-        GLFWwindow *window = initWindow();
+        // GLFWwindow *window = initWindow();
 
         // Scene scene{};
         
@@ -69,13 +69,13 @@ namespace rush
 
         // Core test{window};
 
-        while (!glfwWindowShouldClose(window))
-        {
-            glfwPollEvents();
-        }
+        // while (!glfwWindowShouldClose(window))
+        // {
+        //     glfwPollEvents();
+        // }
 
-        glfwDestroyWindow(window);
-        glfwTerminate();
+        // glfwDestroyWindow(window);
+        // glfwTerminate();
     }
 
 }
