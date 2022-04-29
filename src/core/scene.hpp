@@ -129,7 +129,7 @@ namespace rush
             }
             else
             {
-                spdlog::debug("Internal :: fails has_parenthesis");
+                // spdlog::debug("Internal :: fails has_parenthesis");
                 each(std::forward<Func>(func));
                 throw std::runtime_error("Cannot create lambda-in-lamda view, this causes a segfault");
             }
