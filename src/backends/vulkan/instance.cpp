@@ -53,7 +53,7 @@ namespace rush
 
 #if defined(VK_KHR_portability_enumeration)
         bool portability_enumeration_support =
-            rush::check_extension_supported(sys_inf.available_extensions, VK_KHR_PORTABILITY_ENUMERATION_EXTENSION_NAME);
+            rush::check_extension_supported(sys_inf.extensions, VK_KHR_PORTABILITY_ENUMERATION_EXTENSION_NAME);
         if (portability_enumeration_support)
         {
             extensions.push_back(VK_KHR_PORTABILITY_ENUMERATION_EXTENSION_NAME);
