@@ -11,12 +11,14 @@ jobs:
             # - ubuntu-20.04
             # - macos-11
           compiler:
-          - gcc
+          # - gcc
           include:
             - os: "windows-latest"
               compiler: "msvc"
       steps:
         - uses: actions/checkout@v2
+          with:
+            submodules: recursive
         - name: Setup C++ with 
           uses: aminya/setup-cpp@v1
           with:
@@ -31,6 +33,9 @@ jobs:
             vulkan-components: Vulkan-Headers, Vulkan-Loader, Glslang
             vulkan-use-cache: true
         - name: Compile
+          env:
+            CC: ${{ matrix.compiler }}
+            CXX: ${{ matrix.compiler }}
           run: cmake -S . -B build && cmake --build build
 
 
