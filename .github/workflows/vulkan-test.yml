@@ -10,7 +10,8 @@ jobs:
             - ubuntu-20.04
             - macos-11
           compiler:
-          - g++
+          - gcc
+          - llvm
           - clang
           include:
             - os: "windows-latest"
