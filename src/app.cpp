@@ -36,22 +36,22 @@ namespace rush
 
     App::~App() {}
 
-    GLFWwindow *App::initWindow()
-    {
-        glfwInit();
-        glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
-        glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
+    // GLFWwindow *App::initWindow()
+    // {
+    //     glfwInit();
+    //     glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
+    //     glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
 
-        std::string windowName = "rush.vk";
+    //     std::string windowName = "rush.vk";
 
-        GLFWwindow *window = glfwCreateWindow(App::WIDTH, App::HEIGHT,
-                                              windowName.c_str(),
-                                              nullptr, nullptr);
+    //     GLFWwindow *window = glfwCreateWindow(App::WIDTH, App::HEIGHT,
+    //                                           windowName.c_str(),
+    //                                           nullptr, nullptr);
 
-        glfwSetWindowUserPointer(window, this);
+    //     glfwSetWindowUserPointer(window, this);
 
-        return window;
-    }
+    //     return window;
+    // }
 
 
     void App::run()
