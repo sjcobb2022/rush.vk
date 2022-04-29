@@ -67,7 +67,7 @@ namespace rush
         //     }
         // );
 
-        Core test{window};
+        // Core test{window};
 
         while (!glfwWindowShouldClose(window))
         {
