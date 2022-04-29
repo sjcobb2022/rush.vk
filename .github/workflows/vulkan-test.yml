@@ -10,7 +10,7 @@ jobs:
             - ubuntu-20.04
             - macos-11
           compiler:
-          - gcc
+          - g++
           - clang
           include:
             - os: "windows-latest"
@@ -25,7 +25,6 @@ jobs:
           with:
             compiler: ${{ matrix.compiler }}
             cmake: true
-            ninja: true
             make: true
 
         - name: Prepare Vulkan SDK
