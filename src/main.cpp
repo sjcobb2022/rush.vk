@@ -12,19 +12,10 @@
 #include <iostream>
 #include <stdexcept>
 
-struct velocity
-{
-    glm::vec3 vel;
-};
-
-struct position
-{
-    glm::vec3 pos;
-};
 
 int main()
 {
-    rush::App app{};
+    // rush::App app{};
 
 //     // spdlog::formatter();
 //     spdlog::set_pattern("[%^-=%l=-%$] %v");
@@ -50,15 +41,15 @@ int main()
     // would need a way to represent relationships (like a registry.view thing)
     // registerComponents<T, T, Args...>([&](Scene sc, FrameInfo FI, T Args...){doStuff();};
 
-    try
-    {
-        app.run();
-    }
-    catch (const std::exception &e)
-    {
-        std::cerr << e.what() << '\n';
-        return EXIT_FAILURE;
-    }
+    // try
+    // {
+    //     app.run();
+    // }
+    // catch (const std::exception &e)
+    // {
+    //     std::cerr << e.what() << '\n';
+    //     return EXIT_FAILURE;
+    // }
 
     return EXIT_SUCCESS;
 }
