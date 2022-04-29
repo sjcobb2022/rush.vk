@@ -36,7 +36,7 @@ jobs:
             vulkan-use-cache: true
         
         - name: Setup ubuntu
-          run: sudo apt-get -qq install -y wayland-protocols libxinerama
+          run: sudo apt-get -qq install -y wayland-protocols libxinerama-dev
           if: runner.os == 'Linux'
 
         - name: Compile
