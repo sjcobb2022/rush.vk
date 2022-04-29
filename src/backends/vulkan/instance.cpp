@@ -66,7 +66,7 @@ namespace rush
         bool all_extensions_supported = rush::check_extensions_supported(sys_inf.extensions, extensions);
         if (!all_extensions_supported)
         {
-            spdlog::critical("Requested extension not present");
+            // spdlog::critical("Requested extension not present");
             throw std::runtime_error("Requested vulkan extension not present");
         }
 

@@ -59,7 +59,7 @@ namespace rush
 
         GLFWwindow *window = initWindow();
 
-        Scene scene{};
+        // Scene scene{};
         
         // scene.each(
         //     [&](entt::entity entity, c_Transform& t){

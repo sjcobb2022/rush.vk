@@ -5,47 +5,49 @@ namespace rush
 
     SystemInfo get_system_info()
     {
+        SystemInfo info;
+
         // GET AVAILABLE LAYERS
-        bool validation_layers_available = false;
-        bool debug_utils_available = false;
         uint32_t layerCount = 0;
 
         vkEnumerateInstanceLayerProperties(&layerCount, nullptr);
-        std::vector<VkLayerProperties> layers(layerCount);
-        if (vkEnumerateInstanceLayerProperties(&layerCount, layers.data()) != VK_SUCCESS)
+        // std::vector<VkLayerProperties> layers(layerCount);
+        info.layers.resize(layerCount);
+        if (vkEnumerateInstanceLayerProperties(&layerCount, info.layers.data()) != VK_SUCCESS)
         {
-            layers.clear();
+            info.layers.clear();
             // spdlog::critical("Failed to get any layers, aborting");
             throw std::runtime_error("Failed to get any layers, aborting");
         }
 
         // spdlog::debug("Available layers: ");
-        for (auto &layer : layers)
+        for (auto &layer : info.layers)
         {
             // spdlog::debug("\t{}", layer.layerName);
             if (strcmp(layer.layerName, "VK_LAYER_KHRONOS_validation") == 0)
             {
-                validation_layers_available = true;
+                info.validation_layers_available = true;
             }
         }
 
         // GET AVAILABLE EXTENSIONS
         uint32_t extensionCount = 0;
         vkEnumerateInstanceExtensionProperties(nullptr, &extensionCount, nullptr);
-        std::vector<VkExtensionProperties> extensions(extensionCount);
-        vkEnumerateInstanceExtensionProperties(nullptr, &extensionCount, extensions.data());
+        // std::vector<VkExtensionProperties> extensions(extensionCount);
+        info.extensions.resize(extensionCount);
+        vkEnumerateInstanceExtensionProperties(nullptr, &extensionCount, info.extensions.data());
 
         // spdlog::debug("Available extensions: ");
-        for (const auto &extension : extensions)
+        for (const auto &extension : info.extensions)
         {
             // spdlog::debug("\t{}", extension.extensionName);
             if (strcmp(extension.extensionName, VK_EXT_DEBUG_UTILS_EXTENSION_NAME) == 0)
             {
-                debug_utils_available = true;
+                info.debug_utils_available = true;
             }
         }
 
-        for (auto &layer : layers)
+        for (auto &layer : info.layers)
         {
             std::vector<VkExtensionProperties> layer_extensions;
             uint32_t layerExtensionCount = 0;
@@ -54,19 +56,21 @@ namespace rush
 
             if (vkEnumerateInstanceExtensionProperties(layer.layerName, &layerExtensionCount, layer_extensions.data()) == VK_SUCCESS)
             {
-                extensions.insert(extensions.end(), layer_extensions.begin(), layer_extensions.end()); // add trailing extensions
+                info.extensions.insert(info.extensions.end(), layer_extensions.begin(), layer_extensions.end()); // add trailing extensions
             }
 
             for (auto &ext : layer_extensions)
             {
                 if (strcmp(ext.extensionName, VK_EXT_DEBUG_UTILS_EXTENSION_NAME) == 0)
                 {
-                    debug_utils_available = true;
+                    info.debug_utils_available = true;
                 }
             }
         };
 
-        return SystemInfo{layers, extensions, validation_layers_available, debug_utils_available};
+        return info;
+
+        // return SystemInfo{layers, extensions, validation_layers_available, debug_utils_available};
     }
 
     bool check_extension_supported(

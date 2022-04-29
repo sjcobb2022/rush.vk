@@ -1,9 +1,10 @@
 #pragma once
 
 #include <GLFW/glfw3.h>
-#include <vector>
 #include <vulkan/vulkan.h>
 #include <spdlog/spdlog.h>
+
+#include <vector>
 
 namespace rush
 {
