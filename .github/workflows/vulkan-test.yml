@@ -19,6 +19,7 @@ jobs:
         - uses: actions/checkout@v2
           with:
             submodules: recursive
+
         - name: Setup C++ with 
           uses: aminya/setup-cpp@v1
           with:
@@ -26,12 +27,18 @@ jobs:
             cmake: true
             ninja: true
             make: true
+
         - name: Prepare Vulkan SDK
           uses: humbletim/setup-vulkan-sdk@v1.2.0
           with:
             vulkan-query-version: latest
             vulkan-components: Vulkan-Headers, Vulkan-Loader, Glslang
             vulkan-use-cache: true
+        
+        - name: Setup ubuntu
+          run: sudo apt-get -qq install -y wayland-protocols
+          if: runner.os == "Linux"
+
         - name: Compile
           env:
             CC: ${{ matrix.compiler }}
