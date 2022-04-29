@@ -27,10 +27,11 @@ jobs:
         - name: Prepare Vulkan SDK
           uses: humbletim/setup-vulkan-sdk@v1.2.0
           with:
+            vulkan-query-version: latest
             vulkan-components: Vulkan-Headers, Vulkan-Loader, Glslang
             vulkan-use-cache: true
         - name: Compile
-          run: cmake -S . -B build && cmake --build buil
+          run: cmake -S . -B build && cmake --build build
 
 
 
