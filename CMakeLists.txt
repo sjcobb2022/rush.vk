@@ -19,7 +19,7 @@ set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake/modules")
 
 message(NOTICE "Find Vulkan Loader and Shaderc")
 find_package(Vulkan REQUIRED)
-find_package(Shaderc REQUIRED)
+# find_package(Shaderc REQUIRED)
 
 
 message(NOTICE "Adding Vulkan Memory Allocator")
@@ -56,7 +56,6 @@ add_executable(${PROJECT_NAME} ${SOURCES})
 
 target_link_libraries(${PROJECT_NAME} PUBLIC Vulkan::Vulkan)
 
-target_link_libraries(${PROJECT_NAME} PUBLIC shaderc)
 
 if(NOT TARGET shaderc OR NOT ENV{USE_SHADERC})
     message(NOTICE "Building shaders without ShaderC")
@@ -80,6 +79,8 @@ if(NOT TARGET shaderc OR NOT ENV{USE_SHADERC})
         Shaders
         DEPENDS ${SPIRV_BINARY_FILES}
     )
+else()
+target_link_libraries(${PROJECT_NAME} PUBLIC shaderc)
 endif()
 
 target_link_libraries(${PROJECT_NAME} PUBLIC spdlog::spdlog)
