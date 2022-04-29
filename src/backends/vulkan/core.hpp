@@ -17,8 +17,6 @@ namespace rush
     public:
         Core(GLFWwindow *window);
         ~Core();
-
-    private:
-       
+    
     };
 }
