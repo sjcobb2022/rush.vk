@@ -41,7 +41,7 @@ jobs:
           shell: bash
           run: | 
             curl -o vulkan-sdk-config.json "https://vulkan.lunarg.com/sdk/config/windows/config.json"
-          if: runner.os == 'Linux'
+          if: runner.os == 'Windows'
         
         - name: Try get vulkan-sdk-config.json MAC
           shell: bash
