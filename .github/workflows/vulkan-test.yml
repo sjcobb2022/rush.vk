@@ -32,8 +32,9 @@ jobs:
             cmake: true
 
         - name: downcase REPO
-          run: |
-          echo "REPO=${GITHUB_REPOSITORY}" >>${GITHUB_ENV}
+          shell: bash
+          run: echo "REPO=${{GITHUB_REPOSITORY}}" >>${{GITHUB_ENV}}
+
         - name: use REPO
           run: echo "The value of REPO is: ${REPO}"
         
