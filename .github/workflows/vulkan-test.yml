@@ -30,16 +30,25 @@ jobs:
           with:
             compiler: ${{ matrix.compiler }}
             cmake: true
-
-        - name: downcase REPO
-          shell: bash
-          run: | 
-            echo "$RUNNER_OS"
         
-        - name: Try get vulkan-sdk-config.json
+        - name: Try get vulkan-sdk-config.json LINUX
           shell: bash
           run: | 
-            curl -o vulkan-sdk-config.json "https://vulkan.lunarg.com/sdk/config/${runner.os,,}/linux/config.json"
+            curl -o vulkan-sdk-config.json "https://vulkan.lunarg.com/sdk/config/linux/config.json"
+          if: runner.os == 'Linux'
+
+        - name: Try get vulkan-sdk-config.json WINDOWS
+          shell: bash
+          run: | 
+            curl -o vulkan-sdk-config.json "https://vulkan.lunarg.com/sdk/config/windows/config.json"
+          if: runner.os == 'Linux'
+        
+        - name: Try get vulkan-sdk-config.json MAC
+          shell: bash
+          run: | 
+            curl -o vulkan-sdk-config.json "https://vulkan.lunarg.com/sdk/config/mac/config.json"
+          if: runner.os == 'macOS'
+
 
         - name: Prepare Vulkan SDK
           uses: humbletim/setup-vulkan-sdk@v1.2.0
