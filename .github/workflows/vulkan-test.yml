@@ -30,7 +30,6 @@ jobs:
           with:
             compiler: ${{ matrix.compiler }}
             cmake: true
-            make: true
 
         - name: Prepare Vulkan SDK
           uses: humbletim/setup-vulkan-sdk@v1.2.0
