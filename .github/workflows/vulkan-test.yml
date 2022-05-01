@@ -32,8 +32,9 @@ jobs:
             cmake: true
 
         - name: downcase REPO
+          shell: bash
           run: |
-          echo "REPO=${{GITHUB_REPOSITORY,,}}" >>${{GITHUB_ENV}}
+          echo "REPO=${{GITHUB_REPOSITORY}}" >>${{GITHUB_ENV}}
         
         - name: Try get vulkan-sdk-config.json
           shell: bash
