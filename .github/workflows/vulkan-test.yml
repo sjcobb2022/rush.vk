@@ -34,19 +34,19 @@ jobs:
         - name: Try get vulkan-sdk-config.json Linux
           shell: bash
           run: | 
-            curl -o vulkan-sdk-config.json "https://vulkan.lunarg.com/sdk/config/latest/linux/config.json"
+            curl -o /home/runner/work/_actions/humbletim/setup-vulkan-sdk/v1.2.0/vulkan-sdk-config.json "https://vulkan.lunarg.com/sdk/config/latest/linux/config.json"
           if: runner.os == 'Linux'
 
         - name: Try get vulkan-sdk-config.json Windows
           shell: bash
           run: | 
-            curl -o vulkan-sdk-config.json "https://vulkan.lunarg.com/sdk/config/latest/windows/config.json"
+            curl -o /home/runner/work/_actions/humbletim/setup-vulkan-sdk/v1.2.0/vulkan-sdk-config.json "https://vulkan.lunarg.com/sdk/config/latest/windows/config.json"
           if: runner.os == 'Windows'
         
         - name: Try get vulkan-sdk-config.json macOS
           shell: bash
           run: | 
-            curl -o ./vulkan-sdk-config.json "https://vulkan.lunarg.com/sdk/config/latest/mac/config.json"
+            curl -o /home/runner/work/_actions/humbletim/setup-vulkan-sdk/v1.2.0/vulkan-sdk-config.json "https://vulkan.lunarg.com/sdk/config/latest/mac/config.json"
           if: runner.os == 'macOS'
 
 
