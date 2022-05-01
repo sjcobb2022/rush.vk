@@ -101,23 +101,6 @@ target_link_libraries(${PROJECT_NAME} PUBLIC glm)
 target_link_libraries(${PROJECT_NAME} PUBLIC VulkanMemoryAllocator)
 target_link_libraries(${PROJECT_NAME} PUBLIC EnTT::EnTT)
 
-if(APPLE)
-
-        # this throws lots of warnings
-
-        # instead find the libs beforehand so we can link them properly instead of using flags
-        message(STATUS "Finding additional apple libs")
-        find_library(COCOA_LIBRARY Cocoa)
-        find_library(IOKIT_LIBRARY IOKit)
-        find_library(COREVIDEO_LIBRARY CoreVideo)
-
-        target_link_libraries(${PROJECT_NAME} PRIVATE ${COCOA_LIBRARY})
-        target_link_libraries(${PROJECT_NAME} PRIVATE ${IOKIT_LIBRARY})
-        target_link_libraries(${PROJECT_NAME} PRIVATE ${COREVIDEO_LIBRARY})
-
-
-endif()
-
 target_include_directories(${PROJECT_NAME} PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/src")
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE $<$<CONFIG:DEBUG>:"DEBUG">)
