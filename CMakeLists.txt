@@ -57,7 +57,7 @@ add_executable(${PROJECT_NAME} ${SOURCES})
 
 target_link_libraries(${PROJECT_NAME} PUBLIC Vulkan::Vulkan)
 
-# target_link_libraries(${PROJECT_NAME} PUBLIC shaderc)
+target_link_libraries(${PROJECT_NAME} PUBLIC shaderc)
 
 if(NOT TARGET shaderc OR NOT ENV{USE_SHADERC})
     message(NOTICE "Building shaders without ShaderC")
