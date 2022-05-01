@@ -5,11 +5,11 @@
 namespace rush
 {
 
-    // Scene::Scene(){};
+    Scene::Scene(){};
 
-    // Scene::~Scene()
-    // {
-    //     m_Registry.clear();
-    // }
+    Scene::~Scene()
+    {
+        m_Registry.clear();
+    }
     
 }

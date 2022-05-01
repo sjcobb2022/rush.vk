@@ -1,5 +1,5 @@
 #include "app.hpp"
-// #include "backends/vulkan/core.hpp"
+#include "backends/vulkan/core.hpp"
 #include "core/scene.hpp"
 
 #include "ECS/components/relationship.hpp"
@@ -36,30 +36,30 @@ namespace rush
 
     App::~App() {}
 
-    // GLFWwindow *App::initWindow()
-    // {
-    //     glfwInit();
-    //     glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
-    //     glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
+    GLFWwindow *App::initWindow()
+    {
+        glfwInit();
+        glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
+        glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
 
-    //     std::string windowName = "rush.vk";
+        std::string windowName = "rush.vk";
 
-    //     GLFWwindow *window = glfwCreateWindow(App::WIDTH, App::HEIGHT,
-    //                                           windowName.c_str(),
-    //                                           nullptr, nullptr);
+        GLFWwindow *window = glfwCreateWindow(App::WIDTH, App::HEIGHT,
+                                              windowName.c_str(),
+                                              nullptr, nullptr);
 
-    //     glfwSetWindowUserPointer(window, this);
+        glfwSetWindowUserPointer(window, this);
 
-    //     return window;
-    // }
+        return window;
+    }
 
 
     void App::run()
     {
 
-        // GLFWwindow *window = initWindow();
+        GLFWwindow *window = initWindow();
 
-        // Scene scene{};
+        Scene scene{};
         
         // scene.each(
         //     [&](entt::entity entity, c_Transform& t){
@@ -67,15 +67,15 @@ namespace rush
         //     }
         // );
 
-        // Core test{window};
+        Core test{window};
 
-        // while (!glfwWindowShouldClose(window))
-        // {
-        //     glfwPollEvents();
-        // }
+        while (!glfwWindowShouldClose(window))
+        {
+            glfwPollEvents();
+        }
 
-        // glfwDestroyWindow(window);
-        // glfwTerminate();
+        glfwDestroyWindow(window);
+        glfwTerminate();
     }
 
 }

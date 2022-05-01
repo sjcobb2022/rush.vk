@@ -27,23 +27,23 @@ namespace rush
         App();
         ~App();
 
-        // App(const App &) = delete;
-        // App &operator=(const App &) = delete;
+        App(const App &) = delete;
+        App &operator=(const App &) = delete;
 
         void run();
 
         // void registerSetupIn
 
-        // void setup(std::function<void(entt::registry sceneRegistry, int placeHolderforCam)> &&setupFunction);
+        void setup(std::function<void(entt::registry sceneRegistry, int placeHolderforCam)> &&setupFunction);
 
-        // void loop(std::function<void(entt::registry sceneRegistry, int placeHolderforCam)> &&loopFunction);
+        void loop(std::function<void(entt::registry sceneRegistry, int placeHolderforCam)> &&loopFunction);
 
-        // void end(std::function<void(entt::registry sceneRegistry, int placeHolderforCam)> &&endFunction);
+        void end(std::function<void(entt::registry sceneRegistry, int placeHolderforCam)> &&endFunction);
 
     private:
-        // GLFWwindow *initWindow();
+        GLFWwindow *initWindow();
 
-        // void cleanUpWindow(GLFWwindow *window);
+        void cleanUpWindow(GLFWwindow *window);
 
         // std::vector<>;
     };

@@ -1,7 +1,7 @@
-// #include "core.hpp"
+#include "core.hpp"
 
 // #include "device.hpp"
-// #include "instance.hpp"
+#include "instance.hpp"
 
 // // std headers
 // #include <cstring>
@@ -20,18 +20,18 @@
 namespace rush
 {
 
-    // Core::Core(GLFWwindow *window)
-    // {
-    //     // device = rush::device::createDevice(window);
-    //     // rush::InstanceBuilder builder;
-    //     // auto instance = builder.set_app_name ("Test VK App")
-    //     //                 .request_validation_layers()
-    //     //                 .build();
-    // };
+    Core::Core(GLFWwindow *window)
+    {
+        // device = rush::device::createDevice(window);
+        rush::InstanceBuilder builder;
+        auto instance = builder.set_app_name ("Test VK App")
+                        .request_validation_layers()
+                        .build();
+    };
 
-    // Core::~Core()
-    // {
-    //     // rush::device::cleanup();
-    // };
+    Core::~Core()
+    {
+        // rush::device::cleanup();
+    };
 
 } // namespace rush

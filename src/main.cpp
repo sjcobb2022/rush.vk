@@ -15,14 +15,14 @@
 
 int main()
 {
-    // rush::App app{};
+    rush::App app{};
 
-//     // spdlog::formatter();
-//     spdlog::set_pattern("[%^-=%l=-%$] %v");
+    // spdlog::formatter();
+    spdlog::set_pattern("[%^-=%l=-%$] %v");
 
-// #if _DEBUG || !NDEBUG || DEBUG
-//     spdlog::set_level(spdlog::level::debug);
-// #endif
+#if _DEBUG || !NDEBUG || DEBUG
+    spdlog::set_level(spdlog::level::debug);
+#endif
     // create a scene.
     // something in the setup function.
     // in the setup function
@@ -41,15 +41,15 @@ int main()
     // would need a way to represent relationships (like a registry.view thing)
     // registerComponents<T, T, Args...>([&](Scene sc, FrameInfo FI, T Args...){doStuff();};
 
-    // try
-    // {
-    //     app.run();
-    // }
-    // catch (const std::exception &e)
-    // {
-    //     std::cerr << e.what() << '\n';
-    //     return EXIT_FAILURE;
-    // }
+    try
+    {
+        app.run();
+    }
+    catch (const std::exception &e)
+    {
+        std::cerr << e.what() << '\n';
+        return EXIT_FAILURE;
+    }
 
     return EXIT_SUCCESS;
 }
