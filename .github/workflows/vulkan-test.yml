@@ -30,11 +30,15 @@ jobs:
           with:
             compiler: ${{ matrix.compiler }}
             cmake: true
+
+        - name: Set lowercase 
+          shell: bash
+          run: echo "CURR_OS=${runner.os,,}" >> $GITHUB_ENV
         
         - name: Try get vulkan-sdk-config.json
           shell: bash
           run: | 
-          curl -o vulkan-sdk-config.json "https://vulkan.lunarg.com/sdk/config/latest/${runner.os}/config.json"
+          curl -o vulkan-sdk-config.json "https://vulkan.lunarg.com/sdk/config/latest/$(CURR_OS)/config.json"
 
         - name: Prepare Vulkan SDK
           uses: humbletim/setup-vulkan-sdk@v1.2.0
