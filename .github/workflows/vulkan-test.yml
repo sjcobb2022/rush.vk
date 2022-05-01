@@ -31,30 +31,32 @@ jobs:
             compiler: ${{ matrix.compiler }}
             cmake: true
         
-        - name: Try get vulkan-sdk-config.json Linux
-          shell: bash
-          run: | 
-            curl -o vulkan-sdk-config.json "https://vulkan.lunarg.com/sdk/config/latest/linux/config.json"
-          if: runner.os == 'Linux'
+        # - name: Try get vulkan-sdk-config.json Linux
+        #   shell: bash
+        #   run: | 
+        #     curl -o vulkan-sdk-config.json "https://vulkan.lunarg.com/sdk/config/latest/linux/config.json"
+        #   if: runner.os == 'Linux'
 
-        - name: Try get vulkan-sdk-config.json Windows
-          shell: bash
-          run: | 
-            curl -o vulkan-sdk-config.json "https://vulkan.lunarg.com/sdk/config/latest/windows/config.json"
-          if: runner.os == 'Windows'
+        # - name: Try get vulkan-sdk-config.json Windows
+        #   shell: bash
+        #   run: | 
+        #     curl -o vulkan-sdk-config.json "https://vulkan.lunarg.com/sdk/config/latest/windows/config.json"
+        #   if: runner.os == 'Windows'
         
-        - name: Try get vulkan-sdk-config.json macOS
-          shell: bash
-          run: | 
-            curl -o vulkan-sdk-config.json "https://vulkan.lunarg.com/sdk/config/latest/mac/config.json"
-          if: runner.os == 'macOS'
+        # - name: Try get vulkan-sdk-config.json macOS
+        #   shell: bash
+        #   run: | 
+        #     curl -o vulkan-sdk-config.json "https://vulkan.lunarg.com/sdk/config/latest/mac/config.json"
+        #   if: runner.os == 'macOS'
 
 
         - name: Configure Vulkan SDK using the downloaded spec
           uses: humbletim/setup-vulkan-sdk@v1.2.0
           with:
-            vulkan-config-file: vulkan-sdk-config.json
+            vulkan-query-version: latest
             vulkan-components: Vulkan-Headers, Vulkan-Loader, Glslang
+            vulkan-use-cache: true
+
         
         - name: Install GLFW dependencies Linux
           uses: RpxdYTX/install-glfw-deps@v2
