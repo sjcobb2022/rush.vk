@@ -31,14 +31,16 @@ jobs:
             compiler: ${{ matrix.compiler }}
             cmake: true
 
-        - name: Set lowercase 
-          shell: bash
-          run: echo "CURR_OS=${runner.os,,}" >> $GITHUB_ENV
+        - name: downcase REPO
+          run: |
+          echo "REPO=${GITHUB_REPOSITORY,,}" >>${GITHUB_ENV}
+        - name: use REPO
+          run: echo "The value of REPO is: ${REPO}"
         
         - name: Try get vulkan-sdk-config.json
           shell: bash
           run: | 
-          curl -o vulkan-sdk-config.json "https://vulkan.lunarg.com/sdk/config/latest/$(CURR_OS)/config.json"
+          curl -o vulkan-sdk-config.json "https://vulkan.lunarg.com/sdk/config/latest/linux/config.json"
 
         - name: Prepare Vulkan SDK
           uses: humbletim/setup-vulkan-sdk@v1.2.0
