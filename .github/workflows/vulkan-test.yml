@@ -34,7 +34,7 @@ jobs:
         - name: downcase REPO
           shell: bash
           run: | 
-            echo "${{runner.os,,}}"
+            echo "$RUNNER_OS"
         
         - name: Try get vulkan-sdk-config.json
           shell: bash
