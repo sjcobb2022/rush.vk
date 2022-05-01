@@ -51,6 +51,13 @@ add_subdirectory(libs/imgui)
 message(NOTICE "Adding entt")
 add_subdirectory(libs/entt)
 
+# message(NOTICE "Adding shaderc")
+# set(SHADERC_SKIP_INSTALL OFF CACHE BOOL "" FORCE)
+# set(SHADERC_SKIP_TESTS ON CACHE BOOL "" FORCE)
+# set(SHADERC_SKIP_COPYRIGHT_CHECK ON CACHE BOOL "" FORCE)
+# set(SHADERC_ENABLE_SHARED_CRT ON CACHE BOOL "" FORCE)
+# add_subdirectory(libs/shaderc)
+
 file(GLOB_RECURSE SOURCES CONFIGURE_DEPENDS "${PROJECT_SOURCE_DIR}/src/*.hpp" "${PROJECT_SOURCE_DIR}/src/*.cpp")
 
 add_executable(${PROJECT_NAME} ${SOURCES})
