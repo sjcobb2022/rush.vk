@@ -111,9 +111,9 @@ if(APPLE)
         find_library(IOKIT_LIBRARY IOKit)
         find_library(COREVIDEO_LIBRARY CoreVideo)
 
-        target_link_libraries(${PROJECT_NAME} ${COCOA_LIBRARY})
-        target_link_libraries(${PROJECT_NAME} ${IOKIT_LIBRARY})
-        target_link_libraries(${PROJECT_NAME} ${COREVIDEO_LIBRARY})
+        target_link_libraries(${PROJECT_NAME} PUBLIC ${COCOA_LIBRARY})
+        target_link_libraries(${PROJECT_NAME} PUBLIC ${IOKIT_LIBRARY})
+        target_link_libraries(${PROJECT_NAME} PUBLIC ${COREVIDEO_LIBRARY})
 
 
 endif()
