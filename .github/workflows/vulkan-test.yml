@@ -34,7 +34,7 @@ jobs:
         - name: Try get vulkan-sdk-config.json
           shell: bash
           run: | 
-          curl -o vulkan-sdk-config.json https://vulkan.lunarg.com/sdk/config/latest/${{runner.os,,}}/config.json
+          curl -o vulkan-sdk-config.json "https://vulkan.lunarg.com/sdk/config/latest/${runner.os,,}/config.json"
 
         - name: Prepare Vulkan SDK
           uses: humbletim/setup-vulkan-sdk@v1.2.0
