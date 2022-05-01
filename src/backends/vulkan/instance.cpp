@@ -7,7 +7,7 @@
 
 namespace rush
 {
-    building doesnt do anything :))
+    // building doesnt do anything :))
     InstanceBuilder::InstanceBuilder() {}
     
     Instance &InstanceBuilder::build() const
