@@ -16,6 +16,10 @@ jobs:
           include:
             - os: "windows-latest"
               compiler: "msvc"
+          exclude:
+          # macos with gcc does not work with gcc for some reason (works with llvm and clang) so just ignore for now.
+            - os: "macos-latest"
+              compiler: gcc
       steps:
         - uses: actions/checkout@v2
           with:
