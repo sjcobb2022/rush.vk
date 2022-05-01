@@ -40,7 +40,6 @@ jobs:
         
         - name: Setup GLFW on Linux
           uses: RpxdYTX/install-glfw-deps@v2
-          if: runner.os == 'Linux'
 
         - name: Compile
           run: cmake -S . -B build && cmake --build build
