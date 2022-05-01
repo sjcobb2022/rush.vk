@@ -11,7 +11,7 @@ if(DEFINED ENV{VULKAN_SDK})
 	else()
 		# on unix based systems
 		set(SHADERC_LIB "$ENV{VULKAN_SDK}/lib/libshaderc_combined.a")
-		set(STATUS "sdfsdf")
+		# message(STATUS "")
 	endif()
 else()	
 	message(STATUS "VulkanSDK not found looking local install")
