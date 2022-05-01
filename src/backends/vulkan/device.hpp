@@ -1,13 +1,13 @@
-#pragma once
+// #pragma once
 
 // #include <vulkan/vulkan.h>
 // #include <GLFW/glfw3.h>
 
-#include <string>
+// #include <string>
 // #include <vector>
 
-namespace rush
-{
+// namespace rush
+// {
 
 //     namespace device
 //     {
@@ -88,6 +88,6 @@ namespace rush
 //                                            VkDebugUtilsMessengerEXT debugMessenger,
 //                                            const VkAllocationCallbacks *pAllocator);
         
-    //     void cleanup(deviceInfo *device, bool enableValidationLayers = true);
-    // }
-}
+//         void cleanup(deviceInfo *device, bool enableValidationLayers = true);
+//     }
+// }
