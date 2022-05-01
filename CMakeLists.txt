@@ -85,11 +85,6 @@ if(NOT TARGET shaderc OR NOT ENV{USE_SHADERC})
         DEPENDS ${GLSL})
     list(APPEND SPIRV_BINARY_FILES ${SPIRV})
     endforeach(GLSL)
-
-    add_custom_target(
-        Shaders
-        DEPENDS ${SPIRV_BINARY_FILES}
-    )
 endif()
 
 target_link_libraries(${PROJECT_NAME} PUBLIC spdlog::spdlog)

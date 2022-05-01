@@ -39,7 +39,7 @@ jobs:
             vulkan-components: Vulkan-Headers, Vulkan-Loader
             vulkan-use-cache: true
         
-        - name: Setup ubuntu
+        - name: Setup Ubuntu
           run: sudo apt-get -qq install -y wayland-protocols libxkbcommon-dev libxinerama-dev xorg-dev libudev-dev libxrandr-dev libasound2-dev libjack-dev libglu1-mesa-dev libglib2.0-dev libsndfile1-dev libsamplerate0-dev libpulse-dev libibus-1.0-dev
           if: runner.os == 'Linux'
 
