@@ -1,9 +1,10 @@
 name: build-linux
-on: [push]
-  paths:
-    - 'src/**'
-    - 'libs/**'
-    - 'cmake/**'
+on: 
+  push:
+    paths:
+      - 'src/**'
+      - 'libs/**'
+      - 'cmake/**'
 jobs:
   build-matrix:
       runs-on: ${{ matrix.os }}
