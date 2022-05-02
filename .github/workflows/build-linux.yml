@@ -1,5 +1,5 @@
 name: build-linux
-on: 
+on:
   push:
     paths:
       - 'src/**'

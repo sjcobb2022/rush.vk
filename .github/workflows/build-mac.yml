@@ -1,5 +1,5 @@
 name: build-mac
-on: 
+on:
   push:
     paths:
       - 'src/**'
