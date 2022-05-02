@@ -49,6 +49,7 @@ add_subdirectory(libs/entt)
 
 message(NOTICE "Adding glslang")
 set(SKIP_GLSLANG_INSTALL ON CACHE BOOL "" FORCE)
+set(SKIP_GLSLANG_TESTS ON CACHE BOOL "" FORCE)
 add_subdirectory(libs/glslang)
 
 message(NOTICE "Adding spirv-headers")
@@ -79,9 +80,6 @@ add_executable(${PROJECT_NAME} ${SOURCES})
 target_link_libraries(${PROJECT_NAME} PRIVATE Vulkan::Vulkan)
 
 target_link_libraries(${PROJECT_NAME} PRIVATE shaderc)
-
-
-# target_link_libraries(${PROJECT_NAME} PUBLIC shaderc)
 
 if(NOT TARGET shaderc OR NOT ENV{USE_SHADERC})
     message(NOTICE "Building shaders without ShaderC")
