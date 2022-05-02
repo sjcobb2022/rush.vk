@@ -23,8 +23,6 @@
 
 > Remember to `git clone --recursive https://github.com/sjcobb2022/rush.vk.git`
 
-<br/>
-
 ### <a name="UnixBuild"></a> Unix Build Instructions
 
 - Install the dependencies: cmake, glm, vulkan and glfw, spdlog
