@@ -22,7 +22,7 @@ find_package(Vulkan REQUIRED)
 
 # find_package(Shaderc REQUIRED)
 
-# message(STATUS "${shaderc_SOURCE_DIR}")
+message(STATUS "spirv tools SOURCE DIR ${spirv-tools_SOURCE_DIR}")
 
 message(NOTICE "Adding Vulkan Memory Allocator")
 add_subdirectory(libs/vma)
@@ -53,13 +53,13 @@ add_subdirectory(libs/imgui)
 message(NOTICE "Adding entt")
 add_subdirectory(libs/entt)
 
-message(NOTICE "Adding shaderc")
-set(SHADERC_SKIP_INSTALL OFF CACHE BOOL "" FORCE)
-set(SHADERC_SKIP_TESTS ON CACHE BOOL "" FORCE)
-set(SHADERC_SKIP_EXAMPLES ON CACHE BOOL "" FORCE)
-set(SHADERC_SKIP_COPYRIGHT_CHECK ON CACHE BOOL "" FORCE)
-set(SHADERC_ENABLE_SHARED_CRT ON CACHE BOOL "" FORCE)
-add_subdirectory(libs/shaderc)
+# message(NOTICE "Adding shaderc")
+# set(SHADERC_SKIP_INSTALL OFF CACHE BOOL "" FORCE)
+# set(SHADERC_SKIP_TESTS ON CACHE BOOL "" FORCE)
+# set(SHADERC_SKIP_EXAMPLES ON CACHE BOOL "" FORCE)
+# set(SHADERC_SKIP_COPYRIGHT_CHECK ON CACHE BOOL "" FORCE)
+# set(SHADERC_ENABLE_SHARED_CRT ON CACHE BOOL "" FORCE)
+# add_subdirectory(libs/shaderc)
 
 file(GLOB_RECURSE SOURCES CONFIGURE_DEPENDS "${PROJECT_SOURCE_DIR}/src/*.hpp" "${PROJECT_SOURCE_DIR}/src/*.cpp")
 
@@ -67,7 +67,7 @@ add_executable(${PROJECT_NAME} ${SOURCES})
 
 target_link_libraries(${PROJECT_NAME} PUBLIC Vulkan::Vulkan)
 
-target_link_libraries(${PROJECT_NAME} PUBLIC shaderc)
+# target_link_libraries(${PROJECT_NAME} PUBLIC shaderc)
 
 if(NOT TARGET shaderc OR NOT ENV{USE_SHADERC})
     message(NOTICE "Building shaders without ShaderC")
