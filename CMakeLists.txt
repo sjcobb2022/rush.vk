@@ -16,12 +16,8 @@ project(${NAME} VERSION 0.1.0 LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake/modules")
 
-
 message(NOTICE "Find Vulkan Loader and Shaderc")
 find_package(Vulkan REQUIRED)
-find_package(spirv-tools REQUIRED)
-
-message(STATUS "spirv tools SOURCE DIR ${spirv-tools_SOURCE_DIR}")
 
 message(NOTICE "Adding Vulkan Memory Allocator")
 add_subdirectory(libs/vma)
@@ -52,19 +48,37 @@ add_subdirectory(libs/imgui)
 message(NOTICE "Adding entt")
 add_subdirectory(libs/entt)
 
+set(SKIP_GLSLANG_INSTALL ON CACHE BOOL "" FORCE)
+add_subdirectory(libs/glslang)
+
+set(SPIRV_HEADERS_SKIP_EXAMPLES ON CACHE BOOL "" FORCE)
+set(SPIRV_HEADERS_SKIP_INSTALL ON CACHE BOOL "" FORCE)
+add_subdirectory(libs/spirv-headers)
+
+set(SKIP_SPIRV_TOOLS_INSTALL ON CACHE BOOL "" FORCE)
+set(SPIRV_SKIP_TESTS ON CACHE BOOL "" FORCE)
+set(SPIRV_SKIP_EXECUTABLES ON CACHE BOOL "" FORCE)
+set(SPIRV_SKIP_TESTS ON CACHE BOOL "" FORCE)
+add_subdirectory(libs/spirv-tools)
+
 # message(NOTICE "Adding shaderc")
-# set(SHADERC_SKIP_INSTALL OFF CACHE BOOL "" FORCE)
-# set(SHADERC_SKIP_TESTS ON CACHE BOOL "" FORCE)
-# set(SHADERC_SKIP_EXAMPLES ON CACHE BOOL "" FORCE)
-# set(SHADERC_SKIP_COPYRIGHT_CHECK ON CACHE BOOL "" FORCE)
-# set(SHADERC_ENABLE_SHARED_CRT ON CACHE BOOL "" FORCE)
-# add_subdirectory(libs/shaderc)
+set(SHADERC_SKIP_INSTALL OFF CACHE BOOL "" FORCE)
+set(SHADERC_SKIP_TESTS ON CACHE BOOL "" FORCE)
+set(SHADERC_SKIP_EXAMPLES ON CACHE BOOL "" FORCE)
+set(SHADERC_SKIP_COPYRIGHT_CHECK ON CACHE BOOL "" FORCE)
+set(SHADERC_ENABLE_SHARED_CRT ON CACHE BOOL "" FORCE)
+add_subdirectory(libs/shaderc)
+
+
 
 file(GLOB_RECURSE SOURCES CONFIGURE_DEPENDS "${PROJECT_SOURCE_DIR}/src/*.hpp" "${PROJECT_SOURCE_DIR}/src/*.cpp")
 
 add_executable(${PROJECT_NAME} ${SOURCES})
 
-target_link_libraries(${PROJECT_NAME} PUBLIC Vulkan::Vulkan)
+target_link_libraries(${PROJECT_NAME} PRIVATE Vulkan::Vulkan)
+
+target_link_libraries(${PROJECT_NAME} PRIVATE shaderc)
+
 
 # target_link_libraries(${PROJECT_NAME} PUBLIC shaderc)
 

@@ -19,6 +19,15 @@
 [submodule "libs/imgui"]
 	path = libs/imgui
 	url = https://github.com/sjcobb2022/imgui.git
+[submodule "libs/glslang"]
+	path = libs/glslang
+	url = https://github.com/KhronosGroup/glslang.git
+[submodule "libs/spirv-tools"]
+	path = libs/spirv-tools
+	url = https://github.com/KhronosGroup/SPIRV-Tools.git
+[submodule "libs/spirv-headers"]
+	path = libs/spirv-headers
+	url = https://github.com/KhronosGroup/SPIRV-Headers.git
 [submodule "libs/shaderc"]
 	path = libs/shaderc
 	url = https://github.com/google/shaderc.git
