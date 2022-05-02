@@ -19,6 +19,3 @@
 [submodule "libs/imgui"]
 	path = libs/imgui
 	url = https://github.com/sjcobb2022/imgui.git
-[submodule "shaderc"]
-	path = shaderc
-	url = ./libs/shaderc
