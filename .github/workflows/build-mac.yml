@@ -1,5 +1,9 @@
-name: build-project
+name: build-mac
 on: [push]
+  paths:
+    - 'src/**'
+    - 'libs/**'
+    - 'cmake/**'
 jobs:
   build-matrix:
       runs-on: ${{ matrix.os }}

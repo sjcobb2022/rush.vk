@@ -4,7 +4,7 @@
 
 ![Windows](https://github.com/sjcobb2022/rush.vk/workflows/build-windows/badge.svg?branch=master&event=push)
 ![Linux](https://github.com/sjcobb2022/rush.vk/workflows/build-linux/badge.svg?branch=master&event=push)
-![MAC](https://github.com/sjcobb2022/rush.vk/workflows/build-mac/badge.svg?branch=master&event=push)
+![Mac](https://github.com/sjcobb2022/rush.vk/workflows/build-mac/badge.svg?branch=master&event=push)
 
 ## Table of Contents
 - [Build](#Building)
