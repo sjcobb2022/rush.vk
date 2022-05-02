@@ -21,9 +21,12 @@ jobs:
             - os: "macos-latest"
               compiler: gcc
       steps:
-        - uses: actions/checkout@v3
+        - name: Get submodules
+          uses: actions/checkout@v3
           with:
             submodules: recursive
+      
+        # - name: Cache libraries
 
         - name: Setup C++ with ${{ matrix.compiler }}
           uses: aminya/setup-cpp@v1
@@ -50,14 +53,3 @@ jobs:
             cmakeListsTxtPath: '${{ github.workspace }}/CMakeLists.txt'
             configurePreset: 'ninja'
             buildPreset: 'ninja'
-        
-        # - name: Configure Cmake
-        #   uses: actions/cache@v3
-        #   with:
-        #     path: ./build
-        #     key: ${{runner.os}}-cmake-cache-${{ hashFiles('**/package-lock.json') }}
-        #     restore-keys: |
-        #       ${{ runner.os }}-cmake-cache-
-
-        # - name: Compile
-        #   run: cmake -S . -B build && cmake --build build
