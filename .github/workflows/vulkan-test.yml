@@ -31,36 +31,12 @@ jobs:
             compiler: ${{ matrix.compiler }}
             cmake: true
         
-        # - name: Try get vulkan-sdk-config.json Linux
-        #   shell: bash
-        #   run: | 
-        #     curl -o vulkan-sdk-config.json "https://vulkan.lunarg.com/sdk/config/latest/linux/config.json"
-        #   if: runner.os == 'Linux'
-
-        # - name: Try get vulkan-sdk-config.json Windows
-        #   shell: bash
-        #   run: | 
-        #     curl -o vulkan-sdk-config.json "https://vulkan.lunarg.com/sdk/config/latest/windows/config.json"
-        #   if: runner.os == 'Windows'
-        
-        # - name: Try get vulkan-sdk-config.json macOS
-        #   shell: bash
-        #   run: | 
-        #     curl -o vulkan-sdk-config.json "https://vulkan.lunarg.com/sdk/config/latest/mac/config.json"
-        #   if: runner.os == 'macOS'
-
         - name: Configure Vulkan SDK
           uses: humbletim/setup-vulkan-sdk@v1.2.0
           with:
             vulkan-query-version: latest
-            vulkan-components: Vulkan-Headers, Vulkan-Loader, Glslang, SPIRV-Tools, SPIRV-Headers
+            vulkan-components: Vulkan-Headers, Vulkan-Loader
             vulkan-use-cache: true
-
-        # - name: Setup Shaderc
-        #   shell: bash
-        #   run: |
-        #     python3 libs/shaderc/utils/git-sync-deps
-
         
         - name: Install GLFW dependencies Linux
           uses: RpxdYTX/install-glfw-deps@v2
