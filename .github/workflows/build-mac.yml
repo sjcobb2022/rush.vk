@@ -1,0 +1,47 @@
+name: build-project
+on: [push]
+jobs:
+  build-matrix:
+      runs-on: ${{ matrix.os }}
+      strategy:
+        fail-fast: false
+        matrix:
+          os:
+            - macos-latest
+          compiler:
+          - gcc
+          - llvm
+          - clang
+          exclude:
+          # macos with gcc does not work with gcc for some reason (works with llvm and clang) so just ignore for now.
+            - os: "macos-latest"
+              compiler: gcc
+      steps:
+        - name: Get submodules
+          uses: actions/checkout@v3
+          with:
+            submodules: recursive
+      
+        # - name: Cache libraries
+
+        - name: Setup C++ with ${{ matrix.compiler }}
+          uses: aminya/setup-cpp@v1
+          with:
+            compiler: ${{ matrix.compiler }}
+
+        - name: Get cmake and ninja
+          uses: lukka/get-cmake@latest
+        
+        - name: Configure Vulkan SDK
+          uses: humbletim/setup-vulkan-sdk@v1.2.0
+          with:
+            vulkan-query-version: latest
+            vulkan-components: Vulkan-Headers, Vulkan-Loader
+            vulkan-use-cache: true
+
+        - name: Run CMake + Ninja
+          uses: lukka/run-cmake@v10
+          with:
+            cmakeListsTxtPath: '${{ github.workspace }}/CMakeLists.txt'
+            configurePreset: 'ninja'
+            buildPreset: 'ninja'
