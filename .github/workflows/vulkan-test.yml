@@ -45,6 +45,7 @@ jobs:
           if: runner.os == 'Linux'
 
         - name: Run CMake consuming CMakePresets.json
+          uses: lukka/run-cmake@v10
           cmakeListsTxtPath: '${{ github.workspace }}/CMakeLists.txt'
           configurePreset: 'ninja'
           buildPreset: 'ninja'
