@@ -4,15 +4,7 @@
 
 <br/>
 
-<style>
-
-#inline li{
-    display: inline;
-}
-
-</style>
-
-<ul id='inline'>
+<ul style='display: inline'>
   <li>
 
  [![windows](https://github.com/sjcobb2022/rush.vk/actions/workflows/build-windows.yml/badge.svg)](https://github.com/sjcobb2022/rush.vk/actions/workflows/build-windows.yml)
