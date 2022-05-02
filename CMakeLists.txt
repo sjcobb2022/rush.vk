@@ -47,11 +47,7 @@ add_subdirectory(libs/imgui)
 message(NOTICE "Adding entt")
 add_subdirectory(libs/entt)
 
-message(NOTICE "Adding glslang")
-set(SKIP_GLSLANG_INSTALL ON CACHE BOOL "" FORCE)
-set(SKIP_GLSLANG_TESTS ON CACHE BOOL "" FORCE)
-
-add_subdirectory(libs/glslang)
+# set(CMAKE_BUILD_TYPE "Release")
 
 message(NOTICE "Adding spirv-headers")
 set(SPIRV_HEADERS_SKIP_EXAMPLES ON CACHE BOOL "" FORCE)
@@ -64,6 +60,11 @@ set(SPIRV_SKIP_TESTS ON CACHE BOOL "" FORCE)
 set(SPIRV_SKIP_EXECUTABLES ON CACHE BOOL "" FORCE)
 set(SPIRV_SKIP_TESTS ON CACHE BOOL "" FORCE)
 add_subdirectory(libs/spirv-tools)
+
+message(NOTICE "Adding glslang")
+set(SKIP_GLSLANG_INSTALL ON CACHE BOOL "" FORCE)
+set(SKIP_GLSLANG_TESTS ON CACHE BOOL "" FORCE)
+add_subdirectory(libs/glslang)
 
 message(NOTICE "Adding shaderc")
 set(SHADERC_SKIP_INSTALL OFF CACHE BOOL "" FORCE)
