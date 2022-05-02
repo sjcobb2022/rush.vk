@@ -50,6 +50,8 @@ add_subdirectory(libs/entt)
 message(NOTICE "Adding glslang")
 set(SKIP_GLSLANG_INSTALL ON CACHE BOOL "" FORCE)
 set(SKIP_GLSLANG_TESTS ON CACHE BOOL "" FORCE)
+set(ENABLE_CTEST OFF CACHE BOOL "" FORCE)
+set(BUILD_SHARED_LIBS OFF CACHE BOOL "" FORCE)
 add_subdirectory(libs/glslang)
 
 message(NOTICE "Adding spirv-headers")
