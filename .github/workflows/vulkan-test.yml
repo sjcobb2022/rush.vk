@@ -44,11 +44,12 @@ jobs:
           uses: RpxdYTX/install-glfw-deps@v2
           if: runner.os == 'Linux'
 
-        - name: Run CMake consuming CMakePresets.json
+        - name: Run CMake + Ninja
           uses: lukka/run-cmake@v10
-          cmakeListsTxtPath: '${{ github.workspace }}/CMakeLists.txt'
-          configurePreset: 'ninja'
-          buildPreset: 'ninja'
+          with:
+            cmakeListsTxtPath: '${{ github.workspace }}CMakeLists.txt'
+            configurePreset: 'ninja'
+            buildPreset: 'ninja'
         
         # - name: Configure Cmake
         #   uses: actions/cache@v3
