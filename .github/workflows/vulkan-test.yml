@@ -56,10 +56,10 @@ jobs:
             vulkan-components: Vulkan-Headers, Vulkan-Loader, Glslang, SPIRV-Tools, SPIRV-Headers
             vulkan-use-cache: true
 
-        - name: Setup Shaderc
-          shell: bash
-          run: |
-            python3 libs/shaderc/utils/git-sync-deps
+        # - name: Setup Shaderc
+        #   shell: bash
+        #   run: |
+        #     python3 libs/shaderc/utils/git-sync-deps
 
         
         - name: Install GLFW dependencies Linux
