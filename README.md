@@ -6,7 +6,6 @@
 ![Linux](https://github.com/sjcobb2022/rush.vk/workflows/build-linux/badge.svg?branch=master&event=push)
 ![MAC](https://github.com/sjcobb2022/rush.vk/workflows/build-mac/badge.svg?branch=master&event=push)
 
-
 ## Table of Contents
 - [Build](#Building)
   - [Building for Unix](#UnixBuild)
