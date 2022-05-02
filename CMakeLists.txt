@@ -19,8 +19,7 @@ set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake/modules")
 
 message(NOTICE "Find Vulkan Loader and Shaderc")
 find_package(Vulkan REQUIRED)
-
-# find_package(Shaderc REQUIRED)
+find_package(spirv-tools REQUIRED)
 
 message(STATUS "spirv tools SOURCE DIR ${spirv-tools_SOURCE_DIR}")
 
