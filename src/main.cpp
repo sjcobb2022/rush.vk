@@ -13,7 +13,6 @@
 #include <stdexcept>
 
 #include "shaderc/shaderc.hpp"
-#include "spirv-tools/libspirv.h"
 
 int main()
 {

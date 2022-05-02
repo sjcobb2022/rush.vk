@@ -50,6 +50,7 @@ add_subdirectory(libs/entt)
 message(NOTICE "Adding glslang")
 set(SKIP_GLSLANG_INSTALL ON CACHE BOOL "" FORCE)
 set(SKIP_GLSLANG_TESTS ON CACHE BOOL "" FORCE)
+
 add_subdirectory(libs/glslang)
 
 message(NOTICE "Adding spirv-headers")
@@ -78,6 +79,8 @@ file(GLOB_RECURSE SOURCES CONFIGURE_DEPENDS "${PROJECT_SOURCE_DIR}/src/*.hpp" "$
 add_executable(${PROJECT_NAME} ${SOURCES})
 
 target_link_libraries(${PROJECT_NAME} PRIVATE Vulkan::Vulkan)
+
+target_link_libraries(${PROJECT_NAME} PRIVATE SPIRV-Tools)
 
 target_link_libraries(${PROJECT_NAME} PRIVATE shaderc)
 
