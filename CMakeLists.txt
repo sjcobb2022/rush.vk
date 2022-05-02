@@ -81,6 +81,8 @@ add_executable(${PROJECT_NAME} ${SOURCES})
 
 target_link_libraries(${PROJECT_NAME} PRIVATE Vulkan::Vulkan)
 
+target_link_libraries(${PROJECT_NAME} PRIVATE spirv-tools)
+
 target_link_libraries(${PROJECT_NAME} PRIVATE shaderc)
 
 if(NOT TARGET shaderc OR NOT ENV{USE_SHADERC})
