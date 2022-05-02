@@ -14,7 +14,6 @@
 
 #include "shaderc/shaderc.hpp"
 
-
 int main()
 {
     rush::App app{};
