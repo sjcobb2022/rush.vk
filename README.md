@@ -2,9 +2,11 @@
 
 > REMEMBER TO `git clone --recursive https://github.com/sjcobb2022/rush.vk.git`
 
-![Windows](https://github.com/sjcobb2022/rush.vk/workflows/build-windows/badge.svg?branch=master&event=push)
-![Linux](https://github.com/sjcobb2022/rush.vk/workflows/build-linux/badge.svg?branch=master&event=push)
-![Mac](https://github.com/sjcobb2022/rush.vk/workflows/build-mac/badge.svg?branch=master&event=push)
+![![windows](https://github.com/sjcobb2022/rush.vk/actions/workflows/build-windows.yml/badge.svg?event=push)](https://github.com/sjcobb2022/rush.vk/actions/workflows/build-windows.yml)
+
+![![linux](https://github.com/sjcobb2022/rush.vk/actions/workflows/build-linux.yml/badge.svg?event=push)](https://github.com/sjcobb2022/rush.vk/actions/workflows/build-linux.yml)
+
+![![macOS](https://github.com/sjcobb2022/rush.vk/actions/workflows/build-mac.yml/badge.svg?event=push)](https://github.com/sjcobb2022/rush.vk/actions/workflows/build-mac.yml)
 
 ## Table of Contents
 - [Build](#Building)
