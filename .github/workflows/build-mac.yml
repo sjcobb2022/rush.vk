@@ -5,6 +5,7 @@ on:
       - 'src/**'
       - 'libs/**'
       - 'cmake/**'
+      - '.github/workflows/**'
 jobs:
   build-matrix:
       runs-on: ${{ matrix.os }}
