@@ -12,6 +12,8 @@
 #include <iostream>
 #include <stdexcept>
 
+#include "shaderc/shaderc.hpp"
+
 
 int main()
 {
