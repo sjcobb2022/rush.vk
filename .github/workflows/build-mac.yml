@@ -20,10 +20,10 @@ jobs:
           - gcc
           - llvm
           - clang
-          exclude:
+          # exclude:
           # macos with gcc does not work with gcc for some reason (works with llvm and clang) so just ignore for now.
-            - os: "macos-latest"
-              compiler: gcc
+            # - os: "macos-latest"
+            #   compiler: gcc
       steps:
         - name: Get submodules
           uses: actions/checkout@v3
