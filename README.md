@@ -2,11 +2,6 @@
 
 <br/>
 
-> Remeber to `git clone --recursive https://github.com/sjcobb2022/rush.vk.git`
-
-<br/>
-
-
 [![windows](https://github.com/sjcobb2022/rush.vk/actions/workflows/build-windows.yml/badge.svg)](https://github.com/sjcobb2022/rush.vk/actions/workflows/build-windows.yml)
 [![linux](https://github.com/sjcobb2022/rush.vk/actions/workflows/build-linux.yml/badge.svg)](https://github.com/sjcobb2022/rush.vk/actions/workflows/build-linux.yml)
 [![mac](https://github.com/sjcobb2022/rush.vk/actions/workflows/build-mac.yml/badge.svg)](https://github.com/sjcobb2022/rush.vk/actions/workflows/build-mac.yml)
@@ -23,6 +18,12 @@
     - [People and Groups](#PeopleAndGroups)
 
 ## <a name="Building"></a> Building
+
+<br/>
+
+> Remember to `git clone --recursive https://github.com/sjcobb2022/rush.vk.git`
+
+<br/>
 
 ### <a name="UnixBuild"></a> Unix Build Instructions
 
