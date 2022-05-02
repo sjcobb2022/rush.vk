@@ -4,18 +4,26 @@
 
 <br/>
 
-<ul>
-  <li style='display: inline'>
+<style>
+
+#inline li{
+    display: inline;
+}
+
+</style>
+
+<ul id='inline'>
+  <li>
 
  [![windows](https://github.com/sjcobb2022/rush.vk/actions/workflows/build-windows.yml/badge.svg)](https://github.com/sjcobb2022/rush.vk/actions/workflows/build-windows.yml)
 
   </li>
-  <li style='display: inline'>
+  <li>
   
 [![linux](https://github.com/sjcobb2022/rush.vk/actions/workflows/build-linux.yml/badge.svg)](https://github.com/sjcobb2022/rush.vk/actions/workflows/build-linux.yml)
 
   </li>
-  <li style='display: inline'>
+  <li>
   
   [![mac](https://github.com/sjcobb2022/rush.vk/actions/workflows/build-mac.yml/badge.svg)](https://github.com/sjcobb2022/rush.vk/actions/workflows/build-mac.yml)
 
