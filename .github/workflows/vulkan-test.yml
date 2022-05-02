@@ -49,6 +49,11 @@ jobs:
         #     curl -o vulkan-sdk-config.json "https://vulkan.lunarg.com/sdk/config/latest/mac/config.json"
         #   if: runner.os == 'macOS'
 
+        - name: setup shaderc
+          shell: bash
+          run: |
+            python3 libs/shaderc/utils/git-sync-deps
+
 
         - name: Configure Vulkan SDK using the downloaded spec
           uses: humbletim/setup-vulkan-sdk@v1.2.0
