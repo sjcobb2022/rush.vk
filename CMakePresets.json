@@ -11,7 +11,10 @@
               "displayName": "Ninja Configure Settings",
               "description": "Sets build and install directories",
               "binaryDir": "${sourceDir}/builds/${presetName}",
-              "generator": "Ninja"
+              "generator": "Ninja",
+              "warnings": {
+                  "dev":false
+                }
             }
         ],
         "buildPresets": [

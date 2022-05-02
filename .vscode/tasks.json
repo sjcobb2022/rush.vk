@@ -6,7 +6,7 @@
         {
             "label": "build",
             "type": "shell",
-            "command": "cmake -S . -B build && cmake --build build && cmake --build build --target Shaders",
+            "command": "cmake -S . -B build -Wno-dev && cmake --build build && cmake --build build --target Shaders",
             "problemMatcher": [],
             "group": {
                 "kind": "build",
