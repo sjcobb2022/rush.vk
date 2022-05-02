@@ -1,6 +1,8 @@
-# Rush.vk
+# rush.vk
 
-> REMEMBER TO `git clone --recursive https://github.com/sjcobb2022/rush.vk.git`
+<br/>
+
+> Remeber to `git clone --recursive https://github.com/sjcobb2022/rush.vk.git`
 
 <br/>
 
