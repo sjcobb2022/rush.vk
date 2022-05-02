@@ -19,8 +19,10 @@ set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake/modules")
 
 message(NOTICE "Find Vulkan Loader and Shaderc")
 find_package(Vulkan REQUIRED)
+
 find_package(Shaderc REQUIRED)
 
+# message(STATUS "${shaderc_SOURCE_DIR}")
 
 message(NOTICE "Adding Vulkan Memory Allocator")
 add_subdirectory(libs/vma)
@@ -64,7 +66,7 @@ add_executable(${PROJECT_NAME} ${SOURCES})
 
 target_link_libraries(${PROJECT_NAME} PUBLIC Vulkan::Vulkan)
 
-# target_link_libraries(${PROJECT_NAME} PUBLIC shaderc)
+target_link_libraries(${PROJECT_NAME} PUBLIC shaderc)
 
 if(NOT TARGET shaderc OR NOT ENV{USE_SHADERC})
     message(NOTICE "Building shaders without ShaderC")
