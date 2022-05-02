@@ -15,7 +15,7 @@ jobs:
         fail-fast: false
         matrix:
           os:
-            - macos-latest
+            - macos-11
           compiler:
           - gcc
           - llvm
