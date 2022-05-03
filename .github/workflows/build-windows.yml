@@ -33,7 +33,7 @@ jobs:
           uses: lukka/get-cmake@latest
         
         - name: Configure Vulkan SDK
-          uses: humbletim/setup-vulkan-sdk@v1.2.0
+          uses: ./.github/setup-vulkan-sdk
           with:
             vulkan-query-version: latest
             vulkan-components: Vulkan-Headers, Vulkan-Loader

@@ -31,3 +31,6 @@
 [submodule "libs/shaderc"]
 	path = libs/shaderc
 	url = https://github.com/google/shaderc.git
+[submodule ".github/setup-vulkan-sdk"]
+	path = .github/setup-vulkan-sdk
+	url = https://github.com/humbletim/setup-vulkan-sdk.git
