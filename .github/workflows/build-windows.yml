@@ -36,7 +36,7 @@ jobs:
           uses: ./.github/setup-vulkan-sdk
           with:
             vulkan-query-version: latest
-            vulkan-components: Vulkan-Headers, Vulkan-Loader, SPIRV-Tools, Glslang
+            vulkan-components: Vulkan-Headers, Vulkan-Loader, SPIRV-Tools, Glslang, Vulkan-ValidationLayers
             vulkan-use-cache: true
         
         - name: Run CMake + Ninja
