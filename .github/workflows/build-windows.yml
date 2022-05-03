@@ -36,7 +36,7 @@ jobs:
           uses: ./.github/setup-vulkan-sdk
           with:
             vulkan-query-version: latest
-            vulkan-components: Vulkan-Headers, Vulkan-Loader
+            vulkan-components: Vulkan-Headers, Vulkan-Loader, shaderc
             vulkan-use-cache: true
         
         - name: Run CMake + Ninja
