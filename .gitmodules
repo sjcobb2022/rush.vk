@@ -33,4 +33,4 @@
 	url = https://github.com/google/shaderc.git
 [submodule ".github/setup-vulkan-sdk"]
 	path = .github/setup-vulkan-sdk
-	url = https://github.com/humbletim/setup-vulkan-sdk.git
+	url = https://github.com/sjcobb2022/setup-vulkan-sdk.git
