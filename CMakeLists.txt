@@ -10,6 +10,7 @@ message(STATUS "Local .env.cmake: ${LOCAL_ENV}")
 
 cmake_minimum_required(VERSION 3.16.0)
 set(NAME rush_vk)
+
 project(${NAME} VERSION 0.1.0 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 17)
@@ -49,41 +50,42 @@ add_subdirectory(libs/entt)
 
 # set(CMAKE_BUILD_TYPE "Release")
 
-message(NOTICE "Adding spirv-headers")
-set(SPIRV_HEADERS_SKIP_EXAMPLES ON CACHE BOOL "" FORCE)
-set(SPIRV_HEADERS_SKIP_INSTALL ON CACHE BOOL "" FORCE)
-add_subdirectory(libs/spirv-headers)
+# message(NOTICE "Adding spirv-headers")
+# set(SPIRV_HEADERS_SKIP_EXAMPLES ON CACHE BOOL "" FORCE)
+# set(SPIRV_HEADERS_SKIP_INSTALL ON CACHE BOOL "" FORCE)
+# add_subdirectory(libs/spirv-headers)
 
-message(NOTICE "Adding spirv-tools")
-set(SKIP_SPIRV_TOOLS_INSTALL ON CACHE BOOL "" FORCE)
-set(SPIRV_SKIP_TESTS ON CACHE BOOL "" FORCE)
-set(SPIRV_SKIP_EXECUTABLES ON CACHE BOOL "" FORCE)
-set(SPIRV_SKIP_TESTS ON CACHE BOOL "" FORCE)
-add_subdirectory(libs/spirv-tools)
+find_package(shaderc REQUIRED)
 
-message(NOTICE "Adding glslang")
-set(SKIP_GLSLANG_INSTALL ON CACHE BOOL "" FORCE)
-set(SKIP_GLSLANG_TESTS ON CACHE BOOL "" FORCE)
-add_subdirectory(libs/glslang)
+# message(NOTICE "Adding spirv-tools")
+# set(SKIP_SPIRV_TOOLS_INSTALL ON CACHE BOOL "" FORCE)
+# set(SPIRV_SKIP_TESTS ON CACHE BOOL "" FORCE)
+# set(SPIRV_SKIP_EXECUTABLES ON CACHE BOOL "" FORCE)
+# set(SPIRV_SKIP_TESTS ON CACHE BOOL "" FORCE)
+# add_subdirectory(libs/spirv-tools)
 
-message(NOTICE "Adding shaderc")
-set(SHADERC_SKIP_INSTALL OFF CACHE BOOL "" FORCE)
-set(SHADERC_SKIP_TESTS ON CACHE BOOL "" FORCE)
-set(SHADERC_SKIP_EXAMPLES ON CACHE BOOL "" FORCE)
-set(SHADERC_SKIP_COPYRIGHT_CHECK ON CACHE BOOL "" FORCE)
-set(SHADERC_ENABLE_SHARED_CRT ON CACHE BOOL "" FORCE)
-add_subdirectory(libs/shaderc)
+# message(NOTICE "Adding glslang")
+# set(SKIP_GLSLANG_INSTALL ON CACHE BOOL "" FORCE)
+# set(SKIP_GLSLANG_TESTS ON CACHE BOOL "" FORCE)
+# add_subdirectory(libs/glslang)
 
+# message(NOTICE "Adding shaderc")
+# set(SHADERC_SKIP_INSTALL OFF CACHE BOOL "" FORCE)
+# set(SHADERC_SKIP_TESTS ON CACHE BOOL "" FORCE)
+# set(SHADERC_SKIP_EXAMPLES ON CACHE BOOL "" FORCE)
+# set(SHADERC_SKIP_COPYRIGHT_CHECK ON CACHE BOOL "" FORCE)
+# set(SHADERC_ENABLE_SHARED_CRT ON CACHE BOOL "" FORCE)
+# add_subdirectory(libs/shaderc)
 
 file(GLOB_RECURSE SOURCES CONFIGURE_DEPENDS "${PROJECT_SOURCE_DIR}/src/*.hpp" "${PROJECT_SOURCE_DIR}/src/*.cpp")
 
 add_executable(${PROJECT_NAME} ${SOURCES})
 
-target_link_libraries(${PROJECT_NAME} PRIVATE Vulkan::Vulkan)
+target_link_libraries(${PROJECT_NAME} PRIVATE Vulkan::Vulkan shaderc)
 
-target_link_libraries(${PROJECT_NAME} PRIVATE SPIRV-Tools)
+# target_link_libraries(${PROJECT_NAME} PRIVATE SPIRV-Tools)
 
-target_link_libraries(${PROJECT_NAME} PRIVATE shaderc)
+# target_link_libraries(${PROJECT_NAME} PRIVATE shaderc)
 
 if(NOT TARGET shaderc OR NOT ENV{USE_SHADERC})
     message(NOTICE "Building shaders without ShaderC")
