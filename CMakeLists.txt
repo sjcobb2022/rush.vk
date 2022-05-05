@@ -57,7 +57,14 @@ add_subdirectory(libs/entt)
 # set(SPIRV_HEADERS_SKIP_INSTALL ON CACHE BOOL "" FORCE)
 # add_subdirectory(libs/spirv-headers)
 
-find_package(Shaderc)
+# find_package(Shaderc)
+
+find_library(
+  shaderc 
+  NAMES Shaderc shaderc
+  PATHS ${VULKAN_SDK}
+  )
+
 
 # message(NOTICE "Adding spirv-tools")
 # set(SKIP_SPIRV_TOOLS_INSTALL ON CACHE BOOL "" FORCE)
