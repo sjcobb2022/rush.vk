@@ -16,6 +16,8 @@ project(${NAME} VERSION 0.1.0 LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake/modules")
 
+set(CMAKE_BUILD_TYPE Release)
+
 message(NOTICE "Find Vulkan Loader and Shaderc")
 find_package(Vulkan REQUIRED)
 
@@ -55,7 +57,7 @@ add_subdirectory(libs/entt)
 # set(SPIRV_HEADERS_SKIP_INSTALL ON CACHE BOOL "" FORCE)
 # add_subdirectory(libs/spirv-headers)
 
-find_package(shaderc REQUIRED)
+find_package(Shaderc)
 
 # message(NOTICE "Adding spirv-tools")
 # set(SKIP_SPIRV_TOOLS_INSTALL ON CACHE BOOL "" FORCE)
@@ -81,7 +83,7 @@ file(GLOB_RECURSE SOURCES CONFIGURE_DEPENDS "${PROJECT_SOURCE_DIR}/src/*.hpp" "$
 
 add_executable(${PROJECT_NAME} ${SOURCES})
 
-target_link_libraries(${PROJECT_NAME} PRIVATE Vulkan::Vulkan shaderc)
+target_link_libraries(${PROJECT_NAME} PRIVATE Vulkan::Vulkan Shaderc)
 
 # target_link_libraries(${PROJECT_NAME} PRIVATE SPIRV-Tools)
 
@@ -126,4 +128,4 @@ target_link_libraries(${PROJECT_NAME} PUBLIC EnTT::EnTT)
 
 target_include_directories(${PROJECT_NAME} PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/src")
 
-target_compile_definitions(${PROJECT_NAME} PRIVATE $<$<CONFIG:DEBUG>:"DEBUG">)
+# target_compile_definitions(${PROJECT_NAME} PRIVATE $<$<CONFIG:DEBUG>:"DEBUG">)
