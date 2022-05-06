@@ -59,12 +59,15 @@ add_subdirectory(libs/entt)
 
 # find_package(Shaderc)
 
-find_library(
-  shaderc 
-  NAMES Shaderc shaderc
-  PATHS ${VULKAN_SDK}
-  )
+message(STATUS "find shaderc :: VK_ SDK ${VULKAN_INCLUDE_DIR}")
 
+# find_library(
+#   shaderc 
+#   NAMES Shaderc shaderc
+#   PATHS ${VULKAN_SDK}
+# )
+
+# set_property(TARGET shaderc PROPERTY IMPORTED_LOCATION ${CMAKE_CURRENT_SOURCE_DIR}/lib)
 
 # message(NOTICE "Adding spirv-tools")
 # set(SKIP_SPIRV_TOOLS_INSTALL ON CACHE BOOL "" FORCE)
