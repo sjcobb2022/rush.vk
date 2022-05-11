@@ -93,7 +93,7 @@ file(GLOB_RECURSE SOURCES CONFIGURE_DEPENDS "${PROJECT_SOURCE_DIR}/src/*.hpp" "$
 
 add_executable(${PROJECT_NAME} ${SOURCES})
 
-target_link_libraries(${PROJECT_NAME} PRIVATE Vulkan::Vulkan Shaderc)
+target_link_libraries(${PROJECT_NAME} PRIVATE Vulkan::Vulkan)
 
 # target_link_libraries(${PROJECT_NAME} PRIVATE SPIRV-Tools)
 
