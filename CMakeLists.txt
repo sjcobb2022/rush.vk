@@ -59,7 +59,7 @@ add_subdirectory(libs/entt)
 
 # find_package(Shaderc)
 
-message(STATUS "find shaderc :: VK_ SDK ${VULKAN_INCLUDE_DIR}")
+message(STATUS "find shaderc :: VK_SDK ${VULKAN_INCLUDE_DIR}")
 
 # find_library(
 #   shaderc 
