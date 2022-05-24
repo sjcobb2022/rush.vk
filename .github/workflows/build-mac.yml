@@ -15,14 +15,14 @@ jobs:
         fail-fast: false
         matrix:
           os:
-            - macos-11
+            - macos-latest
           compiler:
           - gcc
           - llvm
           - clang
           exclude:
           # macos with gcc does not work with gcc for some reason (works with llvm and clang) so just ignore for now.
-            - os: "macos-11"
+            - os: "macos-latest"
               compiler: gcc
       steps:
         - name: Get submodules
@@ -39,7 +39,12 @@ jobs:
 
         - name: Get Cmake and Ninja
           uses: lukka/get-cmake@latest
-        
+
+        - name: Get sed
+          shell: bash
+          run: |
+            brew install gnu-sed --with-default-names
+
         - name: Configure Vulkan SDK
           uses: ./.github/setup-vulkan-sdk
           with:
