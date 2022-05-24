@@ -40,10 +40,14 @@ jobs:
         - name: Get Cmake and Ninja
           uses: lukka/get-cmake@latest
 
-        - name: Configure Sed for MacOS
+        - name: Configure sed for macOS
           shell: bash
           run: |
-            brew install gnu-sed && echo 'PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH"' >> $GITHUB_ENV
+            brew install coreutils ed findutils gawk gnu-sed gnu-tar grep make \
+            && echo 'export GNUBINS="$(find /usr/local/opt -type d -follow -name gnubin -print)"; \
+            for bindir in ${GNUBINS[@]}; do \ 
+              export PATH=$bindir:$PATH; \
+            done;' >> $GITHUB_ENV
 
         - name: Configure Vulkan SDK
           uses: ./.github/setup-vulkan-sdk
