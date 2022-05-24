@@ -43,7 +43,7 @@ jobs:
         - name: Configure Sed for MacOS
           shell: bash
           run: |
-            brew install gnu-sed && cat ~/.bash_profile
+            brew install gnu-sed && cat ~/.bashrc
 
         - name: Configure Vulkan SDK
           uses: ./.github/setup-vulkan-sdk
