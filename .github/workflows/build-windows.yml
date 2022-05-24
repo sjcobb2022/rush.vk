@@ -5,7 +5,7 @@ on:
       - 'src/**'
       - 'libs/**'
       - 'cmake/**'
-      - '.github/**'
+      - '.github/workflows/**'
       - '**/CMakeLists.txt'
 jobs:
   build-matrix:
