@@ -43,7 +43,7 @@ jobs:
         - name: Get sed
           shell: bash
           run: |
-            brew install gnu-sed --with-default-names
+            brew install gnu-sed && alias sed=gsed
 
         - name: Configure Vulkan SDK
           uses: ./.github/setup-vulkan-sdk
