@@ -43,11 +43,7 @@ jobs:
         - name: Configure sed for macOS
           shell: bash
           run: |
-            brew install coreutils ed findutils gawk gnu-sed gnu-tar grep make \
-            && echo 'export GNUBINS="$(find /usr/local/opt -type d -follow -name gnubin -print)"; \
-            for bindir in ${GNUBINS[@]}; do \ 
-              export PATH=$bindir:$PATH; \
-            done;' >> $GITHUB_ENV
+            brew install coreutils ed findutils gawk gnu-sed gnu-tar grep make && echo 'export GNUBINS="$(find /usr/local/opt -type d -follow -name gnubin -print)";'"\n"'for bindir in ${GNUBINS[@]}; do'"\n\t"'export PATH=$bindir:$PATH;'"\n"'done;' >> $GITHUB_ENV
 
         - name: Configure Vulkan SDK
           uses: ./.github/setup-vulkan-sdk
