@@ -44,8 +44,14 @@ jobs:
           shell: bash
           run: |
             brew install gnu-sed
-            echo "/usr/local/opt/gnu-sed/libexec/gnubin" >> $GITHUB_PATH
+            echo "/usr/local/opt/gnu-sed/libexec/gnubin/" >> $GITHUB_PATH
             which sed
+        
+        - name: Test sed
+          shell: bash
+          run: |
+            which sed
+            ls $GITHUB_PATH
 
         - name: Configure Vulkan SDK
           uses: ./.github/setup-vulkan-sdk
