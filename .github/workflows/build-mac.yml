@@ -44,9 +44,7 @@ jobs:
           shell: bash
           run: |
             brew install gnu-sed
-            ls /usr/local/opt/gnu-sed/libexec/gnubin
-            echo "PATH='/usr/local/opt/gnu-sed/libexec/gnubin:$PATH' >> $GITHUB_ENV
-            source $GITHUB_PATH
+            echo "/usr/local/opt/gnu-sed/libexec/gnubin" >> $GITHUB_PATH
             which sed
 
         - name: Configure Vulkan SDK
