@@ -43,7 +43,11 @@ jobs:
         - name: Configure sed for macOS
           shell: bash
           run: |
-            brew install gnu-sed && ls /usr/local/opt/gnu-sed/libexec/gnubin && echo "${HOME}/usr/local/opt/gnu-sed/libexec/gnubin" >> $GITHUB_PATH && source $GITHUB_PATH && which sed
+            brew install gnu-sed
+            ls /usr/local/opt/gnu-sed/libexec/gnubin
+            echo "${HOME}/usr/local/opt/gnu-sed/libexec/gnubin" >> $GITHUB_PATH
+            source $GITHUB_PATH
+            which sed
 
         - name: Configure Vulkan SDK
           uses: ./.github/setup-vulkan-sdk
