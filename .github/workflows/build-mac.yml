@@ -51,7 +51,6 @@ jobs:
           shell: bash
           run: |
             which sed
-            ls $GITHUB_PATH
 
         - name: Configure Vulkan SDK
           uses: ./.github/setup-vulkan-sdk
