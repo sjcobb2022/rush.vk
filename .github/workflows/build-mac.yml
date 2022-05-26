@@ -15,28 +15,13 @@ jobs:
         fail-fast: false
         matrix:
           os:
-            - macos-11
-          compiler:
-          # - gcc
-          - llvm
-          # - clang
-          exclude:
-          # macos with gcc does not work with gcc for some reason (works with llvm and clang) so just ignore for now.
-            - os: "macos-11"
-              compiler: gcc
+            - macos-latest
       steps:
         - name: Get submodules
           uses: actions/checkout@v3
           with:
             submodules: recursive
       
-        # - name: Cache libraries
-
-        # - name: Setup C++ with ${{ matrix.compiler }}
-        #   uses: aminya/setup-cpp@v1
-        #   with:
-        #     compiler: ${{ matrix.compiler }}
-
         - name: Get Cmake and Ninja
           uses: lukka/get-cmake@latest
 
