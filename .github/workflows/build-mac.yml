@@ -17,8 +17,7 @@ jobs:
           os:
             - macos-latest
           compiler:
-            - llvm
-            - gcc
+            - clang
       steps:
         - name: Get submodules
           uses: actions/checkout@v3
