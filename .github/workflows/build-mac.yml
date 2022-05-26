@@ -36,7 +36,7 @@ jobs:
           with:
             vulkan-query-version: latest
             vulkan-components: Vulkan-Loader, shaderc
-            vulkan-use-cache: off
+            vulkan-use-cache: on
 
         - name: Run CMake + Ninja
           uses: lukka/run-cmake@v10
