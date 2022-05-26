@@ -22,7 +22,7 @@ jobs:
           with:
             submodules: recursive
         
-        # NOTE: DO NOT USE NON-SYS COMPILER, IT SEEMS TO BREAK
+        # NOTE: DO NOT USE NON-SYSTEM COMPILER, IT SEEMS TO BREAK (llvm does not work, gcc kinda works)
         - name: Setup C++ with ${{ matrix.compiler }}
           uses: aminya/setup-cpp@v1
           with:
