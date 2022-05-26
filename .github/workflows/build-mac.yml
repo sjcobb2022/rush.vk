@@ -17,8 +17,8 @@ jobs:
           os:
             - macos-11
           compiler:
-          - gcc
-          # - llvm
+          # - gcc
+          - llvm
           # - clang
           exclude:
           # macos with gcc does not work with gcc for some reason (works with llvm and clang) so just ignore for now.
