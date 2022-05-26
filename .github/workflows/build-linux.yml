@@ -40,7 +40,7 @@ jobs:
           with:
             vulkan-query-version: latest
             vulkan-components: Vulkan-Loader, shaderc
-            vulkan-use-cache: on
+            vulkan-use-cache: off
         
         - name: Install GLFW dependencies Linux
           uses: RpxdYTX/install-glfw-deps@v2
