@@ -16,8 +16,6 @@ jobs:
         matrix:
           os:
             - macos-latest
-          compiler:
-            - clang
       steps:
         - name: Get submodules
           uses: actions/checkout@v3
