@@ -16,12 +16,21 @@ jobs:
         matrix:
           os:
             - macos-latest
+          compiler:
+            - llvm
+            - gcc
       steps:
         - name: Get submodules
           uses: actions/checkout@v3
           with:
             submodules: recursive
-      
+        
+        # NOTE: DO NOT USE NON-SYS COMPILER, IT SEEMS TO BREAK
+        - name: Setup C++ with ${{ matrix.compiler }}
+          uses: aminya/setup-cpp@v1
+          with:
+            compiler: ${{ matrix.compiler }}
+
         - name: Get Cmake and Ninja
           uses: lukka/get-cmake@latest
 
