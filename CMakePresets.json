@@ -52,25 +52,25 @@
     ],
     "buildPresets": [
         {
-            "name": "VS-dbg",
+            "name": "VisualStudio_Debug",
             "description": "Debug build using Visual Studio",
             "displayName": "VS-dbg",
             "configurePreset": "VisualStudio_Debug"
         },
         {
-            "name": "VS-rls",
+            "name": "VisualStudio_Release",
             "description": "Release build using Visual Studio",
             "displayName": "VS-rls",
             "configurePreset": "VisualStudio_Release"
         },
         {
-            "name": "Ninja-dbg",
+            "name": "Ninja_Debug",
             "description": "Debug build using Ninja",
             "displayName": "Ninja-dbg",
             "configurePreset": "Ninja_Debug"
         },
         {
-            "name": "Ninja-rls",
+            "name": "Ninja_Release",
             "description": "Debug build using Ninja",
             "displayName": "Ninja-rls",
             "configurePreset": "Ninja_Release"

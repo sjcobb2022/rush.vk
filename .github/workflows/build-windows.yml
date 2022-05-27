@@ -42,4 +42,4 @@ jobs:
           with:
             cmakeListsTxtPath: '${{ github.workspace }}/CMakeLists.txt'
             configurePreset: 'VisualStudio_Release'
-            buildPreset: 'VS-rls'
+            buildPreset: 'VisualStudio_Release'
