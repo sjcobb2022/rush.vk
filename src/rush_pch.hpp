@@ -24,6 +24,7 @@
 #include <glm/glm.hpp>
 #include <glm/ext.hpp>
 #include <glm/gtc/constants.hpp>
+#include <glm/gtx/quaternion.hpp>
 #include <spdlog/spdlog.h>
 #include <vulkan/vulkan.h>
 
