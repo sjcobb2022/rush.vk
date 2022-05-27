@@ -10,7 +10,7 @@ namespace rush
     // building doesnt do anything :))
     InstanceBuilder::InstanceBuilder() {}
     
-    Instance &InstanceBuilder::build() const
+    Instance* InstanceBuilder::build() const
     {
         // get available extensions and layers
         auto sys_inf = rush::get_system_info();
@@ -114,9 +114,9 @@ namespace rush
         }
 
 #endif
-        Instance vk_instance;
+        Instance *vk_instance = new Instance;
 
-        if (vkCreateInstance(&create_info, info.allocation_callbacks, &vk_instance.instance) != VK_SUCCESS)
+        if (vkCreateInstance(&create_info, info.allocation_callbacks, &vk_instance->instance) != VK_SUCCESS)
         {
             throw std::runtime_error("Failed to create vkInstance!");
         }
@@ -124,12 +124,12 @@ namespace rush
         if (info.use_debug_messenger)
         {
             VkResult msnger = create_debug_utils_messenger(
-                vk_instance.instance, 
+                vk_instance->instance, 
                 info.debug_callback, 
                 info.debug_message_severity, 
                 info.debug_message_type, 
                 info.debug_user_data_pointer, 
-                &vk_instance.debug_messenger, 
+                &vk_instance->debug_messenger, 
                 info.allocation_callbacks);
 
                 if(msnger !=VK_SUCCESS){
@@ -137,10 +137,10 @@ namespace rush
                 }
         }
 
-        vk_instance.api_version = info.api_v;
-        vk_instance.supports_properties2_ext = supports_properties2_ext;
+        vk_instance->api_version = info.api_v;
+        vk_instance->supports_properties2_ext = supports_properties2_ext;
         //to change. get required VK versions, not just 1.0
-        vk_instance.instance_version = info.api_v;
+        vk_instance->instance_version = info.api_v;
 
         return vk_instance;
     }
