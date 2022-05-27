@@ -1,21 +1,10 @@
 #pragma once
-#include <entt/entity/registry.hpp>
-#include <spdlog/spdlog.h>
-
-// #include "group_storage.hpp"
-
-#include <functional> //std::function
-#include <vector>     //std::vector
-#include <deque>      //std::deque
-#include <memory>
+#include "rush_pch.hpp"
 
 #ifndef __clang__
 #include <execution>
 #include <algorithm>
 #endif
-
-#include <cstdlib>
-#include <type_traits>
 
 template <typename T>
 class has_valid_operator

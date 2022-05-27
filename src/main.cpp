@@ -1,16 +1,9 @@
 
 #include "app.hpp"
 
-#include <glm/glm.hpp>
-#include <spdlog/spdlog.h>
-#include <entt/entity/registry.hpp>
-#include <entt/entity/entity.hpp>
-#include <cassert>
+// pch
+#include "rush_pch.hpp"
 
-// std
-#include <cstdlib>
-#include <iostream>
-#include <stdexcept>
 
 #include "shaderc/shaderc.hpp"
 

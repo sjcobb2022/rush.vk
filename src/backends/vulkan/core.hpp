@@ -2,13 +2,7 @@
 
 // #include "device.hpp"
 
-#include <vulkan/vulkan.h>
-
-#include <GLFW/glfw3.h>
-
-// std
-#include <string>
-#include <vector>
+#include "rush_pch.hpp"
 
 namespace rush
 {

@@ -11,7 +11,7 @@ message(STATUS "Local .env.cmake: ${LOCAL_ENV}")
 cmake_minimum_required(VERSION 3.16.0)
 set(NAME rush_vk)
 
-project(${NAME} VERSION 0.1.0 LANGUAGES CXX)
+project(${NAME})
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake/modules")
@@ -50,54 +50,11 @@ add_subdirectory(libs/imgui)
 message(NOTICE "Adding entt")
 add_subdirectory(libs/entt)
 
-# set(CMAKE_BUILD_TYPE "Release")
-
-# message(NOTICE "Adding spirv-headers")
-# set(SPIRV_HEADERS_SKIP_EXAMPLES ON CACHE BOOL "" FORCE)
-# set(SPIRV_HEADERS_SKIP_INSTALL ON CACHE BOOL "" FORCE)
-# add_subdirectory(libs/spirv-headers)
-
-# find_package(Shaderc)
-
-message(STATUS "find shaderc :: VK_SDK ${VULKAN_INCLUDE_DIR}")
-
-# find_library(
-#   shaderc 
-#   NAMES Shaderc shaderc
-#   PATHS ${VULKAN_SDK}
-# )
-
-# set_property(TARGET shaderc PROPERTY IMPORTED_LOCATION ${CMAKE_CURRENT_SOURCE_DIR}/lib)
-
-# message(NOTICE "Adding spirv-tools")
-# set(SKIP_SPIRV_TOOLS_INSTALL ON CACHE BOOL "" FORCE)
-# set(SPIRV_SKIP_TESTS ON CACHE BOOL "" FORCE)
-# set(SPIRV_SKIP_EXECUTABLES ON CACHE BOOL "" FORCE)
-# set(SPIRV_SKIP_TESTS ON CACHE BOOL "" FORCE)
-# add_subdirectory(libs/spirv-tools)
-
-# message(NOTICE "Adding glslang")
-# set(SKIP_GLSLANG_INSTALL ON CACHE BOOL "" FORCE)
-# set(SKIP_GLSLANG_TESTS ON CACHE BOOL "" FORCE)
-# add_subdirectory(libs/glslang)
-
-# message(NOTICE "Adding shaderc")
-# set(SHADERC_SKIP_INSTALL OFF CACHE BOOL "" FORCE)
-# set(SHADERC_SKIP_TESTS ON CACHE BOOL "" FORCE)
-# set(SHADERC_SKIP_EXAMPLES ON CACHE BOOL "" FORCE)
-# set(SHADERC_SKIP_COPYRIGHT_CHECK ON CACHE BOOL "" FORCE)
-# set(SHADERC_ENABLE_SHARED_CRT ON CACHE BOOL "" FORCE)
-# add_subdirectory(libs/shaderc)
-
 file(GLOB_RECURSE SOURCES CONFIGURE_DEPENDS "${PROJECT_SOURCE_DIR}/src/*.hpp" "${PROJECT_SOURCE_DIR}/src/*.cpp")
 
 add_executable(${PROJECT_NAME} ${SOURCES})
 
 target_link_libraries(${PROJECT_NAME} PRIVATE Vulkan::Vulkan)
-
-# target_link_libraries(${PROJECT_NAME} PRIVATE SPIRV-Tools)
-
-# target_link_libraries(${PROJECT_NAME} PRIVATE shaderc)
 
 if(NOT TARGET shaderc OR NOT ENV{USE_SHADERC})
     message(NOTICE "Building shaders without ShaderC")
@@ -136,6 +93,8 @@ target_link_libraries(${PROJECT_NAME} PUBLIC glm)
 target_link_libraries(${PROJECT_NAME} PUBLIC VulkanMemoryAllocator)
 target_link_libraries(${PROJECT_NAME} PUBLIC EnTT::EnTT)
 
-target_include_directories(${PROJECT_NAME} PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/src")
+target_include_directories(${PROJECT_NAME} PUBLIC "${PROJECT_SOURCE_DIR}/src")
+
+target_precompile_headers(${PROJECT_NAME} PRIVATE ${PROJECT_SOURCE_DIR}/src/rush_pch.hpp)
 
 # target_compile_definitions(${PROJECT_NAME} PRIVATE $<$<CONFIG:DEBUG>:"DEBUG">)

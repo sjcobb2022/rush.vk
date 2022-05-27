@@ -8,23 +8,7 @@
 // libs
 #define GLM_FORCE_RADIANS
 #define GLM_FORCE_DEPTH_ZERO_TO_ONE
-#include <spdlog/spdlog.h>
-
-#include <entt/entity/registry.hpp>
-#include <glm/glm.hpp>
-#include <glm/gtc/constants.hpp>
-
-#include <GLFW/glfw3.h>
-
-// #include "imgui.h"
-// #include "backends/imgui_impl_glfw.h"
-// #include "backends/imgui_impl_vulkan.h"
-
-// std
-#include <array>
-#include <cassert>
-#include <chrono>
-#include <stdexcept>
+#include "rush_pch.hpp"
 
 namespace rush
 {

@@ -3,7 +3,7 @@
 #include "extensions.hpp"
 #include "vk_util.hpp"
 
-#include <spdlog/spdlog.h>
+#include "rush_pch.hpp"
 
 namespace rush
 {

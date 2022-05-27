@@ -3,12 +3,8 @@
 #include "vk_util.hpp"
 
 // libs
-#include <vulkan/vulkan.h>
-#include <spdlog/spdlog.h>
-#include <GLFW/glfw3.h>
+#include "rush_pch.hpp"
 
-// std
-#include <vector>
 
 namespace rush
 {

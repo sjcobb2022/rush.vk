@@ -6,7 +6,7 @@
         {
             "label": "build",
             "type": "shell",
-            "command": "cmake -S . -B build -Wno-dev && cmake --build build",
+            "command": "cmake -S . -B build && cmake --build build",
             "problemMatcher": [],
             "group": {
                 "kind": "build",

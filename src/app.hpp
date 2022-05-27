@@ -3,17 +3,7 @@
 // libs
 #define GLM_FORCE_RADIANS
 #define GLM_FORCE_DEPTH_ZERO_TO_ONE
-#include <spdlog/spdlog.h>
-
-#include <entt/entity/registry.hpp>
-
-// libs
-#include <GLFW/glfw3.h>
-
-// std
-#include <memory>
-#include <vector>
-#include <functional>
+#include "rush_pch.hpp"
 
 namespace rush
 {

@@ -1,10 +1,6 @@
 #pragma once
 
-#include <GLFW/glfw3.h>
-#include <vulkan/vulkan.h>
-#include <spdlog/spdlog.h>
-
-#include <vector>
+#include "rush_pch.hpp"
 
 namespace rush
 {
