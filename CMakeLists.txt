@@ -93,7 +93,7 @@ target_link_libraries(${PROJECT_NAME} PUBLIC glm)
 target_link_libraries(${PROJECT_NAME} PUBLIC VulkanMemoryAllocator)
 target_link_libraries(${PROJECT_NAME} PUBLIC EnTT::EnTT)
 
-target_include_directories(${PROJECT_NAME} PUBLIC "${PROJECT_SOURCE_DIR}/src")
+target_include_directories(${PROJECT_NAME} PUBLIC "${PROJECT_SOURCE_DIR}/src" "${PROJECT_SOURCE_DIR}/libs/tinyobjloader" "${PROJECT_SOURCE_DIR}/libs/tinygltfloader")
 
 target_precompile_headers(${PROJECT_NAME} PRIVATE ${PROJECT_SOURCE_DIR}/src/rush_pch.hpp)
 

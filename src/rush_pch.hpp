@@ -33,3 +33,6 @@
 #include "backends/imgui_impl_vulkan.h"
 
 #include "vk_mem_alloc.h"
+
+#include "tiny_gltf.h"
+#include "tiny_obj_loader.h"
