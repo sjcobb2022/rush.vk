@@ -36,7 +36,7 @@ jobs:
           uses: lukka/get-cmake@latest
         
         - name: Configure Vulkan SDK
-          uses: actions/setup-vulkan-sdk
+          uses: ./.github/actions/setup-vulkan-sdk
           with:
             vulkan-query-version: latest
             vulkan-components: Vulkan-Loader, shaderc
