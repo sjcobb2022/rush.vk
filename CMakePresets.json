@@ -1,41 +1,79 @@
 {
-    "version": 3,
-    "cmakeMinimumRequired": {
-        "major": 3,
-        "minor": 21,
-        "patch": 0
-    },
+    "version": 2,
     "configurePresets": [
         {
-            "name": "ninja",
-            "displayName": "Ninja Configure Settings",
-            "description": "Sets build and install directories",
-            "binaryDir": "${sourceDir}/build/",
-            "generator": "Ninja",
-            "warnings": {
-                "dev": false
+            "name": "VisualStudio_Debug",
+            "displayName": "VSCode-dbg",
+            "description": "Sets default generator, build and install directory",
+            "binaryDir": "${sourceDir}/build/${presetName}",
+            "generator": "Visual Studio 17 2022",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug",
+                "CMAKE_TOOLCHAIN_FILE": "",
+                "CMAKE_INSTALL_PREFIX": "${sourceDir}/install/${presetName}"
             }
         },
         {
-            "name": "nogenerator",
-            "displayName": "Default generator Configure Settings",
-            "description": "Sets build and install dirs",
-            "binaryDir": "${sourceDir}/build/"
+            "name": "VisualStudio_Release",
+            "displayName": "VSCode-rls",
+            "description": "Sets default generator, build and install directory",
+            "binaryDir": "${sourceDir}/build/${presetName}",
+            "generator": "Visual Studio 17 2022",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Release",
+                "CMAKE_TOOLCHAIN_FILE": "",
+                "CMAKE_INSTALL_PREFIX": "${sourceDir}/install/${presetName}"
+            }
+        },
+        {
+            "name": "Ninja_Debug",
+            "displayName": "Ninja-dgb",
+            "description": "Sets Ninja as generator, build and install directory",
+            "binaryDir": "${sourceDir}/build/${presetName}",
+            "generator": "Ninja",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug",
+                "CMAKE_TOOLCHAIN_FILE": "",
+                "CMAKE_INSTALL_PREFIX": "${sourceDir}/install/${presetName}"
+            }
+        },
+        {
+            "name": "Ninja_Release",
+            "displayName": "Ninja-rls",
+            "description": "Sets Ninja as generator, build and install directory",
+            "binaryDir": "${sourceDir}/build/${presetName}",
+            "generator": "Ninja",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Release",
+                "CMAKE_TOOLCHAIN_FILE": "",
+                "CMAKE_INSTALL_PREFIX": "${sourceDir}/install/${presetName}"
+            }
         }
     ],
     "buildPresets": [
         {
-            "name": "ninja",
-            "configurePreset": "ninja",
-            "displayName": "Build with Ninja",
-            "description": "Build with Ninja"
+            "name": "VS-dbg",
+            "description": "Debug build using Visual Studio",
+            "displayName": "VS-dbg",
+            "configurePreset": "VisualStudio_Debug"
         },
         {
-            "name": "nogenerator",
-            "configurePreset": "nogenerator",
-            "description": "",
-            "displayName": "",
-            "inherits": []
+            "name": "VS-rls",
+            "description": "Release build using Visual Studio",
+            "displayName": "VS-rls",
+            "configurePreset": "VisualStudio_Release"
+        },
+        {
+            "name": "Ninja-dbg",
+            "description": "Debug build using Ninja",
+            "displayName": "Ninja-dbg",
+            "configurePreset": "Ninja_Debug"
+        },
+        {
+            "name": "Ninja-rls",
+            "description": "Debug build using Ninja",
+            "displayName": "Ninja-rls",
+            "configurePreset": "Ninja_Release"
         }
     ]
 }

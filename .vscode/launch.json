@@ -8,7 +8,7 @@
             "name": "(lldb) Launch",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/build/volk",
+            "program": "${workspaceFolder}/build/rush_vk.exe",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${fileDirname}",
