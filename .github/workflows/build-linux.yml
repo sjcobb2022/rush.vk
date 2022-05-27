@@ -50,5 +50,5 @@ jobs:
           uses: lukka/run-cmake@v10
           with:
             cmakeListsTxtPath: '${{ github.workspace }}/CMakeLists.txt'
-            configurePreset: 'ninja'
-            buildPreset: 'ninja'
+            configurePreset: 'Ninja_Release'
+            buildPreset: 'Ninja-rls'  

@@ -41,5 +41,5 @@ jobs:
           uses: lukka/run-cmake@v10
           with:
             cmakeListsTxtPath: '${{ github.workspace }}/CMakeLists.txt'
-            configurePreset: 'ninja'
-            buildPreset: 'ninja'
+            configurePreset: 'VisualStudio_Release'
+            buildPreset: 'VS-rls'
