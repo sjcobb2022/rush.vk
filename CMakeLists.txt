@@ -14,9 +14,10 @@ set(NAME rush_vk)
 project(${NAME})
 
 set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake/modules")
 
-set(CMAKE_BUILD_TYPE Release)
+list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake/modules")
+
+# set(CMAKE_BUILD_TYPE Release)
 
 message(NOTICE "Find Vulkan Loader and Shaderc")
 find_package(Vulkan REQUIRED)
