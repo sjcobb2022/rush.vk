@@ -22,9 +22,6 @@
 [submodule ".github/actions/setup-vulkan-sdk"]
 	path = .github/actions/setup-vulkan-sdk
 	url = https://github.com/sjcobb2022/setup-vulkan-sdk
-[submodule "libs/tinygltf"]
-	path = libs/tinygltf
-	url = https://github.com/syoyo/tinygltf.git
 [submodule "libs/tinyobjloader"]
 	path = libs/tinyobjloader
 	url = https://github.com/tinyobjloader/tinyobjloader.git
