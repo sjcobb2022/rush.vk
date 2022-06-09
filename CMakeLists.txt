@@ -17,6 +17,8 @@ set(CMAKE_CXX_STANDARD 17)
 
 list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake/modules")
 
+set(CMAKE_PREFIX_PATH "${CMAKE_PREFIX_PATH};${CMAKE_MODULE_PATH}")
+
 # set(CMAKE_BUILD_TYPE Release)
 
 message(NOTICE "Find Vulkan Loader and Shaderc")
