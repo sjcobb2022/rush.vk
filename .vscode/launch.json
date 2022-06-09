@@ -8,7 +8,7 @@
             "name": "(lldb) Launch",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/build/rush_vk.exe",
+            "program": "${workspaceFolder}/build/Visual_Studio_Debug/Debug/rush_vk.exe",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${fileDirname}",

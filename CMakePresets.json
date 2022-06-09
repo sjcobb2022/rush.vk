@@ -55,25 +55,30 @@
             "name": "VisualStudio_Debug",
             "description": "Debug build using Visual Studio",
             "displayName": "VS-dbg",
-            "configurePreset": "VisualStudio_Debug"
+            "configurePreset": "VisualStudio_Debug",
+            "configuration": "Debug"
         },
         {
             "name": "VisualStudio_Release",
             "description": "Release build using Visual Studio",
             "displayName": "VS-rls",
-            "configurePreset": "VisualStudio_Release"
+            "configurePreset": "VisualStudio_Release",
+            "configuration": "Release"
+
         },
         {
             "name": "Ninja_Debug",
             "description": "Debug build using Ninja",
             "displayName": "Ninja-dbg",
-            "configurePreset": "Ninja_Debug"
+            "configurePreset": "Ninja_Debug",
+            "configuration": "Debug"
         },
         {
             "name": "Ninja_Release",
             "description": "Debug build using Ninja",
             "displayName": "Ninja-rls",
-            "configurePreset": "Ninja_Release"
+            "configurePreset": "Ninja_Release",
+            "configuration": "Release"
         }
     ]
 }

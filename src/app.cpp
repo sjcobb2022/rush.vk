@@ -5,10 +5,11 @@
 #include "ECS/components/relationship.hpp"
 #include "ECS/components/transform.hpp"
 
+#include "window/window.hpp"
+
+// #include "util/util.hpp"
+
 // libs
-#define GLM_FORCE_RADIANS
-#define GLM_FORCE_DEPTH_ZERO_TO_ONE
-#include "rush_pch.hpp"
 
 namespace rush
 {
@@ -20,28 +21,15 @@ namespace rush
 
     App::~App() {}
 
-    GLFWwindow *App::initWindow()
-    {
-        glfwInit();
-        glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
-        glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
-
-        std::string windowName = "rush.vk";
-
-        GLFWwindow *window = glfwCreateWindow(App::WIDTH, App::HEIGHT,
-                                              windowName.c_str(),
-                                              nullptr, nullptr);
-
-        glfwSetWindowUserPointer(window, this);
-
-        return window;
-    }
-
-
     void App::run()
     {
 
-        GLFWwindow *window = initWindow();
+        GLFWwindow *window = window_init(App::WIDTH, App::HEIGHT, (std::string)"rush_vk", nullptr, nullptr);
+        //add to deletion queue
+        // delq_push([&](){
+        //     glfwDestroyWindow(window);
+        //     glfwTerminate();
+        // });
 
         Scene scene{};
         
@@ -58,8 +46,7 @@ namespace rush
             glfwPollEvents();
         }
 
-        glfwDestroyWindow(window);
-        glfwTerminate();
+        delq_flush();
     }
 
 }

@@ -1,6 +1,6 @@
 #include "scene.hpp"
 
-#include "rush_pch.hpp"
+// #include "rush_pch.hpp"
 
 namespace rush
 {

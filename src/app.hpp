@@ -1,8 +1,6 @@
 #pragma once
 
 // libs
-#define GLM_FORCE_RADIANS
-#define GLM_FORCE_DEPTH_ZERO_TO_ONE
 #include "rush_pch.hpp"
 
 namespace rush
@@ -30,12 +28,6 @@ namespace rush
 
         void end(std::function<void(entt::registry sceneRegistry, int placeHolderforCam)> &&endFunction);
 
-    private:
-        GLFWwindow *initWindow();
-
-        void cleanUpWindow(GLFWwindow *window);
-
-        // std::vector<>;
     };
 
 } // namespace utr

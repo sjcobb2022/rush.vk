@@ -21,13 +21,15 @@ set(CMAKE_BUILD_TYPE Release)
 message(NOTICE "Find Vulkan Loader and Shaderc")
 find_package(Vulkan REQUIRED)
 
+find_package(shaderc REQUIRED)
+
 message(NOTICE "Adding Vulkan Memory Allocator")
 add_subdirectory(libs/vma)
 
 message(NOTICE "Adding GLFW")
 
 if(WIN32)
-	add_compile_definitions(_GLFW_WIN32=1)
+	add_compile_definitions(_GLFW_WIN32=ON)
 endif()
 
 set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
@@ -69,31 +71,33 @@ if(NOT TARGET shaderc OR NOT ENV{USE_SHADERC})
       $ENV{VULKAN_SDK}/Bin32/)
 
     file(GLOB_RECURSE GLSL_SOURCE_FILES
-    "${PROJECT_SOURCE_DIR}/assets/shaders/*.frag"
-    "${PROJECT_SOURCE_DIR}/assets/shaders/*.vert"
+      "${PROJECT_SOURCE_DIR}/assets/shaders/*.frag"
+      "${PROJECT_SOURCE_DIR}/assets/shaders/*.vert"
     )
 
     foreach(GLSL ${GLSL_SOURCE_FILES})
-    get_filename_component(FILE_NAME ${GLSL} NAME)
-    set(SPIRV "${PROJECT_SOURCE_DIR}/assets/shaders/${FILE_NAME}.spv")
-    add_custom_command(
-        OUTPUT ${SPIRV}
-        COMMAND ${GLSL_VALIDATOR} -V ${GLSL} -o ${SPIRV}
-        DEPENDS ${GLSL})
-    list(APPEND SPIRV_BINARY_FILES ${SPIRV})
+      get_filename_component(FILE_NAME ${GLSL} NAME)
+      set(SPIRV "${PROJECT_SOURCE_DIR}/assets/shaders/${FILE_NAME}.spv")
+      add_custom_command(
+          OUTPUT ${SPIRV}
+          COMMAND ${GLSL_VALIDATOR} -V ${GLSL} -o ${SPIRV}
+          DEPENDS ${GLSL})
+      list(APPEND SPIRV_BINARY_FILES ${SPIRV})
     endforeach(GLSL)
 endif()
 
-target_link_libraries(${PROJECT_NAME} PUBLIC spdlog::spdlog)
-target_link_libraries(${PROJECT_NAME} PUBLIC glfw)
+target_link_libraries(${PROJECT_NAME} PRIVATE spdlog::spdlog)
+target_link_libraries(${PROJECT_NAME} PRIVATE glfw)
 
 target_link_libraries(${PROJECT_NAME} PUBLIC imgui)
 
-target_link_libraries(${PROJECT_NAME} PUBLIC glm)
-target_link_libraries(${PROJECT_NAME} PUBLIC VulkanMemoryAllocator)
-target_link_libraries(${PROJECT_NAME} PUBLIC EnTT::EnTT)
+target_link_libraries(${PROJECT_NAME} PRIVATE glm)
+target_link_libraries(${PROJECT_NAME} PRIVATE VulkanMemoryAllocator)
+target_link_libraries(${PROJECT_NAME} PRIVATE EnTT::EnTT)
+target_link_libraries(${PROJECT_NAME} PRIVATE shaderc)
 
-target_include_directories(${PROJECT_NAME} PUBLIC "${PROJECT_SOURCE_DIR}/src" "${PROJECT_SOURCE_DIR}/libs/tinyobjloader" "${PROJECT_SOURCE_DIR}/libs/tinygltfloader")
+
+target_include_directories(${PROJECT_NAME} PUBLIC "${PROJECT_SOURCE_DIR}/src" "${PROJECT_SOURCE_DIR}/libs/tinyobjloader") #"${PROJECT_SOURCE_DIR}/libs/tinygltfloader")
 
 target_precompile_headers(${PROJECT_NAME} PRIVATE ${PROJECT_SOURCE_DIR}/src/rush_pch.hpp)
 

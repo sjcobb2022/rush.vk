@@ -19,9 +19,6 @@
 [submodule "libs/imgui"]
 	path = libs/imgui
 	url = https://github.com/sjcobb2022/imgui.git
-[submodule ".github/setup-vulkan-sdk"]
-	path = .github/setup-vulkan-sdk
-	url = https://github.com/sjcobb2022/setup-vulkan-sdk.git
 [submodule ".github/actions/setup-vulkan-sdk"]
 	path = .github/actions/setup-vulkan-sdk
 	url = https://github.com/sjcobb2022/setup-vulkan-sdk

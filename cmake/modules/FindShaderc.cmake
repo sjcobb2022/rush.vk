@@ -1,28 +1,31 @@
 # Taken from https://github.com/thegeeko/geg/blob/master/geg/cmake/modules/FindShaderc.cmake#L3. 
 
-if(DEFINED ENV{VULKAN_SDK})
-	# Use ShaderC from VulkanSDK
-	if(WIN32)
-		if (CMAKE_BUILD_TYPE MATCHES "Debug")
-			set(SHADERC_LIB "$ENV{VULKAN_SDK}/Lib/shaderc_combinedd.lib")
-		else()
-			set(SHADERC_LIB "$ENV{VULKAN_SDK}/Lib/shaderc_combined.lib")
-		endif()
-	else()
-		# on unix based systems
-		set(SHADERC_LIB "$ENV{VULKAN_SDK}/lib/libshaderc_combined.a")
-		# message(STATUS "")
-	endif()
-else()	
-	message(STATUS "VulkanSDK not found looking local install")
-	if(WIN32)
-		message(FATAL_ERROR "You have to install VulkanSDK and add the env VULKAN_SDK")
-	else()
-		find_library(SHADERC_LIB shaderc_combined REQUIRED)
-	endif()
-endif()
+include(FindPackageHandleStandardArgs)
+include(SelectLibraryConfigurations)
 
-message(STATUS "found shaderc in the path ${SHADERC_LIB}")
+find_library(SHADERC_LIBRARY_DEBUG NAMES shaderc_combinedd HINTS $ENV{VULKAN_SDK} PATH_SUFFIXES DEBUG/lib DEBUG/Lib)
+find_library(SHADERC_LIBRARY_RELEASE NAMES shaderc_combined HINTS $ENV{VULKAN_SDK} PATH_SUFFIXES lib)
+find_path(SHADERC_INLCUDE_DIRS NAMES shaderc/shaderc.h HINTS $ENV{VULKAN_SDK} PATH_SUFFIXES include)
+find_program(GLSLANG_VALIDATOR_EXE NAMES glslangValidator HINTS $ENV{VULKAN_SDK} PATH_SUFFIXES bin)
 
-add_library(shaderc STATIC IMPORTED)
-set_property(TARGET shaderc PROPERTY IMPORTED_LOCATION ${SHADERC_LIB})
+select_library_configurations(SHADERC)
+
+find_package_handle_standard_args(
+	shaderc
+	DEFAULT_MSG
+	SHADERC_LIBRARY
+	SHADERC_INLCUDE_DIRS
+	GLSLANG_VALIDATOR_EXE
+)
+
+add_executable(glslangValidator IMPORTED)
+set_target_properties(glslangValidator PROPERTIES IMPORTED_LOCATION ${GLSLANG_VALIDATOR_EXE})
+
+add_library(shaderc UNKNOWN IMPORTED)
+
+set_target_properties(
+	shaderc
+		PROPERTIES
+			IMPORTED_LOCATION ${SHADERC_LIBRARY}
+			INTERFACE_INCLUDE_DIRECTORIES ${SHADERC_INLCUDE_DIRS}
+)
