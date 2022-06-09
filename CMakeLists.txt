@@ -52,6 +52,15 @@ add_subdirectory(libs/imgui)
 message(NOTICE "Adding entt")
 add_subdirectory(libs/entt)
 
+message(NOTICE "Adding tinyobjloader")
+add_subdirectory(libs/tinyobjloader)
+
+message(NOTICE "Adding tinygltf")
+set(TINYGLTF_BUILD_LOADER_EXAMPLE OFF CACHE BOOL "" FORCE)
+set(TINYGLTF_HEADER_ONLY ON CACHE BOOL "" FORCE)
+add_subdirectory(libs/tinygltf)
+
+
 file(GLOB_RECURSE SOURCES CONFIGURE_DEPENDS "${PROJECT_SOURCE_DIR}/src/*.hpp" "${PROJECT_SOURCE_DIR}/src/*.cpp")
 
 add_executable(${PROJECT_NAME} ${SOURCES})
@@ -95,9 +104,12 @@ target_link_libraries(${PROJECT_NAME} PRIVATE glm)
 target_link_libraries(${PROJECT_NAME} PRIVATE VulkanMemoryAllocator)
 target_link_libraries(${PROJECT_NAME} PRIVATE EnTT::EnTT)
 target_link_libraries(${PROJECT_NAME} PRIVATE shaderc)
+target_link_libraries(${PROJECT_NAME} PRIVATE tinyobjloader)
+target_link_libraries(${PROJECT_NAME} PRIVATE tinygltf)
 
+message("tiny_obj_loader ${TINYOBJLOADER_INCLUDE_DIR}")
 
-target_include_directories(${PROJECT_NAME} PUBLIC "${PROJECT_SOURCE_DIR}/src" "${PROJECT_SOURCE_DIR}/libs/tinyobjloader") #"${PROJECT_SOURCE_DIR}/libs/tinygltfloader")
+target_include_directories(${PROJECT_NAME} PUBLIC "${PROJECT_SOURCE_DIR}/src" "${TINYOBJLOADER_INCLUDE_DIR} ") #"${PROJECT_SOURCE_DIR}/libs/tinygltfloader")
 
 target_precompile_headers(${PROJECT_NAME} PRIVATE ${PROJECT_SOURCE_DIR}/src/rush_pch.hpp)
 

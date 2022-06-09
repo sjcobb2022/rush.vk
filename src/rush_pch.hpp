@@ -47,7 +47,8 @@
 //  VMA
 #include "vk_mem_alloc.h" //core
 
-// #include "tiny_gltf.h" // get json.hpp from the repository
+//  tinygltf
+#include "tiny_gltf.h" // get json.hpp from the repository
 
 //  TinyObjLoader
 #include "tiny_obj_loader.h" //core

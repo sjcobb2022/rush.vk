@@ -7,7 +7,7 @@
 
 #include "window/window.hpp"
 
-// #include "util/util.hpp"
+#include "rush_pch.hpp"
 
 // libs
 
@@ -25,19 +25,13 @@ namespace rush
     {
 
         GLFWwindow *window = window_init(App::WIDTH, App::HEIGHT, (std::string)"rush_vk", nullptr, nullptr);
-        //add to deletion queue
-        // delq_push([&](){
-        //     glfwDestroyWindow(window);
-        //     glfwTerminate();
-        // });
+
+        m_DeletionQueue.push_function([&](){
+            glfwDestroyWindow(window);
+            glfwTerminate();
+        });
 
         Scene scene{};
-        
-        // scene.each(
-        //     [&](entt::entity entity, c_Transform& t){
-        //         spdlog::info("translation x: {}", t.translation.x);
-        //     }
-        // );
 
         Core test{window};
 
@@ -46,7 +40,6 @@ namespace rush
             glfwPollEvents();
         }
 
-        delq_flush();
     }
 
 }

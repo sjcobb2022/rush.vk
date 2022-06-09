@@ -29,6 +29,7 @@ THE SOFTWARE.
 //                 * Support multiple search path for .mtl(v1 API).
 //                 * Support vertex weight `vw`(as an tinyobj extension)
 //                 * Support escaped whitespece in mtllib
+//                 * Add robust triangulation using Mapbox earcut(TINYOBJLOADER_USE_MAPBOX_EARCUT).
 // version 1.4.0 : Modifed ParseTextureNameAndOption API
 // version 1.3.1 : Make ParseTextureNameAndOption API public
 // version 1.3.0 : Separate warning and error message(breaking API of LoadObj)
@@ -502,6 +503,11 @@ class MaterialStreamReader : public MaterialReader {
 struct ObjReaderConfig {
   bool triangulate;  // triangulate polygon?
 
+  // Currently not used.
+  // "simple" or empty: Create triangle fan
+  // "earcut": Use the algorithm based on Ear clipping
+  std::string triangulation_method;
+
   /// Parse vertex color.
   /// If vertex color is not present, its filled with default value.
   /// false = no vertex color
@@ -515,7 +521,8 @@ struct ObjReaderConfig {
   ///
   std::string mtl_search_path;
 
-  ObjReaderConfig() : triangulate(true), vertex_color(true) {}
+  ObjReaderConfig()
+      : triangulate(true), triangulation_method("simple"), vertex_color(true) {}
 };
 
 ///
@@ -524,7 +531,6 @@ struct ObjReaderConfig {
 class ObjReader {
  public:
   ObjReader() : valid_(false) {}
-  ~ObjReader() {}
 
   ///
   /// Load .obj and .mtl from a file.
@@ -651,8 +657,31 @@ bool ParseTextureNameAndOption(std::string *texname, texture_option_t *texopt,
 #include <cstring>
 #include <fstream>
 #include <limits>
+#include <set>
 #include <sstream>
 #include <utility>
+
+#ifdef TINYOBJLOADER_USE_MAPBOX_EARCUT
+
+#ifdef TINYOBJLOADER_DONOT_INCLUDE_MAPBOX_EARCUT
+// Assume earcut.hpp is included outside of tiny_obj_loader.h
+#else
+
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Weverything"
+#endif
+
+#include <array>
+#include "mapbox/earcut.hpp"
+
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+
+#endif
+
+#endif  // TINYOBJLOADER_USE_MAPBOX_EARCUT
 
 namespace tinyobj {
 
@@ -941,7 +970,9 @@ static bool tryParseDouble(const char *s, const char *s_end, double *result) {
     read = 0;
     end_not_reached = (curr != s_end);
     while (end_not_reached && IS_DIGIT(*curr)) {
-      if (exponent > std::numeric_limits<int>::max()/10) {
+      // To avoid annoying MSVC's min/max macro definiton,
+      // Use hardcoded int max value
+      if (exponent > (2147483647/10)) { // 2147483647 = std::numeric_limits<int>::max()
         // Integer overflow
         goto fail;
       }
@@ -1542,36 +1573,86 @@ static bool exportGroupsToShape(shape_t *shape, const PrimGroup &prim_group,
             real_t cy = std::fabs(e0z * e1x - e0x * e1z);
             real_t cz = std::fabs(e0x * e1y - e0y * e1x);
             const real_t epsilon = std::numeric_limits<real_t>::epsilon();
+            // std::cout << "cx " << cx << ", cy " << cy << ", cz " << cz <<
+            // "\n";
             if (cx > epsilon || cy > epsilon || cz > epsilon) {
+              // std::cout << "corner\n";
               // found a corner
               if (cx > cy && cx > cz) {
+                // std::cout << "pattern0\n";
               } else {
+                // std::cout << "axes[0] = 0\n";
                 axes[0] = 0;
-                if (cz > cx && cz > cy) axes[1] = 1;
+                if (cz > cx && cz > cy) {
+                  // std::cout << "axes[1] = 1\n";
+                  axes[1] = 1;
+                }
               }
               break;
             }
           }
 
-          real_t area = 0;
-          for (size_t k = 0; k < npolys; ++k) {
-            i0 = face.vertex_indices[(k + 0) % npolys];
-            i1 = face.vertex_indices[(k + 1) % npolys];
+#ifdef TINYOBJLOADER_USE_MAPBOX_EARCUT
+          using Point = std::array<real_t, 2>;
+
+          // first polyline define the main polygon.
+          // following polylines define holes(not used in tinyobj).
+          std::vector<std::vector<Point> > polygon;
+
+          std::vector<Point> polyline;
+
+          // Fill polygon data(facevarying vertices).
+          for (size_t k = 0; k < npolys; k++) {
+            i0 = face.vertex_indices[k];
             size_t vi0 = size_t(i0.v_idx);
-            size_t vi1 = size_t(i1.v_idx);
-            if (((vi0 * 3 + axes[0]) >= v.size()) ||
-                ((vi0 * 3 + axes[1]) >= v.size()) ||
-                ((vi1 * 3 + axes[0]) >= v.size()) ||
-                ((vi1 * 3 + axes[1]) >= v.size())) {
-              // Invalid index.
-              continue;
-            }
+
+            assert(((3 * vi0 + 2) < v.size()));
+
             real_t v0x = v[vi0 * 3 + axes[0]];
             real_t v0y = v[vi0 * 3 + axes[1]];
-            real_t v1x = v[vi1 * 3 + axes[0]];
-            real_t v1y = v[vi1 * 3 + axes[1]];
-            area += (v0x * v1y - v0y * v1x) * static_cast<real_t>(0.5);
+
+            polyline.push_back({v0x, v0y});
           }
+
+          polygon.push_back(polyline);
+          std::vector<uint32_t> indices = mapbox::earcut<uint32_t>(polygon);
+          // => result = 3 * faces, clockwise
+
+          assert(indices.size() % 3 == 0);
+
+          // Reconstruct vertex_index_t
+          for (size_t k = 0; k < indices.size() / 3; k++) {
+            {
+              index_t idx0, idx1, idx2;
+              idx0.vertex_index = face.vertex_indices[indices[3 * k + 0]].v_idx;
+              idx0.normal_index =
+                  face.vertex_indices[indices[3 * k + 0]].vn_idx;
+              idx0.texcoord_index =
+                  face.vertex_indices[indices[3 * k + 0]].vt_idx;
+              idx1.vertex_index = face.vertex_indices[indices[3 * k + 1]].v_idx;
+              idx1.normal_index =
+                  face.vertex_indices[indices[3 * k + 1]].vn_idx;
+              idx1.texcoord_index =
+                  face.vertex_indices[indices[3 * k + 1]].vt_idx;
+              idx2.vertex_index = face.vertex_indices[indices[3 * k + 2]].v_idx;
+              idx2.normal_index =
+                  face.vertex_indices[indices[3 * k + 2]].vn_idx;
+              idx2.texcoord_index =
+                  face.vertex_indices[indices[3 * k + 2]].vt_idx;
+
+              shape->mesh.indices.push_back(idx0);
+              shape->mesh.indices.push_back(idx1);
+              shape->mesh.indices.push_back(idx2);
+
+              shape->mesh.num_face_vertices.push_back(3);
+              shape->mesh.material_ids.push_back(material_id);
+              shape->mesh.smoothing_group_ids.push_back(
+                  face.smoothing_group_id);
+            }
+          }
+
+#else  // Built-in ear clipping triangulation
+
 
           face_t remainingFace = face;  // copy
           size_t guess_vert = 0;
@@ -1587,6 +1668,9 @@ static bool exportGroupsToShape(shape_t *shape, const PrimGroup &prim_group,
 
           while (remainingFace.vertex_indices.size() > 3 &&
                  remainingIterations > 0) {
+            // std::cout << "remainingIterations " << remainingIterations <<
+            // "\n";
+
             npolys = remainingFace.vertex_indices.size();
             if (guess_vert >= npolys) {
               guess_vert -= npolys;
@@ -1615,14 +1699,26 @@ static bool exportGroupsToShape(shape_t *shape, const PrimGroup &prim_group,
                 vy[k] = v[vi * 3 + axes[1]];
               }
             }
+
+            //
+            // area is calculated per face
+            //
             real_t e0x = vx[1] - vx[0];
             real_t e0y = vy[1] - vy[0];
             real_t e1x = vx[2] - vx[1];
             real_t e1y = vy[2] - vy[1];
             real_t cross = e0x * e1y - e0y * e1x;
+            // std::cout << "axes = " << axes[0] << ", " << axes[1] << "\n";
+            // std::cout << "e0x, e0y, e1x, e1y " << e0x << ", " << e0y << ", "
+            // << e1x << ", " << e1y << "\n";
+
+            real_t area = (vx[0] * vy[1] - vy[0] * vx[1]) * static_cast<real_t>(0.5);
+            // std::cout << "cross " << cross << ", area " << area << "\n";
             // if an internal angle
             if (cross * area < static_cast<real_t>(0.0)) {
+              // std::cout << "internal \n";
               guess_vert += 1;
+              // std::cout << "guess vert : " << guess_vert << "\n";
               continue;
             }
 
@@ -1632,6 +1728,7 @@ static bool exportGroupsToShape(shape_t *shape, const PrimGroup &prim_group,
               size_t idx = (guess_vert + otherVert) % npolys;
 
               if (idx >= remainingFace.vertex_indices.size()) {
+                // std::cout << "???0\n";
                 // ???
                 continue;
               }
@@ -1640,18 +1737,21 @@ static bool exportGroupsToShape(shape_t *shape, const PrimGroup &prim_group,
 
               if (((ovi * 3 + axes[0]) >= v.size()) ||
                   ((ovi * 3 + axes[1]) >= v.size())) {
+                // std::cout << "???1\n";
                 // ???
                 continue;
               }
               real_t tx = v[ovi * 3 + axes[0]];
               real_t ty = v[ovi * 3 + axes[1]];
               if (pnpoly(3, vx, vy, tx, ty)) {
+                // std::cout << "overlap\n";
                 overlap = true;
                 break;
               }
             }
 
             if (overlap) {
+              // std::cout << "overlap2\n";
               guess_vert += 1;
               continue;
             }
@@ -1689,6 +1789,8 @@ static bool exportGroupsToShape(shape_t *shape, const PrimGroup &prim_group,
             remainingFace.vertex_indices.pop_back();
           }
 
+          // std::cout << "remainingFace.vi.size = " <<
+          // remainingFace.vertex_indices.size() << "\n";
           if (remainingFace.vertex_indices.size() == 3) {
             i0 = remainingFace.vertex_indices[0];
             i1 = remainingFace.vertex_indices[1];
@@ -1715,6 +1817,7 @@ static bool exportGroupsToShape(shape_t *shape, const PrimGroup &prim_group,
                   face.smoothing_group_id);
             }
           }
+#endif
         }  // npolys
       } else {
         for (size_t k = 0; k < npolys; k++) {
@@ -2343,6 +2446,7 @@ bool LoadObj(attrib_t *attrib, std::vector<shape_t> *shapes,
   std::string name;
 
   // material
+  std::set<std::string> material_filenames;
   std::map<std::string, int> material_map;
   int material = -1;
 
@@ -2633,6 +2737,11 @@ bool LoadObj(attrib_t *attrib, std::vector<shape_t> *shapes,
         } else {
           bool found = false;
           for (size_t s = 0; s < filenames.size(); s++) {
+            if (material_filenames.count(filenames[s]) > 0) {
+              found = true;
+              continue;
+            }
+
             std::string warn_mtl;
             std::string err_mtl;
             bool ok = (*readMatFn)(filenames[s].c_str(), materials,
@@ -2647,6 +2756,7 @@ bool LoadObj(attrib_t *attrib, std::vector<shape_t> *shapes,
 
             if (ok) {
               found = true;
+              material_filenames.insert(filenames[s]);
               break;
             }
           }
@@ -2891,6 +3001,7 @@ bool LoadObjWithCallback(std::istream &inStream, const callback_t &callback,
   std::stringstream errss;
 
   // material
+  std::set<std::string> material_filenames;
   std::map<std::string, int> material_map;
   int material_id = -1;  // -1 = invalid
 
@@ -3036,6 +3147,11 @@ bool LoadObjWithCallback(std::istream &inStream, const callback_t &callback,
         } else {
           bool found = false;
           for (size_t s = 0; s < filenames.size(); s++) {
+            if (material_filenames.count(filenames[s]) > 0) {
+              found = true;
+              continue;
+            }
+
             std::string warn_mtl;
             std::string err_mtl;
             bool ok = (*readMatFn)(filenames[s].c_str(), &materials,
@@ -3051,6 +3167,7 @@ bool LoadObjWithCallback(std::istream &inStream, const callback_t &callback,
 
             if (ok) {
               found = true;
+              material_filenames.insert(filenames[s]);
               break;
             }
           }

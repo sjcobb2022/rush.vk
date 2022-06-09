@@ -1,44 +1,46 @@
 #pragma once
 
-namespace rush
+#include <deque>
+#include <functional>
+
+/**
+ * @brief Function queue struct used for deletion queues and other function
+ * 
+ */
+struct f_Queue
 {
-    std::deque<std::function<void()>> deletionQueue;
-    
-    /**
-     * @brief Add a function to the deletion queue
-     *
-     * @tparam T Return type of function
-     * @tparam Args Type of arguments
-     * @param func Function to be passed to the deletion queue
-     * @param args Args for specified function
-     */
-    template <typename Func, typename... Args>
-    inline void delq_push(Func func, Args ...args)
-    {
-        // push back a function called with the args
-        deletionQueue.push_back(
-            [&](Args... args)
-            {
-                func(std::forward<Args>(args)...);
-            });
-    };
-    
-    template <typename Func>
-    inline void delq_push(Func func)
-    {
-        // push back a function called with the args
-        deletionQueue.push_back(func);
+    std::deque<std::function<void()>> m_Queue;
+
+    inline std::reverse_iterator<std::deque<std::function<void()>>::iterator> rbegin(){
+        return m_Queue.rbegin();
     }
 
-    /**
-     * @brief Flushes the deletion queue
-     * 
-     */
-    inline void delq_flush()
+    inline std::reverse_iterator<std::deque<std::function<void()>>::iterator> rend(){
+        return m_Queue.rend();
+    }
+
+    template <typename F>
+    void push_function(F &&function)
     {
-        for (auto it = deletionQueue.rbegin(); it != deletionQueue.rend(); it++)
+        m_Queue.push_back(function);
+    }
+
+    template <typename F, typename... Args>
+    void push_function(F &&function, Args... args)
+    {
+        m_Queue.push_back([&](){
+            function(std::forward<Args>(args)...); //forward the args to the function that are captured by reference
+        });
+    }
+
+    void flush()
+    {
+        // reverse iterate the deletion queue to execute all the functions
+        for (auto it = m_Queue.rbegin(); it != m_Queue.rend(); it++)
         {
             (*it)(); // call functors
         }
+
+        m_Queue.clear();
     }
-}
+};

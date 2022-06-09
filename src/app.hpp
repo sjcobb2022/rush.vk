@@ -3,6 +3,8 @@
 // libs
 #include "rush_pch.hpp"
 
+#include "util/util.hpp"
+
 namespace rush
 {
     class App
@@ -20,6 +22,8 @@ namespace rush
 
         void run();
 
+        f_Queue m_DeletionQueue;
+
         // void registerSetupIn
 
         void setup(std::function<void(entt::registry sceneRegistry, int placeHolderforCam)> &&setupFunction);
@@ -27,6 +31,7 @@ namespace rush
         void loop(std::function<void(entt::registry sceneRegistry, int placeHolderforCam)> &&loopFunction);
 
         void end(std::function<void(entt::registry sceneRegistry, int placeHolderforCam)> &&endFunction);
+
 
     };
 

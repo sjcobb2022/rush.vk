@@ -6,6 +6,8 @@
 #include <algorithm>
 #endif
 
+#include "util/util.hpp"
+
 template <typename T>
 class has_valid_operator
 {
@@ -87,7 +89,7 @@ namespace rush
         {
             if constexpr (has_valid_operator<F>::value)
             {
-                runtimeViewFunctors.push_back(
+                runtimeViewFunctors.push_function(
                     [&f, this]()
                     {
                         Each<decltype(&F::operator())>::each(std::forward<F>(f), m_Registry);
@@ -126,7 +128,7 @@ namespace rush
 
     private:
         entt::registry m_Registry;
-        std::deque<std::function<void()>> runtimeViewFunctors;
+        f_Queue runtimeViewFunctors;
 
         //<-------- DO NOT TOUCH :: WILL CAUSE SEGFAULTS -------->
         // Credits to Nikki93 for helping me implement this template fuckery
