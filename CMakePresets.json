@@ -1,0 +1,79 @@
+{
+    "version": 2,
+    "configurePresets": [
+        {
+            "name": "VisualStudio_Debug",
+            "displayName": "VSCode-dbg",
+            "description": "Sets default generator, build and install directory",
+            "binaryDir": "${sourceDir}/build/${presetName}",
+            "generator": "Visual Studio 17 2022",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Release",
+                "CMAKE_TOOLCHAIN_FILE": ""
+            }
+        },
+        {
+            "name": "VisualStudio_Release",
+            "displayName": "VSCode-rls",
+            "description": "Sets default generator, build and install directory",
+            "binaryDir": "${sourceDir}/build/${presetName}",
+            "generator": "Visual Studio 17 2022",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Release",
+                "CMAKE_TOOLCHAIN_FILE": ""
+            }
+        },
+        {
+            "name": "Ninja_Debug",
+            "displayName": "Ninja-dgb",
+            "description": "Sets Ninja as generator, build and install directory",
+            "binaryDir": "${sourceDir}/build/${presetName}",
+            "generator": "Ninja", 
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Release",
+                "CMAKE_TOOLCHAIN_FILE": ""
+            }
+        },
+        {
+            "name": "Ninja_Release",
+            "displayName": "Ninja-rls",
+            "description": "Sets Ninja as generator, build and install directory",
+            "binaryDir": "${sourceDir}/build/${presetName}",
+            "generator": "Ninja",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Release",
+                "CMAKE_TOOLCHAIN_FILE": ""
+            }
+        }
+    ],
+    "buildPresets": [
+        {
+            "name": "VisualStudio_Debug",
+            "description": "Debug build using Visual Studio",
+            "displayName": "VS-dbg",
+            "configurePreset": "VisualStudio_Debug",
+            "configuration": "Debug"
+        },
+        {
+            "name": "VisualStudio_Release",
+            "description": "Release build using Visual Studio",
+            "displayName": "VS-rls",
+            "configurePreset": "VisualStudio_Release",
+            "configuration": "Release"
+        },
+        {
+            "name": "Ninja_Debug",
+            "description": "Debug build using Ninja",
+            "displayName": "Ninja-dbg",
+            "configurePreset": "Ninja_Debug",
+            "configuration": "Debug"
+        },
+        {
+            "name": "Ninja_Release",
+            "description": "Debug build using Ninja",
+            "displayName": "Ninja-rls",
+            "configurePreset": "Ninja_Release",
+            "configuration": "Release"
+        }
+    ]
+}

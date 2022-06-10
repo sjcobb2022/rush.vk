@@ -1,9 +1,15 @@
-# Rush.vk
+# rush.vk
 
-> REMEMBER TO `git clone --recursive`
+<br/>
+
+[![windows](https://github.com/sjcobb2022/rush.vk/actions/workflows/build-windows.yml/badge.svg)](https://github.com/sjcobb2022/rush.vk/actions/workflows/build-windows.yml)
+[![linux](https://github.com/sjcobb2022/rush.vk/actions/workflows/build-linux.yml/badge.svg)](https://github.com/sjcobb2022/rush.vk/actions/workflows/build-linux.yml)
+[![mac](https://github.com/sjcobb2022/rush.vk/actions/workflows/build-mac.yml/badge.svg)](https://github.com/sjcobb2022/rush.vk/actions/workflows/build-mac.yml)
+
+
 
 ## Table of Contents
-- [Building](#Building)
+- [Build](#Building)
   - [Building for Unix](#UnixBuild)
   - [Building for MacOS](#MacOSBuild)
   - [Building for Windows](#WindowsBuild)
@@ -12,6 +18,10 @@
     - [People and Groups](#PeopleAndGroups)
 
 ## <a name="Building"></a> Building
+
+<br/>
+
+> Remember to `git clone --recursive https://github.com/sjcobb2022/rush.vk.git`
 
 ### <a name="UnixBuild"></a> Unix Build Instructions
 
@@ -44,11 +54,6 @@
   ```or [Download](https://cmake.org/download/)```
 
 - To Build
-  - Shell
-    ```
-    cd rush.vk
-    ./build.sh
-    ```
   - cmake
     ```
     cmake -S . -B ./build
@@ -57,8 +62,8 @@
 
 ### <a name="WindowsBuild"></a> Windows build instructions
 
-- [Download and install Windows Vulkan sdk](https://vulkan.lunarg.com/)
-- [Download and install Windows cmake x64 installer](https://cmake.org/download/)
+- [Download and install the Vulkan SDK](https://vulkan.lunarg.com/)
+- [Download and install CMake](https://cmake.org/download/)
   - Make sure to select "Add cmake to the system Path for all users"
 - Download and open the project and rename ".env.windows.example.cmake" to ".env.windows.cmake"
 - Update the filepath variables in .env.windows.cmake to your installation locations

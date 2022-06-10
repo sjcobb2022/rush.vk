@@ -1,9 +1,6 @@
 [submodule "libs/glfw"]
 	path = libs/glfw
 	url = https://github.com/glfw/glfw.git
-[submodule "libs/imgui"]
-	path = libs/imgui
-	url = https://github.com/ocornut/imgui.git
 [submodule "libs/vma"]
 	path = libs/vma
 	url = https://github.com/GPUOpen-LibrariesAndSDKs/VulkanMemoryAllocator.git
@@ -19,3 +16,15 @@
 [submodule "libs/KTX-Software"]
 	path = libs/KTX-Software
 	url = https://github.com/KhronosGroup/KTX-Software.git
+[submodule "libs/imgui"]
+	path = libs/imgui
+	url = https://github.com/sjcobb2022/imgui.git
+[submodule ".github/actions/setup-vulkan-sdk"]
+	path = .github/actions/setup-vulkan-sdk
+	url = https://github.com/sjcobb2022/setup-vulkan-sdk
+[submodule "libs/tinyobjloader"]
+	path = libs/tinyobjloader
+	url = https://github.com/tinyobjloader/tinyobjloader.git
+[submodule "libs/tinygltf"]
+	path = libs/tinygltf
+	url = https://github.com/syoyo/tinygltf.git

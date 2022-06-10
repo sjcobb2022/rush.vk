@@ -1,19 +1,9 @@
 #pragma once
 
 // libs
-#define GLM_FORCE_RADIANS
-#define GLM_FORCE_DEPTH_ZERO_TO_ONE
-#include <spdlog/spdlog.h>
+#include "rush_pch.hpp"
 
-#include <entt/entity/registry.hpp>
-
-// libs
-#include <GLFW/glfw3.h>
-
-// std
-#include <memory>
-#include <vector>
-#include <functional>
+#include "util/util.hpp"
 
 namespace rush
 {
@@ -32,6 +22,9 @@ namespace rush
 
         void run();
 
+        f_Queue m_DeletionQueue;
+
+        // void registerSetupIn
 
         void setup(std::function<void(entt::registry sceneRegistry, int placeHolderforCam)> &&setupFunction);
 
@@ -39,10 +32,6 @@ namespace rush
 
         void end(std::function<void(entt::registry sceneRegistry, int placeHolderforCam)> &&endFunction);
 
-    private:
-        GLFWwindow *initWindow();
-
-        void cleanUpWindow(GLFWwindow *window);
 
     };
 

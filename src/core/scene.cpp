@@ -1,6 +1,6 @@
 #include "scene.hpp"
 
-#include <spdlog/spdlog.h>
+// #include "rush_pch.hpp"
 
 namespace rush
 {
