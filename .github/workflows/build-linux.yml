@@ -40,12 +40,12 @@ jobs:
           with:
             vulkan-query-version: latest
             vulkan-components: Vulkan-Loader, shaderc
-            vulkan-use-cache: on
+            vulkan-use-cache: off
         
         - name: ls some paths
           shell: bash
           run: |
-          ls $VULKAN_SDK && ls ${VULKAN_SDK}
+            ls $VULKAN_SDK && ls ${VULKAN_SDK}
         
         - name: Install GLFW dependencies Linux
           uses: RpxdYTX/install-glfw-deps@v2

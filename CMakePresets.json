@@ -8,14 +8,13 @@
             "binaryDir": "${sourceDir}/build/${presetName}",
             "generator": "Visual Studio 17 2022",
             "environment": {
-                "CMAKE_INSTALL_PREFIX": "$env{VULKAN_SDK}",
-                "VULKAN_SDK": "$env{VULKAN_SDK}"
+                "CMAKE_INSTALL_PREFIX": "$env{VULKAN_SDK}"
             },
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Release",
                 "CMAKE_TOOLCHAIN_FILE": "",
                 "CMAKE_MODULE_PATH": "${sourceDir}/cmake/modules",
-                "CMAKE_PREFIX_PATH": "$env{VULKAN_SDK};${sourceDir}/cmake/modules"
+                "CMAKE_PREFIX_PATH": "${sourceDir}/cmake/modules"
             }
         },
         {
@@ -25,14 +24,13 @@
             "binaryDir": "${sourceDir}/build/${presetName}",
             "generator": "Visual Studio 17 2022",
             "environment": {
-                "CMAKE_INSTALL_PREFIX": "$env{VULKAN_SDK}",
-                "VULKAN_SDK": "$env{VULKAN_SDK}"
+                "CMAKE_INSTALL_PREFIX": "$env{VULKAN_SDK}"
             },
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Release",
                 "CMAKE_TOOLCHAIN_FILE": "",
                 "CMAKE_MODULE_PATH": "${sourceDir}/cmake/modules",
-                "CMAKE_PREFIX_PATH": "$env{VULKAN_SDK};${sourceDir}/cmake/modules"
+                "CMAKE_PREFIX_PATH": "${sourceDir}/cmake/modules"
             }
         },
         {
@@ -42,14 +40,13 @@
             "binaryDir": "${sourceDir}/build/${presetName}",
             "generator": "Ninja", 
             "environment": {
-                "CMAKE_INSTALL_PREFIX": "$env{VULKAN_SDK}",
-                "VULKAN_SDK": "$env{VULKAN_SDK}"
+                "CMAKE_INSTALL_PREFIX": "$env{VULKAN_SDK}"
             },
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Release",
                 "CMAKE_TOOLCHAIN_FILE": "",
                 "CMAKE_MODULE_PATH": "${sourceDir}/cmake/modules",
-                "CMAKE_PREFIX_PATH": "$env{VULKAN_SDK};${sourceDir}/cmake/modules"
+                "CMAKE_PREFIX_PATH": "${sourceDir}/cmake/modules"
             }
         },
         {
@@ -59,14 +56,13 @@
             "binaryDir": "${sourceDir}/build/${presetName}",
             "generator": "Ninja",
             "environment": {
-                "CMAKE_INSTALL_PREFIX": "$env{VULKAN_SDK}",
-                "VULKAN_SDK": "$env{VULKAN_SDK}"
+                "CMAKE_INSTALL_PREFIX": "$env{VULKAN_SDK}"
             },
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Release",
                 "CMAKE_TOOLCHAIN_FILE": "",
                 "CMAKE_MODULE_PATH": "${sourceDir}/cmake/modules",
-                "CMAKE_PREFIX_PATH": "$env{VULKAN_SDK};${sourceDir}/cmake/modules"
+                "CMAKE_PREFIX_PATH": "${sourceDir}/cmake/modules"
             }
         }
     ],
