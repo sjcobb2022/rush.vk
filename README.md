@@ -65,9 +65,7 @@
 - [Download and install the Vulkan SDK](https://vulkan.lunarg.com/)
 - [Download and install CMake](https://cmake.org/download/)
   - Make sure to select "Add cmake to the system Path for all users"
-- Download and open the project and rename ".env.windows.example.cmake" to ".env.windows.cmake"
-- Update the filepath variables in .env.windows.cmake to your installation locations
-
+- If Vulkan is not in the default location, add .env.cmake and point cmake in the right direction to find the vulkan lib
 #### Building for Visual Studio 2019
 
 - In windows powershell
