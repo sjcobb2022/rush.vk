@@ -5,7 +5,15 @@
 
 namespace rush
 {
-    
+    // ---- Queue ---- //
+    enum class QueueType
+    {
+        present,
+        graphics,
+        compute,
+        transfer
+    };
+
     struct Device
     {
         VkDevice device = VK_NULL_HANDLE;

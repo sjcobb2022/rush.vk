@@ -224,14 +224,4 @@ namespace rush
 
         std::vector<PhysicalDevice> select_impl(DeviceSelectionMode selection) const;
     };
-
-    // ---- Queue ---- //
-    enum class QueueType
-    {
-        present,
-        graphics,
-        compute,
-        transfer
-    };
-
 }
