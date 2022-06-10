@@ -8,6 +8,8 @@
 
 namespace rush
 {
+    class PhysicalDeviceBuilder; //fwd declaration
+
     struct Instance
     {
         VkInstance instance = VK_NULL_HANDLE;
@@ -20,6 +22,7 @@ namespace rush
         uint32_t api_version = VK_API_VERSION_1_0;
 
         friend class InstanceBuilder;
+        friend class PhysicalDeviceBuilder;
     };
 
     class InstanceBuilder
