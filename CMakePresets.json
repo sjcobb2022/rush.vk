@@ -10,7 +10,8 @@
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Release",
                 "CMAKE_TOOLCHAIN_FILE": "",
-                "CMAKE_MODULE_PATH": "${sourceDir}/cmake/modules"
+                "CMAKE_MODULE_PATH": "${sourceDir}/cmake/modules",
+                "CMAKE_INSTALL_PREFIX": "${sourceDir}/cmake/modules"
             }
         },
         {
@@ -22,7 +23,9 @@
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Release",
                 "CMAKE_TOOLCHAIN_FILE": "",
-                "CMAKE_MODULE_PATH": "${sourceDir}/cmake/modules"
+                "CMAKE_MODULE_PATH": "${sourceDir}/cmake/modules",
+                "CMAKE_INSTALL_PREFIX": "${sourceDir}/cmake/modules"
+
             }
         },
         {
@@ -30,11 +33,12 @@
             "displayName": "Ninja-dgb",
             "description": "Sets Ninja as generator, build and install directory",
             "binaryDir": "${sourceDir}/build/${presetName}",
-            "generator": "Ninja",
+            "generator": "Ninja", 
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Release",
                 "CMAKE_TOOLCHAIN_FILE": "",
-                "CMAKE_MODULE_PATH": "${sourceDir}/cmake/modules"
+                "CMAKE_MODULE_PATH": "${sourceDir}/cmake/modules",
+                "CMAKE_INSTALL_PREFIX": "${sourceDir}/cmake/modules"
             }
         },
         {
@@ -46,7 +50,8 @@
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Release",
                 "CMAKE_TOOLCHAIN_FILE": "",
-                "CMAKE_MODULE_PATH": "${sourceDir}/cmake/modules"
+                "CMAKE_MODULE_PATH": "${sourceDir}/cmake/modules",
+                "CMAKE_INSTALL_PREFIX": "${sourceDir}/cmake/modules"
             }
         }
     ],

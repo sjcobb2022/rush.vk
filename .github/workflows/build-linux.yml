@@ -51,4 +51,4 @@ jobs:
           with:
             cmakeListsTxtPath: '${{ github.workspace }}/CMakeLists.txt'
             configurePreset: 'Ninja_Release'
-            buildPreset: 'Ninja_Release'
+            buildPreset: 'Ninja_Release' 
