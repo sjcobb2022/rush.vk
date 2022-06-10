@@ -24,7 +24,7 @@ set(CMAKE_PREFIX_PATH "${CMAKE_PREFIX_PATH};${CMAKE_MODULE_PATH};${VULKAN_SDK}")
 message(NOTICE "Find Vulkan Loader and Shaderc")
 find_package(Vulkan REQUIRED)
 
-find_package(shaderc REQUIRED)
+find_package(Shaderc REQUIRED)
 
 message(NOTICE "Adding Vulkan Memory Allocator")
 add_subdirectory(libs/vma)
