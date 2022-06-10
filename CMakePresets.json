@@ -8,9 +8,9 @@
             "binaryDir": "${sourceDir}/build/${presetName}",
             "generator": "Visual Studio 17 2022",
             "cacheVariables": {
-                "CMAKE_BUILD_TYPE": "Debug",
+                "CMAKE_BUILD_TYPE": "Release",
                 "CMAKE_TOOLCHAIN_FILE": "",
-                "CMAKE_INSTALL_PREFIX": "${sourceDir}/install/${presetName}"
+                "CMAKE_MODULE_PATH": "${sourceDir}/cmake/modules"
             }
         },
         {
@@ -22,7 +22,7 @@
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Release",
                 "CMAKE_TOOLCHAIN_FILE": "",
-                "CMAKE_INSTALL_PREFIX": "${sourceDir}/install/${presetName}"
+                "CMAKE_MODULE_PATH": "${sourceDir}/cmake/modules"
             }
         },
         {
@@ -32,9 +32,9 @@
             "binaryDir": "${sourceDir}/build/${presetName}",
             "generator": "Ninja",
             "cacheVariables": {
-                "CMAKE_BUILD_TYPE": "Debug",
+                "CMAKE_BUILD_TYPE": "Release",
                 "CMAKE_TOOLCHAIN_FILE": "",
-                "CMAKE_INSTALL_PREFIX": "${sourceDir}/install/${presetName}"
+                "CMAKE_MODULE_PATH": "${sourceDir}/cmake/modules"
             }
         },
         {
@@ -46,7 +46,7 @@
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Release",
                 "CMAKE_TOOLCHAIN_FILE": "",
-                "CMAKE_INSTALL_PREFIX": "${sourceDir}/install/${presetName}"
+                "CMAKE_MODULE_PATH": "${sourceDir}/cmake/modules"
             }
         }
     ],
@@ -64,7 +64,6 @@
             "displayName": "VS-rls",
             "configurePreset": "VisualStudio_Release",
             "configuration": "Release"
-
         },
         {
             "name": "Ninja_Debug",
