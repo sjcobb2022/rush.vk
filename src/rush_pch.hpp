@@ -48,8 +48,8 @@
 #include "vk_mem_alloc.h" //core
 
 //  tinygltf
-#include "tiny_gltf.h" // get json.hpp from the repository
+#include <tiny_gltf.h> // get json.hpp from the repository
 
 //  TinyObjLoader
-#include "tiny_obj_loader.h" //core
+#include <tiny_obj_loader.h> //core
 
