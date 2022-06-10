@@ -22,7 +22,6 @@ namespace rush
 
     Core::Core(GLFWwindow *window)
     {
-        // device = rush::device::createDevice(window);
         InstanceBuilder builder;
         auto instance = builder.set_app_name("Test VK App")
                         .request_validation_layers()

@@ -5,17 +5,18 @@
 
 /**
  * @brief Function queue struct used for deletion queues and other function
- * 
+ *
  */
 struct f_Queue
 {
-    std::deque<std::function<void()>> m_Queue;
 
-    inline std::reverse_iterator<std::deque<std::function<void()>>::iterator> rbegin(){
+    inline std::reverse_iterator<std::deque<std::function<void()>>::iterator> rbegin()
+    {
         return m_Queue.rbegin();
     }
 
-    inline std::reverse_iterator<std::deque<std::function<void()>>::iterator> rend(){
+    inline std::reverse_iterator<std::deque<std::function<void()>>::iterator> rend()
+    {
         return m_Queue.rend();
     }
 
@@ -29,8 +30,8 @@ struct f_Queue
     void push_function(F &&function, Args... args)
     {
         m_Queue.push_back([&](){
-            function(std::forward<Args>(args)...); //forward the args to the function that are captured by reference
-        });
+            function(std::forward<Args>(args)...); //forward the args to the function that are captured by reference });
+    }); 
     }
 
     void flush()
@@ -43,4 +44,7 @@ struct f_Queue
 
         m_Queue.clear();
     }
+
+private:
+    std::deque<std::function<void()>> m_Queue;
 };

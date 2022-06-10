@@ -15,7 +15,7 @@ namespace rush
      * @param share GLFWindow* to focus on, default: nullptr
      * @return GLFWwindow*
      */
-    GLFWwindow *window_init(int w, int h, std::string window_title, GLFWmonitor *monitor, GLFWwindow *share);
+    GLFWwindow *window_init(int w, int h, std::string window_title, GLFWmonitor *monitor = nullptr, GLFWwindow *share = nullptr);
 
     void window_createSurface(GLFWwindow *window, VkInstance instance, VkSurfaceKHR *surface);
 
