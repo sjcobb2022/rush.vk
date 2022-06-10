@@ -15,11 +15,7 @@ project(${NAME})
 
 set(CMAKE_CXX_STANDARD 17)
 
-list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake/modules;${CMAKE_PREFIX_PATH};${VULKAN_SDK}")
-
-set(CMAKE_PREFIX_PATH "${CMAKE_PREFIX_PATH};${CMAKE_MODULE_PATH};${VULKAN_SDK}")
-
-# set(CMAKE_BUILD_TYPE Release)
+list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake/modules")
 
 message(NOTICE "Find Vulkan Loader and Shaderc")
 find_package(Vulkan REQUIRED)

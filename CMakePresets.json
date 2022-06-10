@@ -7,14 +7,9 @@
             "description": "Sets default generator, build and install directory",
             "binaryDir": "${sourceDir}/build/${presetName}",
             "generator": "Visual Studio 17 2022",
-            "environment": {
-                "CMAKE_PREFIX_PATH": "$env{VULKAN_SDK}"
-            },
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Release",
-                "CMAKE_TOOLCHAIN_FILE": "",
-                "CMAKE_MODULE_PATH": "${sourceDir}/cmake/modules;$env{VULKAN_SDK}",
-                "CMAKE_PREFIX_PATH": "${sourceDir}/cmake/modules;$env{VULKAN_SDK}"
+                "CMAKE_TOOLCHAIN_FILE": ""
             }
         },
         {
@@ -23,14 +18,9 @@
             "description": "Sets default generator, build and install directory",
             "binaryDir": "${sourceDir}/build/${presetName}",
             "generator": "Visual Studio 17 2022",
-            "environment": {
-                "CMAKE_PREFIX_PATH": "$env{VULKAN_SDK}"
-            },
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Release",
-                "CMAKE_TOOLCHAIN_FILE": "",
-                "CMAKE_MODULE_PATH": "${sourceDir}/cmake/modules;$env{VULKAN_SDK}",
-                "CMAKE_PREFIX_PATH": "${sourceDir}/cmake/modules;$env{VULKAN_SDK}"
+                "CMAKE_TOOLCHAIN_FILE": ""
             }
         },
         {
@@ -39,14 +29,9 @@
             "description": "Sets Ninja as generator, build and install directory",
             "binaryDir": "${sourceDir}/build/${presetName}",
             "generator": "Ninja", 
-            "environment": {
-                "CMAKE_PREFIX_PATH": "$env{VULKAN_SDK}"
-            },
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Release",
-                "CMAKE_TOOLCHAIN_FILE": "",
-                "CMAKE_MODULE_PATH": "${sourceDir}/cmake/modules;$env{VULKAN_SDK}",
-                "CMAKE_PREFIX_PATH": "${sourceDir}/cmake/modules;$env{VULKAN_SDK}"
+                "CMAKE_TOOLCHAIN_FILE": ""
             }
         },
         {
@@ -55,14 +40,9 @@
             "description": "Sets Ninja as generator, build and install directory",
             "binaryDir": "${sourceDir}/build/${presetName}",
             "generator": "Ninja",
-            "environment": {
-                "CMAKE_PREFIX_PATH": "$env{VULKAN_SDK}"
-            },
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Release",
-                "CMAKE_TOOLCHAIN_FILE": "",
-                "CMAKE_MODULE_PATH": "${sourceDir}/cmake/modules;$env{VULKAN_SDK}",
-                "CMAKE_PREFIX_PATH": "${sourceDir}/cmake/modules;$env{VULKAN_SDK}"
+                "CMAKE_TOOLCHAIN_FILE": ""
             }
         }
     ],
