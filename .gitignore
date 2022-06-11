@@ -27,3 +27,5 @@ reference/**
 
 # Annoying apple caching thing
 **/.DS_STORE
+
+**/build-all.yml
