@@ -16,7 +16,8 @@ jobs:
           include:
             - os: "windows-latest"
               compiler: "msvc"
-              build-preset: "VisualStudio"
+              build-preset: 
+                - "VisualStudio"
               build-config: 
                 - Release
                 - Debug

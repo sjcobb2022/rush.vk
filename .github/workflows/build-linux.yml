@@ -19,7 +19,8 @@ jobs:
           - gcc
           - llvm
           - clang
-          build-preset: "Ninja"
+          build-preset: 
+            - Ninja
           build-config: 
              - Release
              - Debug

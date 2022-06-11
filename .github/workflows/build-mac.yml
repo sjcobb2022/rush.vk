@@ -16,7 +16,8 @@ jobs:
         matrix:
           os:
             - macos-latest
-          build-preset: "Ninja"
+          build-preset: 
+            - Ninja
           build-config:
              - Release
              - Debug
