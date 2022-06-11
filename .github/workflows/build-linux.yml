@@ -19,6 +19,10 @@ jobs:
           - gcc
           - llvm
           - clang
+          build-preset: "Ninja"
+          build-config: 
+             - Release
+             - Debug
       steps:
         - name: Get submodules
           uses: actions/checkout@v3
@@ -50,5 +54,5 @@ jobs:
           uses: lukka/run-cmake@v10
           with:
             cmakeListsTxtPath: '${{ github.workspace }}/CMakeLists.txt'
-            configurePreset: 'Ninja_Release'
-            buildPreset: 'Ninja_Release' 
+            configurePreset: '${{matrix.build-preset}}_${{matrix.build-config}}'
+            buildPreset: '${{matrix.build-preset}}_${{matrix.build-config}}'
