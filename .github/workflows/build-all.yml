@@ -28,10 +28,7 @@ jobs:
             - os: "windows-latest"
               compiler: "msvc"
               build-preset: VisualStudio
-              build-config:
-                - Release
-                - Debug
-          
+              
             - os: "macos-latest"
               build-preset: Ninja
       steps:
