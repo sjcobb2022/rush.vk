@@ -15,11 +15,13 @@ jobs:
         matrix:
           os: 
             - windows-latest
-          compiler: msvc
-          build-preset: VisualStudio
+          compiler: 
+            - msvc
+          build-preset:
+            - VisualStudio
           build-config:
-             - Debug
-             - Release
+            - Debug
+            - Release
       steps:
         - name: Get submodules
           uses: actions/checkout@v3
