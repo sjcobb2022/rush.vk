@@ -3,19 +3,6 @@
 namespace rush
 {
 
-    GenericFeaturesPNextNode::GenericFeaturesPNextNode() { memset(fields, UINT8_MAX, sizeof(VkBool32) * field_capacity); }
-
-    bool GenericFeaturesPNextNode::match(GenericFeaturesPNextNode const &requested, GenericFeaturesPNextNode const &supported) noexcept
-    {
-        assert(requested.sType == supported.sType && "Non-matching sTypes in features nodes!");
-        for (uint32_t i = 0; i < field_capacity; i++)
-        {
-            if (requested.fields[i] && !supported.fields[i])
-                return false;
-        }
-        return true;
-    }
-
     // Helper for robustly executing the two-call pattern
     template <typename T, typename F, typename... Ts>
     auto get_vector(std::vector<T> &out, F &&f, Ts &&...ts) -> VkResult
@@ -46,6 +33,19 @@ namespace rush
         f(ts..., &count, results.data());
         results.resize(count);
         return results;
+    }
+
+    GenericFeaturesPNextNode::GenericFeaturesPNextNode() { memset(fields, UINT8_MAX, sizeof(VkBool32) * field_capacity); }
+
+    bool GenericFeaturesPNextNode::match(GenericFeaturesPNextNode const &requested, GenericFeaturesPNextNode const &supported) noexcept
+    {
+        assert(requested.sType == supported.sType && "Non-matching sTypes in features nodes!");
+        for (uint32_t i = 0; i < field_capacity; i++)
+        {
+            if (requested.fields[i] && !supported.fields[i])
+                return false;
+        }
+        return true;
     }
 
     std::vector<std::string> check_device_extension_support(
@@ -755,5 +755,5 @@ namespace rush
     std::vector<VkQueueFamilyProperties> PhysicalDevice::get_queue_families() const { return queue_families; }
     std::vector<std::string> PhysicalDevice::get_extensions() const { return extensions; }
     PhysicalDevice::operator VkPhysicalDevice() const { return this->physical_device; }
-    
+
 }

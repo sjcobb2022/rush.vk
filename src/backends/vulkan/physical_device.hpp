@@ -6,6 +6,15 @@
 
 namespace rush
 {
+
+    uint32_t get_first_queue_index(std::vector<VkQueueFamilyProperties> const &families, VkQueueFlags desired_flags);
+
+    uint32_t get_present_queue_index(VkPhysicalDevice const phys_device, VkSurfaceKHR const surface, std::vector<VkQueueFamilyProperties> const &families);
+
+    uint32_t get_separate_queue_index(std::vector<VkQueueFamilyProperties> const &families, VkQueueFlags desired_flags, VkQueueFlags undesired_flags);
+
+    uint32_t get_dedicated_queue_index(std::vector<VkQueueFamilyProperties> const &families, VkQueueFlags desired_flags, VkQueueFlags undesired_flags);
+
     class PhysicalDeviceBuilder;
     class DeviceBuilder;
 
