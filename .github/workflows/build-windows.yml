@@ -13,14 +13,12 @@ jobs:
       strategy:
         fail-fast: false
         matrix:
-          include:
-            - os: "windows-latest"
-              compiler: "msvc"
-              build-preset: 
-                - "VisualStudio"
-              build-config: 
-                - Release
-                - Debug
+          os: windows-latest
+          compiler: msvc
+          build-preset: VisualStudio
+          build-config:
+             - Debug
+             - Release
       steps:
         - name: Get submodules
           uses: actions/checkout@v3
