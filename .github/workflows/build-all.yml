@@ -33,10 +33,7 @@ jobs:
                 - Debug
           
             - os: "macos-latest"
-              build-preset: "Ninja"
-              build-config:
-                - Release
-                - Debug
+              build-preset: Ninja
       steps:
         - name: Get submodules
           uses: actions/checkout@v3
@@ -67,4 +64,4 @@ jobs:
           with:
             cmakeListsTxtPath: '${{ github.workspace }}/CMakeLists.txt'
             configurePreset: '${{matrix.build-preset}}_${{matrix.build-config}}'
-            buildPreset: 'VisualStudio_Release'
+            buildPreset: '${{matrix.build-preset}}_${{matrix.build-config}}'
