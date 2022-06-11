@@ -17,7 +17,6 @@ jobs:
             - ubuntu-latest
           compiler:
           - gcc
-          - llvm
           - clang
           build-preset: 
             - Ninja
