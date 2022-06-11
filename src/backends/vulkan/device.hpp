@@ -1,93 +1,96 @@
-// #pragma once
+#pragma once
 
-// #include <vulkan/vulkan.h>
-// #include <GLFW/glfw3.h>
+#include "rush_pch.hpp"
+#include "physical_device.hpp"
 
-// #include <string>
-// #include <vector>
+namespace rush
+{
+    // ---- Queue ---- //
+    enum class QueueType
+    {
+        present,
+        graphics,
+        compute,
+        transfer
+    };
 
-// namespace rush
-// {
+    struct Device
+    {
+        VkDevice device = VK_NULL_HANDLE;
+        PhysicalDevice physical_device;
+        VkSurfaceKHR surface = VK_NULL_HANDLE;
+        std::vector<VkQueueFamilyProperties> queue_families;
+        VkAllocationCallbacks *allocation_callbacks = VK_NULL_HANDLE;
+        PFN_vkGetDeviceProcAddr fp_vkGetDeviceProcAddr = nullptr;
 
-//     namespace device
-//     {
+        uint32_t get_queue_index(QueueType type) const;
+        // Only a compute or transfer queue type is valid. All other queue types do not support a 'dedicated' queue index
+        uint32_t get_dedicated_queue_index(QueueType type) const;
 
-//         struct deviceInfo
-//         {
+        VkQueue get_queue(QueueType type) const;
+        // Only a compute or transfer queue type is valid. All other queue types do not support a 'dedicated' queue
+        VkQueue get_dedicated_queue(QueueType type) const;
 
-//             VkInstance Instance;
-//             VkDebugUtilsMessengerEXT DebugMessenger;
-//             VkPhysicalDevice PhysicalDevice = VK_NULL_HANDLE;
-//             GLFWwindow *Window;
-//             VkCommandPool CommandPool;
+        // Return a loaded dispatch table
+        // DispatchTable make_table() const;
 
-//             VkDevice Device;
-//             VkSurfaceKHR Surface;
-//             VkQueue GraphicsQueue;
-//             VkQueue PresentQueue;
+        // A conversion function which allows this Device to be used
+        // in places where VkDevice would have been used.
+        operator VkDevice() const;
 
-//             VkPhysicalDeviceProperties Properties;
+    private:
+        struct
+        {
+            PFN_vkGetDeviceQueue fp_vkGetDeviceQueue = nullptr;
+            PFN_vkDestroyDevice fp_vkDestroyDevice = nullptr;
+        } internal_table;
 
-//             const std::vector<const char *> ValidationLayers = {"VK_LAYER_KHRONOS_validation"};
+        friend class DeviceBuilder;
+        friend void destroy_device(Device device);
+    };
 
-// #if (__APPLE__)
-//             const std::vector<const char *> DeviceExtensions = {VK_KHR_SWAPCHAIN_EXTENSION_NAME, "VK_KHR_portability_subset"};
-// #else
-//             const std::vector<const char *> DeviceExtensions = {VK_KHR_SWAPCHAIN_EXTENSION_NAME};
-// #endif
-//         };
+    void destroy_device(Device device);
 
-//         struct SwapChainSupportDetails
-//         {
-//             VkSurfaceCapabilitiesKHR capabilities;
-//             std::vector<VkSurfaceFormatKHR> formats;
-//             std::vector<VkPresentModeKHR> presentModes;
-//         };
+    struct CustomQueueDescription
+    {
+        explicit CustomQueueDescription(uint32_t index, uint32_t count, std::vector<float> priorities);
+        uint32_t index = 0;
+        uint32_t count = 0;
+        std::vector<float> priorities;
+    };
 
-//         struct QueueFamilyIndices
-//         {
-//             uint32_t graphicsFamily;
-//             uint32_t presentFamily;
-//             bool graphicsFamilyHasValue = false;
-//             bool presentFamilyHasValue = false;
-//         };
+    class DeviceBuilder
+    {
+    public:
+        // Any features and extensions that are requested/required in PhysicalDeviceBuilder are automatically enabled.
+        explicit DeviceBuilder(PhysicalDevice physical_device);
 
-//         deviceInfo createDevice(GLFWwindow *window);
+        Device build() const;
 
-//         std::vector<const char *> getExtensions(bool enableValidationLayers);
-//         void hasGflwRequiredInstanceExtensions();
+        // For Advanced Users: specify the exact list of VkDeviceQueueCreateInfo's needed for the application.
+        // If a custom queue setup is provided, getting the queues and queue indexes is up to the application.
+        DeviceBuilder &custom_queue_setup(std::vector<CustomQueueDescription> queue_descriptions);
 
-//         VkInstance createVkInstance(bool enableValidationLayers, deviceInfo *device);
+        // Add a structure to the pNext chain of VkDeviceCreateInfo.
+        // The structure must be valid when DeviceBuilder::build() is called.
+        template <typename T>
+        DeviceBuilder &add_pNext(T *structure)
+        {
+            info.pNext_chain.push_back(reinterpret_cast<VkBaseOutStructure *>(structure));
+            return *this;
+        }
 
-//         VkSurfaceKHR createSurface(bool enableValidationLayers);
+        // Provide custom allocation callbacks.
+        DeviceBuilder &set_allocation_callbacks(VkAllocationCallbacks *callbacks);
 
-//         VkPhysicalDevice choosePhysicalDevice(VkInstance instance_, VkSurfaceKHR surface_, std::vector<const char *> deviceExtensions_, VkPhysicalDeviceProperties *properties_);
-
-//         VkDebugUtilsMessengerEXT createDebugMessenger(deviceInfo *device);
-
-//         void populateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT &createInfo);
-
-//         VkResult CreateDebugUtilsMessengerEXT(VkInstance instance,
-//                                               const VkDebugUtilsMessengerCreateInfoEXT *pCreateInfo,
-//                                               const VkAllocationCallbacks *pAllocator,
-//                                               VkDebugUtilsMessengerEXT *pDebugMessenger);
-
-//         VkSurfaceKHR createSurface(GLFWwindow *window, VkInstance instance);
-
-//         // <---- HELPER FUNCTIONS---->
-//         // TODO: put in new namespace
-//         // maybe make into builder format
-//         bool isVkDeviceSuitable(VkPhysicalDevice physicalDevice, VkSurfaceKHR surface_, std::vector<const char *> deviceExtensions_);
-//         bool checkDeviceExtensionSupport(VkPhysicalDevice physicalDevice, std::vector<const char *> deviceExtensions_);
-//         SwapChainSupportDetails querySwapChainSupport(VkPhysicalDevice physicalDevice, VkSurfaceKHR surface_);
-//         QueueFamilyIndices findQueueFamilies(VkPhysicalDevice physicalDevice, VkSurfaceKHR surface_);
-//         VkCommandPool createCommandPool(VkDevice device_, VkPhysicalDevice physicalDevice_, VkSurfaceKHR surface_);
-//         VkDevice createLogicalDevice(deviceInfo *deviceInfo, bool enableValidationLayers = true);
-
-//         void DestroyDebugUtilsMessengerEXT(VkInstance instance,
-//                                            VkDebugUtilsMessengerEXT debugMessenger,
-//                                            const VkAllocationCallbacks *pAllocator);
-        
-//         void cleanup(deviceInfo *device, bool enableValidationLayers = true);
-//     }
-// }
+    private:
+        PhysicalDevice physical_device;
+        struct DeviceInfo
+        {
+            VkDeviceCreateFlags flags = static_cast<VkDeviceCreateFlags>(0);
+            std::vector<VkBaseOutStructure *> pNext_chain;
+            std::vector<CustomQueueDescription> queue_descriptions;
+            VkAllocationCallbacks *allocation_callbacks = VK_NULL_HANDLE;
+        } info;
+    };
+}
