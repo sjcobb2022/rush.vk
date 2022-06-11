@@ -13,7 +13,8 @@ jobs:
       strategy:
         fail-fast: false
         matrix:
-          os: windows-latest
+          os: 
+            - windows-latest
           compiler: msvc
           build-preset: VisualStudio
           build-config:
