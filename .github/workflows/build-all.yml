@@ -16,21 +16,33 @@ jobs:
           os:
             - ubuntu-latest
           compiler:
-            - "gcc"
-            - "llvm"
-            - "clang"
+            - gcc
+            - llvm
+            - clang
           build-preset:
             - Ninja
           build-config:
             - Release
             - Debug
+          
           include:
-            - os: "windows-latest"
-              compiler: "msvc"
+            - os: windows-latest
+              compiler: msvc
               build-preset: VisualStudio
-              
+              build-config: Release
+          
+            - os: windows-latest
+              compiler: msvc
+              build-preset: VisualStudio
+              build-config: Debug
+
             - os: "macos-latest"
               build-preset: Ninja
+              build-config: Release
+
+            - os: "macos-latest"
+              build-preset: Ninja
+              build-config: Debug
       steps:
         - name: Get submodules
           uses: actions/checkout@v3
