@@ -19,14 +19,18 @@ namespace rush
                                  .request_validation_layers()
                                  .build();
 
+        // spdlog::info("instance_api in core: {}", instance->api_version);
+
         // glfwCreateWindowSurface
         VkSurfaceKHR surface;
         glfwCreateWindowSurface(instance->instance, window, nullptr, &surface);
 
-        PhysicalDeviceBuilder phb{*instance};
+        PhysicalDeviceBuilder phb{*instance, surface};
         std::vector<PhysicalDevice> physical_device = phb.set_surface(surface)
-                                                          .set_minimum_version(1, 1)
-                                                          .require_dedicated_transfer_queue()
+                                                          .set_minimum_version(0, 1, 1, 0)
+                                                          //.select_first_device_unconditionally()
+                                                          //.require_separate_transfer_queue()
+                                                          //.require_dedicated_transfer_queue()
                                                           .select_devices();
 
         for (auto &psd : physical_device)
@@ -38,19 +42,19 @@ namespace rush
 
         Device device = device_builder.build();
 
-        // spdlog::info("queue index: {}", device.get_queue_index(QueueType::graphics));
 
-        // device.get_queue(QueueType::graphics);
-        // device.get_queue(QueueType::present);
+        device.get_queue(QueueType::graphics);
+        device.get_queue(QueueType::present);
+
+        // spdlog::
 
         SwapchainBuilder swapchain_builder{device};
 
-        int w, h;
+        // int w, h;
 
-        glfwGetWindowSize(window, &w, &h);
+        // glfwGetWindowSize(window, &w, &h);
 
-        Swapchain swapchain = swapchain_builder.build();
-
+        // Swapchain swapchain = swapchain_builder.build();
     };
 
     Core::~Core(){

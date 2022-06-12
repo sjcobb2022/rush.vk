@@ -56,6 +56,7 @@ namespace rush
         {
             for (auto &req_ext : desired_extensions)
             {
+                spdlog::debug("{}", req_ext);
                 if (avail_ext == req_ext)
                 {
                     extensions_to_enable.push_back(req_ext);
@@ -100,6 +101,15 @@ namespace rush
     uint32_t get_dedicated_queue_index(
         std::vector<VkQueueFamilyProperties> const &families, VkQueueFlags desired_flags, VkQueueFlags undesired_flags)
     {
+        spdlog::debug("inside get_dedicated_queue_index");
+        spdlog::debug("families_size {}", static_cast<uint32_t>(families.size()));
+        spdlog::debug("families[0].queueFlags hex: {0:x} \t bin: {0:b}", families[0].queueFlags);
+        spdlog::debug("desired_flags hex: {0:x} \t bin: {0:b}", desired_flags);
+        spdlog::debug("undesired_flags hex: {0:x} \t bin: {0:b}", undesired_flags);
+        spdlog::debug("(families[i].queueFlags & desired_flags) == desired_flags \t bool: {0}", (families[0].queueFlags & desired_flags) == desired_flags);
+        spdlog::debug("(families[i].queueFlags & VK_QUEUE_GRAPHICS_BIT) == 0     \t bool: {0}", (families[0].queueFlags & VK_QUEUE_GRAPHICS_BIT) == 0);
+        spdlog::debug("(families[i].queueFlags & undesired_flags) == 0           \t bool: {0}", (families[0].queueFlags & undesired_flags) == 0);
+
         for (uint32_t i = 0; i < static_cast<uint32_t>(families.size()); i++)
         {
             if ((families[i].queueFlags & desired_flags) == desired_flags && (families[i].queueFlags & VK_QUEUE_GRAPHICS_BIT) == 0 &&
@@ -370,6 +380,12 @@ namespace rush
         bool present_queue = get_present_queue_index(pd.physical_device, instance_info.surface, pd.queue_families) !=
                              QUEUE_INDEX_MAX_VALUE;
 
+        spdlog::debug("dedicated_compute: {}", dedicated_compute);
+        spdlog::debug("dedicated_transfer: {}", dedicated_transfer);
+        spdlog::debug("separate_compute: {}", separate_compute);
+        spdlog::debug("separate_transfer: {}", separate_transfer);
+        spdlog::debug("present_queue: {}", present_queue);
+
         if (criteria.require_dedicated_compute_queue && !dedicated_compute)
             return PhysicalDevice::Suitable::no;
         if (criteria.require_dedicated_transfer_queue && !dedicated_transfer)
@@ -450,6 +466,7 @@ namespace rush
         // criteria.require_present = !instance.headless;
         criteria.required_version = instance.api_version;
         criteria.desired_version = instance.api_version;
+        // spdlog::info("instance_api_version: {}", instance.api_version);
     }
 
     std::vector<PhysicalDevice> PhysicalDeviceBuilder::select_impl(DeviceSelectionMode selection) const
@@ -471,7 +488,6 @@ namespace rush
         {
             if (instance_info.surface == VK_NULL_HANDLE)
                 throw std::runtime_error("no surface provided in select_impl");
-            // return detail::Result<std::vector<PhysicalDevice>>{PhysicalDeviceError::no_surface_provided};
         }
 
         // Get the VkPhysicalDevice handles on the system
@@ -479,6 +495,11 @@ namespace rush
 
         auto vk_physical_devices_ret = get_vector<VkPhysicalDevice>(
             vk_physical_devices, vkEnumeratePhysicalDevices, instance_info.instance);
+
+        // for(auto &dv : vk_physical_devices){
+        //     spdlog::info("{}", dv.)
+        // }
+
         if (vk_physical_devices_ret != VK_SUCCESS)
         {
             throw std::runtime_error("Failed to enumerate physical devices in select_impl");
@@ -490,6 +511,13 @@ namespace rush
         {
             throw std::runtime_error("No physical devices found in select_impl");
             // return std::vector<PhysicalDevice>{PhysicalDeviceError::no_physical_devices_found};
+        }
+
+        spdlog::info("Size of vk_physical_devices: {}", vk_physical_devices.size());
+
+        for (auto &req : criteria.required_extensions)
+        {
+            spdlog::info("{}", req);
         }
 
         auto fill_out_phys_dev_with_criteria = [&](PhysicalDevice &phys_dev)
@@ -511,6 +539,7 @@ namespace rush
             {
                 phys_dev.extensions.push_back("VK_KHR_portability_subset");
             }
+
         };
 
         // if this option is set, always return only the first physical device found
@@ -520,6 +549,8 @@ namespace rush
             fill_out_phys_dev_with_criteria(physical_device);
             return std::vector<PhysicalDevice>{physical_device};
         }
+
+        spdlog::info("After use gpu unconditionally");
 
         // Populate their details and check their suitability
         std::vector<PhysicalDevice> physical_devices;
@@ -682,9 +713,10 @@ namespace rush
         }
         return *this;
     }
-    PhysicalDeviceBuilder &PhysicalDeviceBuilder::set_minimum_version(uint32_t major, uint32_t minor)
+
+    PhysicalDeviceBuilder &PhysicalDeviceBuilder::set_minimum_version(uint32_t variant, uint32_t major, uint32_t minor, uint32_t patch)
     {
-        criteria.required_version = VK_MAKE_VERSION(major, minor, 0);
+        criteria.required_version = VK_MAKE_API_VERSION(variant, major, minor, patch);
         return *this;
     }
 

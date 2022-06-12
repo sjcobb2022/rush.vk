@@ -30,13 +30,6 @@ namespace rush
         operator VkSwapchainKHR() const;
 
     private:
-        struct
-        {
-            PFN_vkGetSwapchainImagesKHR fp_vkGetSwapchainImagesKHR = nullptr;
-            PFN_vkCreateImageView fp_vkCreateImageView = nullptr;
-            PFN_vkDestroyImageView fp_vkDestroyImageView = nullptr;
-            PFN_vkDestroySwapchainKHR fp_vkDestroySwapchainKHR = nullptr;
-        } internal_table;
         friend class SwapchainBuilder;
         friend void destroy_swapchain(Swapchain const &swapchain);
     };

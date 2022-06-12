@@ -138,6 +138,7 @@ namespace rush
         }
 
         vk_instance->api_version = info.api_v;
+        spdlog::info("vk_instance_api_version: {}", info.api_v);
         vk_instance->supports_properties2_ext = supports_properties2_ext;
         //to change. get required VK versions, not just 1.0
         vk_instance->instance_version = info.api_v;

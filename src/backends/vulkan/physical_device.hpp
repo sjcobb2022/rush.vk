@@ -156,7 +156,7 @@ namespace rush
         }
 #endif
 
-        PhysicalDeviceBuilder &set_minimum_version(uint32_t major, uint32_t minor);
+        PhysicalDeviceBuilder &set_minimum_version(uint32_t variant = 0, uint32_t major=1, uint32_t minor=1, uint32_t patch = 0);
 
         // Require a physical device which supports the features in VkPhysicalDeviceFeatures.
         PhysicalDeviceBuilder &set_required_features(VkPhysicalDeviceFeatures const &features);

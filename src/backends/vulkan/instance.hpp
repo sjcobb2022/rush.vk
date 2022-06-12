@@ -60,10 +60,10 @@ namespace rush
         struct Info
         {
             const char *application_name;
-            uint32_t application_v;
+            uint32_t application_v = 0;
             const char *engine_name = "Rush Engine";
-            uint32_t engine_v;
-            uint32_t api_v;
+            uint32_t engine_v = 0;
+            uint32_t api_v = VK_API_VERSION_1_0;
 
             std::vector<const char *> layers;
             std::vector<const char *> extensions;
