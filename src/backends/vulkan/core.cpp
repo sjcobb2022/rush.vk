@@ -28,9 +28,6 @@ namespace rush
         PhysicalDeviceBuilder phb{*instance, surface};
         std::vector<PhysicalDevice> physical_device = phb.set_surface(surface)
                                                           .set_minimum_version(0, 1, 1, 0)
-                                                          //.select_first_device_unconditionally()
-                                                        //   .require_separate_transfer_queue()
-                                                          //.require_dedicated_transfer_queue()
                                                           .select_devices();
 
         for (auto &psd : physical_device)
@@ -44,13 +41,15 @@ namespace rush
 
         // spdlog::
 
-        SwapchainBuilder swapchain_builder{device, surface};
+        SwapchainBuilder swapchain_builder{device};
 
-        // int w, h;
+        int w, h;
 
-        // glfwGetWindowSize(window, &w, &h);
+        glfwGetWindowSize(window, &w, &h);
 
-        // Swapchain swapchain = swapchain_builder.build();
+        Swapchain swapchain = swapchain_builder
+                                  .set_desired_extent(w, h)
+                                  .build();
     };
 
     Core::~Core(){

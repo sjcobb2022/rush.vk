@@ -56,7 +56,6 @@ namespace rush
         {
             for (auto &req_ext : desired_extensions)
             {
-                spdlog::debug("{}", req_ext);
                 if (avail_ext == req_ext)
                 {
                     extensions_to_enable.push_back(req_ext);
@@ -73,6 +72,7 @@ namespace rush
         {
             if ((families[i].queueFlags & desired_flags) == desired_flags)
             {
+                spdlog::debug("get_first_queue_index has desired flags \t bool: {0}", (families[i].queueFlags & desired_flags) == desired_flags);
                 return i;
             }
         }
@@ -89,6 +89,9 @@ namespace rush
             {
                 if ((families[i].queueFlags & undesired_flags) == 0)
                 {
+                    spdlog::debug("get_separate_queue_index has desired flags                   \t bool: {0}", (families[i].queueFlags & desired_flags) == desired_flags);
+                    spdlog::debug("get_separate_queue_index is not a present queue              \t bool: {0}", (families[i].queueFlags & VK_QUEUE_GRAPHICS_BIT) == 0);
+                    spdlog::debug("get_separate_queue_index does not have any undesired flags   \t bool: {0}", (families[i].queueFlags & undesired_flags) == 0);
                     return i;
                 }
                 else
@@ -109,10 +112,9 @@ namespace rush
             if ((families[i].queueFlags & desired_flags) == desired_flags && (families[i].queueFlags & VK_QUEUE_GRAPHICS_BIT) == 0 &&
                 (families[i].queueFlags & undesired_flags) == 0)
             {
-                spdlog::debug("(families[i].queueFlags & desired_flags)         == desired_flags    \t bool: {0}", (families[i].queueFlags & desired_flags) == desired_flags);
-                spdlog::debug("(families[i].queueFlags & VK_QUEUE_GRAPHICS_BIT) == 0                \t bool: {0}", (families[i].queueFlags & VK_QUEUE_GRAPHICS_BIT) == 0);
-                spdlog::debug("(families[i].queueFlags & undesired_flags)       == 0                \t bool: {0}", (families[i].queueFlags & undesired_flags) == 0);
-
+                spdlog::debug("get_dedicated_queue_index has desired flags                   \t bool: {0}", (families[i].queueFlags & desired_flags) == desired_flags);
+                spdlog::debug("get_dedicated_queue_index is not a present queue              \t bool: {0}", (families[i].queueFlags & VK_QUEUE_GRAPHICS_BIT) == 0);
+                spdlog::debug("get_dedicated_queue_index does not have any undesired flags   \t bool: {0}", (families[i].queueFlags & undesired_flags) == 0);
                 return i;
             }
         }
@@ -329,7 +331,7 @@ namespace rush
             }
             else
             {
-                throw std::runtime_error("Please don't use a version of Vulkan less than 1.1");
+                throw std::runtime_error("Please don't use a version of Vulkan less than 1.1 (I haven't set the function pointers up yet -- i might not at all)");
             }
             // TODO: This is really annoying i need to getn function pointers but I don't want to pass a vkinstance, maybe just get the function pointers to begin with like vkb?
             //  else if (instance_info.supports_properties2_ext)
@@ -382,7 +384,7 @@ namespace rush
         bool present_queue = get_present_queue_index(pd.physical_device, instance_info.surface, pd.queue_families) !=
                              QUEUE_INDEX_MAX_VALUE;
 
-        //TODO: Add better logging for each step 
+        // TODO: Add better logging for each step
         spdlog::debug("dedicated_compute: {}", dedicated_compute);
         spdlog::debug("dedicated_transfer: {}", dedicated_transfer);
         spdlog::debug("separate_compute: {}", separate_compute);
