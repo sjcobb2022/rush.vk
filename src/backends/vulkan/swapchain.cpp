@@ -138,7 +138,7 @@ namespace rush
     {
         if (swapchain.device != VK_NULL_HANDLE && swapchain.swapchain != VK_NULL_HANDLE)
         {
-            swapchain.internal_table.fp_vkDestroySwapchainKHR(swapchain.device, swapchain.swapchain, swapchain.allocation_callbacks);
+            vkDestroySwapchainKHR(swapchain.device, swapchain.swapchain, swapchain.allocation_callbacks);
         }
     }
 
@@ -149,6 +149,7 @@ namespace rush
         info.surface = device.surface;
         auto present = device.get_queue_index(QueueType::present);
         auto graphics = device.get_queue_index(QueueType::graphics);
+        spdlog::info("present: {}, graphics: {}", present, graphics);
         assert(graphics && present && "Graphics and Present queue indexes must be valid");
         info.graphics_queue_index = present;
         info.present_queue_index = graphics;
@@ -278,6 +279,7 @@ namespace rush
             // return detail::Error{SwapchainError::failed_create_swapchain, res};
         }
 
+
         swapchain.device = info.device;
         swapchain.image_format = surface_format.format;
         swapchain.extent = extent;
@@ -300,7 +302,7 @@ namespace rush
         std::vector<VkImage> swapchain_images;
 
         auto swapchain_images_ret =
-            get_vector<VkImage>(swapchain_images, internal_table.fp_vkGetSwapchainImagesKHR, device, swapchain);
+            get_vector<VkImage>(swapchain_images, vkGetSwapchainImagesKHR, device, swapchain);
         if (swapchain_images_ret != VK_SUCCESS)
         {
             throw std::runtime_error("Failed to get swapchain images");
@@ -336,7 +338,7 @@ namespace rush
             createInfo.subresourceRange.baseArrayLayer = 0;
             createInfo.subresourceRange.layerCount = 1;
 
-            VkResult res = internal_table.fp_vkCreateImageView(device, &createInfo, allocation_callbacks, &views[i]);
+            VkResult res = vkCreateImageView(device, &createInfo, allocation_callbacks, &views[i]);
             if (res != VK_SUCCESS)
                 throw std::runtime_error("Failed to create swapchain image views");
             // return detail::Error{SwapchainError::failed_create_swapchain_image_views, res};

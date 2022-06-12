@@ -24,26 +24,33 @@ namespace rush
         glfwCreateWindowSurface(instance->instance, window, nullptr, &surface);
 
         PhysicalDeviceBuilder phb{*instance};
-        PhysicalDevice physical_device = phb.set_surface(surface)
-                                             .set_minimum_version(1, 1)
-                                             .require_dedicated_transfer_queue()
-                                             .select();
+        std::vector<PhysicalDevice> physical_device = phb.set_surface(surface)
+                                                          .set_minimum_version(1, 1)
+                                                          .require_dedicated_transfer_queue()
+                                                          .select_devices();
 
-        DeviceBuilder device_builder{physical_device};
+        for (auto &psd : physical_device)
+        {
+            spdlog::info("{}", psd.name);
+        }
+
+        DeviceBuilder device_builder{physical_device.at(0)};
 
         Device device = device_builder.build();
 
-        device.get_queue(QueueType::graphics);
+        // spdlog::info("queue index: {}", device.get_queue_index(QueueType::graphics));
 
-        SwapchainBuilder swapchain_builder{device, surface};
+        // device.get_queue(QueueType::graphics);
+        // device.get_queue(QueueType::present);
+
+        SwapchainBuilder swapchain_builder{device};
 
         int w, h;
 
         glfwGetWindowSize(window, &w, &h);
 
-        Swapchain swapchain = swapchain_builder
-                                  .set_desired_extent(w, h)
-                                  .build();
+        Swapchain swapchain = swapchain_builder.build();
+
     };
 
     Core::~Core(){

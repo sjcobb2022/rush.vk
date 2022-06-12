@@ -67,7 +67,7 @@ namespace rush
     {
         auto index = get_dedicated_queue_index(type); // Will runtime error if anything is wrong
         VkQueue out_queue;
-        internal_table.fp_vkGetDeviceQueue(device, index, 0, &out_queue);
+        vkGetDeviceQueue(device, index, 0, &out_queue);
         return out_queue;
     }
 
