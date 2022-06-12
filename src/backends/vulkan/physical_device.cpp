@@ -72,7 +72,10 @@ namespace rush
         for (uint32_t i = 0; i < static_cast<uint32_t>(families.size()); i++)
         {
             if ((families[i].queueFlags & desired_flags) == desired_flags)
+            {
+                spdlog::info("get_first_queue_index index: {}", i);
                 return i;
+            }
         }
         return QUEUE_INDEX_MAX_VALUE;
     }
@@ -87,6 +90,7 @@ namespace rush
             {
                 if ((families[i].queueFlags & undesired_flags) == 0)
                 {
+                    spdlog::info("get_separate_queue_index index(i): {}", i);
                     return i;
                 }
                 else
@@ -95,6 +99,7 @@ namespace rush
                 }
             }
         }
+        spdlog::info("get_separate_queue_index index: {}", index);
         return index;
     }
 
@@ -132,7 +137,10 @@ namespace rush
                     return QUEUE_INDEX_MAX_VALUE; // TODO: determine if this should fail another way
             }
             if (presentSupport == VK_TRUE)
+            {
+                spdlog::info("get_present_queue_index index: {}", i);
                 return i;
+            }
         }
         return QUEUE_INDEX_MAX_VALUE;
     }
@@ -368,13 +376,13 @@ namespace rush
         if (criteria.desired_version > pd.properties.apiVersion)
             suitable = PhysicalDevice::Suitable::partial;
 
-        bool dedicated_compute = get_dedicated_queue_index(pd.queue_families, VK_QUEUE_COMPUTE_BIT, VK_QUEUE_TRANSFER_BIT) !=
+        bool dedicated_compute = rush::get_dedicated_queue_index(pd.queue_families, VK_QUEUE_COMPUTE_BIT, VK_QUEUE_TRANSFER_BIT) !=
                                  QUEUE_INDEX_MAX_VALUE;
-        bool dedicated_transfer = get_dedicated_queue_index(pd.queue_families, VK_QUEUE_TRANSFER_BIT, VK_QUEUE_COMPUTE_BIT) !=
+        bool dedicated_transfer = rush::get_dedicated_queue_index(pd.queue_families, VK_QUEUE_TRANSFER_BIT, VK_QUEUE_COMPUTE_BIT) !=
                                   QUEUE_INDEX_MAX_VALUE;
-        bool separate_compute = get_separate_queue_index(pd.queue_families, VK_QUEUE_COMPUTE_BIT, VK_QUEUE_TRANSFER_BIT) !=
+        bool separate_compute = rush::get_separate_queue_index(pd.queue_families, VK_QUEUE_COMPUTE_BIT, VK_QUEUE_TRANSFER_BIT) !=
                                 QUEUE_INDEX_MAX_VALUE;
-        bool separate_transfer = get_separate_queue_index(pd.queue_families, VK_QUEUE_TRANSFER_BIT, VK_QUEUE_COMPUTE_BIT) !=
+        bool separate_transfer = rush::get_separate_queue_index(pd.queue_families, VK_QUEUE_TRANSFER_BIT, VK_QUEUE_COMPUTE_BIT) !=
                                  QUEUE_INDEX_MAX_VALUE;
 
         bool present_queue = get_present_queue_index(pd.physical_device, instance_info.surface, pd.queue_families) !=
@@ -539,7 +547,6 @@ namespace rush
             {
                 phys_dev.extensions.push_back("VK_KHR_portability_subset");
             }
-
         };
 
         // if this option is set, always return only the first physical device found

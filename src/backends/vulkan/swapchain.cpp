@@ -149,8 +149,7 @@ namespace rush
         info.surface = device.surface;
         auto present = device.get_queue_index(QueueType::present);
         auto graphics = device.get_queue_index(QueueType::graphics);
-        spdlog::info("present: {}, graphics: {}", present, graphics);
-        assert(graphics && present && "Graphics and Present queue indexes must be valid");
+        // assert((graphics != nullptr) && present && "Graphics and Present queue indexes must be valid");
         info.graphics_queue_index = present;
         info.present_queue_index = graphics;
         info.allocation_callbacks = device.allocation_callbacks;
@@ -165,7 +164,6 @@ namespace rush
         temp_device.surface = surface;
         auto present = temp_device.get_queue_index(QueueType::present);
         auto graphics = temp_device.get_queue_index(QueueType::graphics);
-        assert(graphics && present && "Graphics and Present queue indexes must be valid");
         info.graphics_queue_index = present;
         info.present_queue_index = graphics;
         info.allocation_callbacks = device.allocation_callbacks;

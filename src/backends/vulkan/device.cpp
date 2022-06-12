@@ -9,22 +9,22 @@ namespace rush
         switch (type)
         {
         case QueueType::present:
-            index = get_present_queue_index(physical_device.physical_device, surface, queue_families);
+            index = rush::get_present_queue_index(physical_device.physical_device, surface, queue_families);
             if (index == QUEUE_INDEX_MAX_VALUE)
                 throw std::runtime_error("Present Queue Unavailabe");
             break;
         case QueueType::graphics:
-            index = get_first_queue_index(queue_families, VK_QUEUE_GRAPHICS_BIT);
+            index = rush::get_first_queue_index(queue_families, VK_QUEUE_GRAPHICS_BIT);
             if (index == QUEUE_INDEX_MAX_VALUE)
                 throw std::runtime_error("Graphics Queue Unavailable");
             break;
         case QueueType::compute:
-            index = get_separate_queue_index(queue_families, VK_QUEUE_COMPUTE_BIT, VK_QUEUE_TRANSFER_BIT);
+            index = rush::get_separate_queue_index(queue_families, VK_QUEUE_COMPUTE_BIT, VK_QUEUE_TRANSFER_BIT);
             if (index == QUEUE_INDEX_MAX_VALUE)
                 throw std::runtime_error("Compute Queue Unavailabe");
             break;
         case QueueType::transfer:
-            index = get_separate_queue_index(queue_families, VK_QUEUE_TRANSFER_BIT, VK_QUEUE_COMPUTE_BIT);
+            index = rush::get_separate_queue_index(queue_families, VK_QUEUE_TRANSFER_BIT, VK_QUEUE_COMPUTE_BIT);
             if (index == QUEUE_INDEX_MAX_VALUE)
                 throw std::runtime_error("Transfer Queue Unavailabe");
             break;

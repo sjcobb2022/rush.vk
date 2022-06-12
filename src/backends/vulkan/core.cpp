@@ -29,7 +29,7 @@ namespace rush
         std::vector<PhysicalDevice> physical_device = phb.set_surface(surface)
                                                           .set_minimum_version(0, 1, 1, 0)
                                                           //.select_first_device_unconditionally()
-                                                          //.require_separate_transfer_queue()
+                                                        //   .require_separate_transfer_queue()
                                                           //.require_dedicated_transfer_queue()
                                                           .select_devices();
 
@@ -42,13 +42,9 @@ namespace rush
 
         Device device = device_builder.build();
 
-
-        device.get_queue(QueueType::graphics);
-        device.get_queue(QueueType::present);
-
         // spdlog::
 
-        SwapchainBuilder swapchain_builder{device};
+        SwapchainBuilder swapchain_builder{device, surface};
 
         // int w, h;
 
