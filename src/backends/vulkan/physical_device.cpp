@@ -73,7 +73,6 @@ namespace rush
         {
             if ((families[i].queueFlags & desired_flags) == desired_flags)
             {
-                spdlog::info("get_first_queue_index index: {}", i);
                 return i;
             }
         }
@@ -90,7 +89,6 @@ namespace rush
             {
                 if ((families[i].queueFlags & undesired_flags) == 0)
                 {
-                    spdlog::info("get_separate_queue_index index(i): {}", i);
                     return i;
                 }
                 else
@@ -99,27 +97,24 @@ namespace rush
                 }
             }
         }
-        spdlog::info("get_separate_queue_index index: {}", index);
         return index;
     }
 
     uint32_t get_dedicated_queue_index(
         std::vector<VkQueueFamilyProperties> const &families, VkQueueFlags desired_flags, VkQueueFlags undesired_flags)
     {
-        spdlog::debug("inside get_dedicated_queue_index");
-        spdlog::debug("families_size {}", static_cast<uint32_t>(families.size()));
-        spdlog::debug("families[0].queueFlags hex: {0:x} \t bin: {0:b}", families[0].queueFlags);
-        spdlog::debug("desired_flags hex: {0:x} \t bin: {0:b}", desired_flags);
-        spdlog::debug("undesired_flags hex: {0:x} \t bin: {0:b}", undesired_flags);
-        spdlog::debug("(families[i].queueFlags & desired_flags) == desired_flags \t bool: {0}", (families[0].queueFlags & desired_flags) == desired_flags);
-        spdlog::debug("(families[i].queueFlags & VK_QUEUE_GRAPHICS_BIT) == 0     \t bool: {0}", (families[0].queueFlags & VK_QUEUE_GRAPHICS_BIT) == 0);
-        spdlog::debug("(families[i].queueFlags & undesired_flags) == 0           \t bool: {0}", (families[0].queueFlags & undesired_flags) == 0);
 
         for (uint32_t i = 0; i < static_cast<uint32_t>(families.size()); i++)
         {
             if ((families[i].queueFlags & desired_flags) == desired_flags && (families[i].queueFlags & VK_QUEUE_GRAPHICS_BIT) == 0 &&
                 (families[i].queueFlags & undesired_flags) == 0)
+            {
+                spdlog::debug("(families[i].queueFlags & desired_flags)         == desired_flags    \t bool: {0}", (families[i].queueFlags & desired_flags) == desired_flags);
+                spdlog::debug("(families[i].queueFlags & VK_QUEUE_GRAPHICS_BIT) == 0                \t bool: {0}", (families[i].queueFlags & VK_QUEUE_GRAPHICS_BIT) == 0);
+                spdlog::debug("(families[i].queueFlags & undesired_flags)       == 0                \t bool: {0}", (families[i].queueFlags & undesired_flags) == 0);
+
                 return i;
+            }
         }
         return QUEUE_INDEX_MAX_VALUE;
     }
@@ -138,7 +133,6 @@ namespace rush
             }
             if (presentSupport == VK_TRUE)
             {
-                spdlog::info("get_present_queue_index index: {}", i);
                 return i;
             }
         }
@@ -388,6 +382,7 @@ namespace rush
         bool present_queue = get_present_queue_index(pd.physical_device, instance_info.surface, pd.queue_families) !=
                              QUEUE_INDEX_MAX_VALUE;
 
+        //TODO: Add better logging for each step 
         spdlog::debug("dedicated_compute: {}", dedicated_compute);
         spdlog::debug("dedicated_transfer: {}", dedicated_transfer);
         spdlog::debug("separate_compute: {}", separate_compute);
@@ -521,12 +516,7 @@ namespace rush
             // return std::vector<PhysicalDevice>{PhysicalDeviceError::no_physical_devices_found};
         }
 
-        spdlog::info("Size of vk_physical_devices: {}", vk_physical_devices.size());
-
-        for (auto &req : criteria.required_extensions)
-        {
-            spdlog::info("{}", req);
-        }
+        spdlog::debug("Size of vk_physical_devices: {}", vk_physical_devices.size());
 
         auto fill_out_phys_dev_with_criteria = [&](PhysicalDevice &phys_dev)
         {
@@ -556,8 +546,6 @@ namespace rush
             fill_out_phys_dev_with_criteria(physical_device);
             return std::vector<PhysicalDevice>{physical_device};
         }
-
-        spdlog::info("After use gpu unconditionally");
 
         // Populate their details and check their suitability
         std::vector<PhysicalDevice> physical_devices;

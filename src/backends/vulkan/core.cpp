@@ -35,7 +35,7 @@ namespace rush
 
         for (auto &psd : physical_device)
         {
-            spdlog::info("{}", psd.name);
+            spdlog::debug("{}", psd.name);
         }
 
         DeviceBuilder device_builder{physical_device.at(0)};
