@@ -10,9 +10,9 @@
 
 ## Table of Contents
 - [Build](#Building)
-  - [Building for Unix](#UnixBuild)
-  - [Building for MacOS](#MacOSBuild)
-  - [Building for Windows](#WindowsBuild)
+  - [Building for Unix](#Linux)
+  - [Building for MacOS](#MacOS)
+  - [Building for Windows](#Windows)
 - [Credits and Attributions](#CreditsAttributions)
     - [Libraries](#Libraries)
     - [People and Groups](#PeopleAndGroups)
@@ -23,9 +23,9 @@
 
 > Remember to `git clone --recursive https://github.com/sjcobb2022/rush.vk.git`
 
-### <a name="UnixBuild"></a> Unix Build Instructions
+### <a name="Linux"></a> Unix Build Instructions
 
-- Install the dependencies: cmake, glm, vulkan and glfw, spdlog
+- Install the dependencies: cmake, vulkan
 
 - For example
   ```
@@ -43,7 +43,7 @@
         ```
 
 
-### <a name="MacOSBuild"></a> MacOS Build Instructions
+### <a name="MacOS"></a> MacOS Build Instructions
 
 #### Install Dependencies
 - Note that installing xcode is not necessary here since the Apple framework libraries are automatically included.
@@ -60,7 +60,7 @@
     cmake --build .
     ```
 
-### <a name="WindowsBuild"></a> Windows build instructions
+### <a name="Windows"></a> Windows build instructions
 
 - [Download and install the Vulkan SDK](https://vulkan.lunarg.com/)
 - [Download and install CMake](https://cmake.org/download/)
@@ -88,17 +88,20 @@ Mainly thanks to [BlurryPiano](https://github.com/blurrypiano/) (Brendan Galea) 
 ### <a name="Libraries"></a> Libraries
 Thanks to the authors of these libraries :
 
-- [OpenGL Mathematics (GLM)](https://github.com/g-truc/glm)
 - [Dear ImGui](https://github.com/ocornut/imgui)
-- [Vulkan Memory Allocator](https://github.com/GPUOpen-LibrariesAndSDKs/VulkanMemoryAllocator)
-- [TinyObjLoader](https://github.com/tinyobjloader/tinyobjloader)
 - [EnTT](https://github.com/skypjack/entt)
-- [spdlog](https://github.com/gabime/spdlog)
 - [GLFW](https://github.com/glfw/glfw)
+- [GLM](https://github.com/g-truc/glm)
+- [KTX](tps://github.com/KhronosGroup/KTX-Software)
+- [spdlog](https://github.com/gabime/spdlog)
+- [TinyGltf](https://github.com/syoyo/tinygltf)
+- [TinyObjLoader](https://github.com/tinyobjloader/tinyobjloader)
+- [Vulkan Memory Allocator](https://github.com/GPUOpen-LibrariesAndSDKs/VulkanMemoryAllocator)
+
 
 ### <a name="PeopleAndGroups"></a> People and Groups
 
-[LunarG](http://www.lunarg.com)
+Thanks to [LunarG](http://www.lunarg.com)
 
 Thanks to [Sascha Willems](https://github.com/SaschaWillems/Vulkan)
 

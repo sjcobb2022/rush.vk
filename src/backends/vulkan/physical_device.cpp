@@ -72,7 +72,7 @@ namespace rush
         {
             if ((families[i].queueFlags & desired_flags) == desired_flags)
             {
-                spdlog::debug("get_first_queue_index has desired flags \t bool: {0}", (families[i].queueFlags & desired_flags) == desired_flags);
+                spdlog::debug("get_first_queue_index has desired flags                      \t bool: {0}", (families[i].queueFlags & desired_flags) == desired_flags);
                 return i;
             }
         }
