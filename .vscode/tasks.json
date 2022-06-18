@@ -6,12 +6,31 @@
         {
             "label": "build",
             "type": "shell",
-            "command": "cmake -S . -B build && cmake --build build",
+            "command": "cmake -S . -B build && cmake --build ${c}",
             "problemMatcher": [],
             "group": {
                 "kind": "build",
                 "isDefault": true
             }
         },
-    ]
+        {
+            "label": "Run program",
+            "type": "shell",
+            "command": "${workspaceFolder}/build/${input:cmakePreset}/Debug/rush_vk.exe",
+            "problemMatcher": []
+        }
+    ],
+    "inputs": [
+        {
+          "id": "cmakePreset",
+          "type": "pickString",
+          "description": "cmake configure preset to use",
+          "options": [
+            "VisualStudio_Debug",
+            "VisualStudio_Release",
+            "Ninja_Debug",
+            "Ninja_Release"
+          ]
+        }
+      ]
 }

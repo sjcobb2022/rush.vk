@@ -1,10 +1,5 @@
-if(WIN32)
-  include(./.env.windows.cmake OPTIONAL RESULT_VARIABLE LOCAL_ENV)
-elseif(UNIX)
-  include(./.env.unix.cmake OPTIONAL RESULT_VARIABLE LOCAL_ENV)
-else()
-  include(./.env.cmake OPTIONAL RESULT_VARIABLE LOCAL_ENV)
-endif()
+# setup env (really only needed for windows)
+include(./.env..cmake OPTIONAL RESULT_VARIABLE LOCAL_ENV)
 
 message(STATUS "Local .env.cmake: ${LOCAL_ENV}")
 
