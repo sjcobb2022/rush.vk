@@ -1,0 +1,49 @@
+name: testing
+
+permissions:
+  contents: write
+  pull-requests: write
+
+on:
+  workflow_run:
+    workflows: [build-all]
+    types: [completed]
+
+jobs:
+  build:
+      runs-on: ${{ matrix.os }}
+      strategy:
+        fail-fast: false
+        matrix:
+          os:
+            - ubuntu-latest
+          compiler:
+            - gcc
+            - clang
+          build-preset:
+            - Ninja
+          build-config:
+            - Release
+            - Debug
+          include:
+            - os: windows-latest
+              compiler: msvc
+              build-preset: VisualStudio
+              build-config: Release
+          
+            - os: windows-latest
+              compiler: msvc
+              build-preset: VisualStudio
+              build-config: Debug
+
+            - os: "macos-latest"
+              build-preset: Ninja
+              build-config: Release
+
+            - os: "macos-latest"
+              build-preset: Ninja
+              build-config: Debug
+              
+      steps:
+        - name: "Placeholder: This does not do anything yet"
+          run: echo "running something so the workflow completes"

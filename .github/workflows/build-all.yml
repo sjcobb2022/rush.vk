@@ -1,15 +1,15 @@
-name: build-linux
+name: build-all
 on:
   push:
     paths:
       - 'src/**'
       - 'libs/**'
       - 'cmake/**'
-      - '.github/workflows/**'
+      - '.github/**'
       - '**/CMakeLists.txt'
-    branches: [dev]
+      branches: [dev]
 jobs:
-  build-matrix:
+  build:
       runs-on: ${{ matrix.os }}
       strategy:
         fail-fast: false
@@ -17,20 +17,39 @@ jobs:
           os:
             - ubuntu-latest
           compiler:
-          - gcc
-          - clang
-          build-preset: 
+            - gcc
+            - clang
+          build-preset:
             - Ninja
-          build-config: 
-             - Release
-             - Debug
+          build-config:
+            - Release
+            - Debug
+          include:
+            - os: windows-latest
+              compiler: msvc
+              build-preset: VisualStudio
+              build-config: Release
+          
+            - os: windows-latest
+              compiler: msvc
+              build-preset: VisualStudio
+              build-config: Debug
+
+            - os: "macos-latest"
+              build-preset: Ninja
+              build-config: Release
+
+            - os: "macos-latest"
+              build-preset: Ninja
+              build-config: Debug
+
       steps:
-        - name: Get submodules
+        - name: Checkout
           uses: actions/checkout@v3
           with:
             submodules: recursive
-      
-        - name: Setup C++ with ${{ matrix.compiler }}
+
+        - name: 'Setup C++: ${{ matrix.compiler }}'
           uses: aminya/setup-cpp@v1
           with:
             compiler: ${{ matrix.compiler }}
@@ -48,7 +67,7 @@ jobs:
         - name: Install GLFW dependencies Linux
           uses: RpxdYTX/install-glfw-deps@v2
           if: runner.os == 'Linux'
-
+        
         - name: Run CMake + Ninja
           uses: lukka/run-cmake@v10
           with:
