@@ -3,11 +3,8 @@ on:
   push:
     paths:
       - 'src/**'
-      - 'libs/**'
-      - 'cmake/**'
       - '.github/**'
-      - '**/CMakeLists.txt'
-      branches: [dev]
+    branches: [dev]
 jobs:
   build:
       runs-on: ${{ matrix.os }}
