@@ -15,7 +15,7 @@ namespace rush
     Core::Core(GLFWwindow *window)
     {
         InstanceBuilder builder;
-        Instance *instance = builder.set_app_name("Test VK App")
+        Instance instance = builder.set_app_name("Test VK App")
                                  .request_validation_layers()
                                  .build();
 
@@ -23,9 +23,9 @@ namespace rush
 
         // glfwCreateWindowSurface
         VkSurfaceKHR surface;
-        glfwCreateWindowSurface(instance->instance, window, nullptr, &surface);
+        glfwCreateWindowSurface(instance.instance, window, nullptr, &surface);
 
-        PhysicalDeviceBuilder phb{*instance, surface};
+        PhysicalDeviceBuilder phb{instance, surface};
         std::vector<PhysicalDevice> physical_device = phb.set_surface(surface)
                                                           .set_minimum_version(0, 1, 1, 0)
                                                           .select_devices();

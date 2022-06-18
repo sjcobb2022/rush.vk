@@ -8,6 +8,7 @@
 #include <cstdlib>
 #include <deque>
 #include <functional>
+#include <fstream>
 #include <iostream>
 #include <memory>
 #include <stdexcept>

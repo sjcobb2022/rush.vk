@@ -8,7 +8,11 @@
 
 namespace rush
 {
-    class PhysicalDeviceBuilder; //fwd declaration
+    class PhysicalDeviceBuilder; //fwd declaration :: TODO: make fwd declaration to make all this easier.
+
+    struct Instance;
+
+    void destroy_instance(Instance instance);
 
     struct Instance
     {
@@ -30,7 +34,7 @@ namespace rush
     public:
         explicit InstanceBuilder();
 
-        Instance* build() const;
+        Instance build() const;
 
         InstanceBuilder &set_app_name(const char *app_name);
         InstanceBuilder &set_engine_name(const char *engine_name);
