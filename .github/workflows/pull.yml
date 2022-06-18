@@ -5,8 +5,9 @@ permissions:
   pull-requests: write 
 
 on:
-  push:
-    branches: [staging]
+  workflow_run:
+    workflows: [merge]
+    types: [completed]
 
 jobs:
   pull:
