@@ -7,15 +7,22 @@
 
 namespace rush
 {
-    // building doesnt do anything :))
+
+    void destroy_instance(Instance instance)
+    {
+        if (instance.instance != VK_NULL_HANDLE)
+            vkDestroyInstance(instance.instance, instance.allocation_callbacks);
+    }
+
+    // creating builder does not assign anything
     InstanceBuilder::InstanceBuilder() {}
-    
-    Instance* InstanceBuilder::build() const
+
+    Instance InstanceBuilder::build() const
     {
         // get available extensions and layers
         auto sys_inf = rush::get_system_info();
         // init app info struct
-        
+
         VkApplicationInfo app_info = {};
         app_info.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
         app_info.pNext = nullptr;
@@ -70,7 +77,6 @@ namespace rush
             throw std::runtime_error("Requested vulkan extension not present");
         }
 
-
         for (auto &layer : info.layers)
             layers.push_back(layer);
 
@@ -79,7 +85,6 @@ namespace rush
         {
             layers.push_back("VK_LAYER_KHRONOS_validation");
         }
-
 
         std::vector<VkBaseOutStructure *> pNext_chain;
 
@@ -114,9 +119,9 @@ namespace rush
         }
 
 #endif
-        Instance *vk_instance = new Instance;
+        Instance vk_instance;
 
-        if (vkCreateInstance(&create_info, info.allocation_callbacks, &vk_instance->instance) != VK_SUCCESS)
+        if (vkCreateInstance(&create_info, info.allocation_callbacks, &vk_instance.instance) != VK_SUCCESS)
         {
             throw std::runtime_error("Failed to create vkInstance!");
         }
@@ -124,23 +129,24 @@ namespace rush
         if (info.use_debug_messenger)
         {
             VkResult msnger = create_debug_utils_messenger(
-                vk_instance->instance, 
-                info.debug_callback, 
-                info.debug_message_severity, 
-                info.debug_message_type, 
-                info.debug_user_data_pointer, 
-                &vk_instance->debug_messenger, 
+                vk_instance.instance,
+                info.debug_callback,
+                info.debug_message_severity,
+                info.debug_message_type,
+                info.debug_user_data_pointer,
+                &vk_instance.debug_messenger,
                 info.allocation_callbacks);
 
-                if(msnger !=VK_SUCCESS){
-                    throw std::runtime_error("Failed to create debug messenger");
-                }
+            if (msnger != VK_SUCCESS)
+            {
+                throw std::runtime_error("Failed to create debug messenger");
+            }
         }
 
-        vk_instance->api_version = info.api_v;
-        vk_instance->supports_properties2_ext = supports_properties2_ext;
-        //to change. get required VK versions, not just 1.0
-        vk_instance->instance_version = info.api_v;
+        vk_instance.api_version = info.api_v;
+        vk_instance.supports_properties2_ext = supports_properties2_ext;
+        // to change. get required VK versions, not just 1.0
+        vk_instance.instance_version = info.api_v;
 
         return vk_instance;
     }
@@ -211,6 +217,18 @@ namespace rush
     InstanceBuilder &InstanceBuilder::set_allocation_callbacks(VkAllocationCallbacks *callbacks)
     {
         info.allocation_callbacks = callbacks;
+        return *this;
+    }
+
+    InstanceBuilder &InstanceBuilder::request_api_version(uint32_t major, uint32_t minor, uint32_t patch)
+    {
+        info.api_v = VK_MAKE_VERSION(major, minor, patch);
+        return *this;
+    }
+
+    InstanceBuilder &InstanceBuilder::request_api_version(uint32_t version)
+    {
+        info.api_v = version;
         return *this;
     }
 

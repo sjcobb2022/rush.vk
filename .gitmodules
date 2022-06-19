@@ -28,3 +28,6 @@
 [submodule "libs/tinygltf"]
 	path = libs/tinygltf
 	url = https://github.com/syoyo/tinygltf.git
+[submodule "libs/SPIRV-Reflect"]
+	path = libs/SPIRV-Reflect
+	url = https://github.com/KhronosGroup/SPIRV-Reflect.git

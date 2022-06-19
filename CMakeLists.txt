@@ -49,7 +49,11 @@ add_subdirectory(libs/entt)
 message(NOTICE "Adding tinyobjloader")
 add_subdirectory(libs/tinyobjloader)
 
-message(STATUS "tiny_obj_include: ${TINYOBJLOADER_INCLUDE_DIR}")
+message(NOTICE "Adding SPIRV-Reflect")
+set(SPIRV_REFLECT_EXAMPLES OFF CACHE BOOL "" FORCE)
+set(SPIRV_REFLECT_EXECUTABLE OFF CACHE BOOL "" FORCE)
+set(SPIRV_REFLECT_STATIC_LIB ON CACHE BOOL "" FORCE)
+add_subdirectory(libs/SPIRV-Reflect)
 
 message(NOTICE "Adding tinygltf")
 set(TINYGLTF_BUILD_LOADER_EXAMPLE OFF CACHE BOOL "" FORCE)
@@ -103,6 +107,8 @@ target_link_libraries(${PROJECT_NAME} PRIVATE shaderc)
 
 target_link_libraries(${PROJECT_NAME} PRIVATE tinyobjloader)
 target_link_libraries(${PROJECT_NAME} PRIVATE tinygltf)
+
+target_link_libraries(${PROJECT_NAME} PRIVATE spirv-reflect-static)
 
 target_include_directories(${PROJECT_NAME} PUBLIC "${PROJECT_SOURCE_DIR}/src")
 

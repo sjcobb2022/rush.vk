@@ -267,6 +267,7 @@ namespace rush
         return true;
     }
 
+
     PhysicalDevice PhysicalDeviceBuilder::populate_device_details(VkPhysicalDevice vk_phys_device,
                                                                   std::vector<GenericFeaturesPNextNode> const &src_extended_features_chain
 #if !defined(VK_API_VERSION_1_1)
@@ -385,11 +386,11 @@ namespace rush
                              QUEUE_INDEX_MAX_VALUE;
 
         // TODO: Add better logging for each step
-        spdlog::debug("dedicated_compute: {}", dedicated_compute);
-        spdlog::debug("dedicated_transfer: {}", dedicated_transfer);
-        spdlog::debug("separate_compute: {}", separate_compute);
-        spdlog::debug("separate_transfer: {}", separate_transfer);
-        spdlog::debug("present_queue: {}", present_queue);
+        spdlog::debug("dedicated_compute:   {}", dedicated_compute);
+        spdlog::debug("dedicated_transfer:  {}", dedicated_transfer);
+        spdlog::debug("separate_compute:    {}", separate_compute);
+        spdlog::debug("separate_transfer:   {}", separate_transfer);
+        spdlog::debug("present_queue:       {}", present_queue);
 
         if (criteria.require_dedicated_compute_queue && !dedicated_compute)
             return PhysicalDevice::Suitable::no;
