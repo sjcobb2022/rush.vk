@@ -8,6 +8,7 @@
 #include <cstdlib>
 #include <deque>
 #include <functional>
+#include <fstream>
 #include <iostream>
 #include <memory>
 #include <stdexcept>
@@ -53,3 +54,4 @@
 //  TinyObjLoader
 #include <tiny_obj_loader.h> //core
 
+#include <spirv_reflect.h>

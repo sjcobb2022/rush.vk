@@ -8,7 +8,11 @@
 
 namespace rush
 {
-    class PhysicalDeviceBuilder; //fwd declaration
+    class PhysicalDeviceBuilder; //fwd declaration :: TODO: make fwd declaration to make all this easier.
+
+    struct Instance;
+
+    void destroy_instance(Instance instance);
 
     struct Instance
     {
@@ -30,7 +34,7 @@ namespace rush
     public:
         explicit InstanceBuilder();
 
-        Instance* build() const;
+        Instance build() const;
 
         InstanceBuilder &set_app_name(const char *app_name);
         InstanceBuilder &set_engine_name(const char *engine_name);
@@ -43,6 +47,10 @@ namespace rush
 
         InstanceBuilder &request_validation_layers(const bool enable_layers = true);
         InstanceBuilder &enable_validation_layers(const bool enable_layers);
+
+        InstanceBuilder &request_api_version(uint32_t major, uint32_t minor, uint32_t patch);
+        InstanceBuilder &request_api_version(uint32_t version);
+
 
         /**
          * @brief Set the debug callback function
