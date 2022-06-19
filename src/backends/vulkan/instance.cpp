@@ -220,4 +220,16 @@ namespace rush
         return *this;
     }
 
+    InstanceBuilder &InstanceBuilder::request_api_version(uint32_t major, uint32_t minor, uint32_t patch)
+    {
+        info.api_v = VK_MAKE_VERSION(major, minor, patch);
+        return *this;
+    }
+
+    InstanceBuilder &InstanceBuilder::request_api_version(uint32_t version)
+    {
+        info.api_v = version;
+        return *this;
+    }
+
 }

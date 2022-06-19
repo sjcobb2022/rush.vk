@@ -48,6 +48,10 @@ namespace rush
         InstanceBuilder &request_validation_layers(const bool enable_layers = true);
         InstanceBuilder &enable_validation_layers(const bool enable_layers);
 
+        InstanceBuilder &request_api_version(uint32_t major, uint32_t minor, uint32_t patch);
+        InstanceBuilder &request_api_version(uint32_t version);
+
+
         /**
          * @brief Set the debug callback function
          *
