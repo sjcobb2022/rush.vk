@@ -20,10 +20,10 @@ namespace rush
             throw std::runtime_error("Failed to get any layers, aborting");
         }
 
-        // spdlog::debug("Available layers: ");
+        spdlog::debug("Available layers: ");
         for (auto &layer : info.layers)
         {
-            // spdlog::debug("\t{}", layer.layerName);
+            spdlog::debug("\t{}", layer.layerName);
             if (strcmp(layer.layerName, "VK_LAYER_KHRONOS_validation") == 0)
             {
                 info.validation_layers_available = true;
@@ -37,10 +37,10 @@ namespace rush
         info.extensions.resize(extensionCount);
         vkEnumerateInstanceExtensionProperties(nullptr, &extensionCount, info.extensions.data());
 
-        // spdlog::debug("Available extensions: ");
+        spdlog::debug("Available extensions: ");
         for (const auto &extension : info.extensions)
         {
-            // spdlog::debug("\t{}", extension.extensionName);
+            spdlog::debug("\t{}", extension.extensionName);
             if (strcmp(extension.extensionName, VK_EXT_DEBUG_UTILS_EXTENSION_NAME) == 0)
             {
                 info.debug_utils_available = true;

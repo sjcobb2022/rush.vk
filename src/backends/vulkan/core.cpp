@@ -1,19 +1,11 @@
 #include "core.hpp"
 
 // #include "device.hpp"
+#include "rush_pch.hpp"
 #include "instance.hpp"
-
-// // std headers
-// #include <cstring>
-// #include <iostream>
-// #include <set>
-// #include <unordered_set>
-
-// #include <vulkan/vulkan.h>
-// #include <GLFW/glfw3.h>
-// #include <spdlog/spdlog.h>
-
-
+#include "physical_device.hpp"
+#include "device.hpp"
+#include "swapchain.hpp"
 
 // #include "vk_mem_alloc.h"
 
@@ -23,13 +15,44 @@ namespace rush
     Core::Core(GLFWwindow *window)
     {
         InstanceBuilder builder;
-        auto instance = builder.set_app_name("Test VK App")
-                        .request_validation_layers()
-                        .build();
+        Instance *instance = builder.set_app_name("Test VK App")
+                                 .request_validation_layers()
+                                 .build();
+
+        // spdlog::info("instance_api in core: {}", instance->api_version);
+
+        // glfwCreateWindowSurface
+        VkSurfaceKHR surface;
+        glfwCreateWindowSurface(instance->instance, window, nullptr, &surface);
+
+        PhysicalDeviceBuilder phb{*instance, surface};
+        std::vector<PhysicalDevice> physical_device = phb.set_surface(surface)
+                                                          .set_minimum_version(0, 1, 1, 0)
+                                                          .select_devices();
+
+        for (auto &psd : physical_device)
+        {
+            spdlog::debug("{}", psd.name);
+        }
+
+        DeviceBuilder device_builder{physical_device.at(0)};
+
+        Device device = device_builder.build();
+
+        // spdlog::
+
+        SwapchainBuilder swapchain_builder{device};
+
+        int w, h;
+
+        glfwGetWindowSize(window, &w, &h);
+
+        Swapchain swapchain = swapchain_builder
+                                  .set_desired_extent(w, h)
+                                  .build();
     };
 
-    Core::~Core()
-    {
+    Core::~Core(){
         // rush::device::cleanup();
     };
 

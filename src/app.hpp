@@ -32,7 +32,6 @@ namespace rush
 
         void end(std::function<void(entt::registry sceneRegistry, int placeHolderforCam)> &&endFunction);
 
-
     };
 
 } // namespace utr

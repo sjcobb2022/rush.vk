@@ -68,5 +68,4 @@ namespace rush
             deleteMessengerFunc(instance, debugMessenger, allocation_callbacks);
         }
     }
-
 }

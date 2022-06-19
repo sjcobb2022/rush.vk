@@ -2,11 +2,11 @@
 
 #include "rush_pch.hpp"
 
-
 const char *to_string_message_type(VkDebugUtilsMessageTypeFlagsEXT s);
 
 namespace rush
 {
+    const uint32_t QUEUE_INDEX_MAX_VALUE = 65536;
 
     VkResult create_debug_utils_messenger(VkInstance instance,
                                           PFN_vkDebugUtilsMessengerCallbackEXT debug_callback,
@@ -57,8 +57,29 @@ namespace rush
             break;
         }
 
-        //has  to return vk false otherwise it errors.
+        // has  to return vk false otherwise it errors.
 
         return VK_FALSE;
     }
+
+    struct GenericFeaturesPNextNode
+    {
+
+        static const uint32_t field_capacity = 256;
+
+        GenericFeaturesPNextNode();
+
+        template <typename T>
+        GenericFeaturesPNextNode(T const &features) noexcept
+        {
+            memset(fields, UINT8_MAX, sizeof(VkBool32) * field_capacity);
+            memcpy(this, &features, sizeof(T));
+        }
+
+        static bool match(GenericFeaturesPNextNode const &requested, GenericFeaturesPNextNode const &supported) noexcept;
+
+        VkStructureType sType = static_cast<VkStructureType>(0);
+        void *pNext = nullptr;
+        VkBool32 fields[field_capacity];
+    };
 }

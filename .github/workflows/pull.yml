@@ -1,0 +1,56 @@
+name: pull
+
+permissions:
+  contents: write
+  pull-requests: write 
+
+on:
+  workflow_run:
+    workflows: [merge]
+    types: [completed]
+
+jobs:
+  pull:
+    runs-on: ${{ matrix.os }}
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: main
+      # Create pull request on current branch (main) from staging 
+      - name: Reset Staging Branch
+        run: |
+          git fetch origin staging:staging
+          git reset --hard staging
+
+      - run: echo "DATE=$(date +%Y-%m-%d)" >> $GITHUB_ENV
+      - run: echo $DATE
+      
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v4
+        with:
+          token: ${{ secrets.PAT }}
+          branch: staging
+          commit-message: '[automated] Successful merge request from staging to main'
+          signoff: true
+          committer: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
+          title: '${{ github.actor }} - Request Staging Merge with Main at ${{env.DATE}}'
+          body: |
+              Request merge of staging and production
+              - Passed Building:  [![build](https://github.com/sjcobb2022/rush.vk/actions/workflows/build-all.yml/badge.svg)](https://github.com/sjcobb2022/rush.vk/actions/workflows/build-all.yml)
+              - Passed Testing:   [![testing](https://github.com/sjcobb2022/rush.vk/actions/workflows/testing.yml/badge.svg)](https://github.com/sjcobb2022/rush.vk/actions/workflows/testing.yml)
+              - Passed Merge:     [![merge](https://github.com/sjcobb2022/rush.vk/actions/workflows/merge.yml/badge.svg)](https://github.com/sjcobb2022/rush.vk/actions/workflows/merge.yml)
+
+              - Build Linux:   [![build](https://github.com/sjcobb2022/rush.vk/actions/workflows/build-linux.yml/badge.svg)](https://github.com/sjcobb2022/rush.vk/actions/workflows/build-linux.yml)
+              - Build MacOS:   [![build](https://github.com/sjcobb2022/rush.vk/actions/workflows/build-mac.yml/badge.svg)](https://github.com/sjcobb2022/rush.vk/actions/workflows/build-mac.yml)
+              - Build Windows: [![build](https://github.com/sjcobb2022/rush.vk/actions/workflows/build-windows.yml/badge.svg)](https://github.com/sjcobb2022/rush.vk/actions/workflows/build-windows.yml)
+
+              Request by: ${{ github.actor }}
+          reviewers: 'sjcobb2022'
+            
+          labels: 'automated  :robot:'

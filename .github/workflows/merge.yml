@@ -1,0 +1,36 @@
+name: merge
+
+permissions:
+  contents: write
+  pull-requests: write
+
+on:
+  workflow_run:
+    workflows: [testing]
+    types: [completed]
+
+jobs:
+  merge:
+    runs-on: ${{ matrix.os }}
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu-latest # This doesn't really matter, just merging. Ubuntu generally faster.
+    steps:
+      - name: Get submodules
+        uses: actions/checkout@v3
+        with:
+          submodules: recursive
+          ref: dev
+
+      - name: Merge dev => staging
+        uses: devmasx/merge-branch@master
+        with:
+          type: now
+          from_branch: dev
+          target_branch: staging
+          github_token: ${{ secrets.PAT }}
+          message: 'Merge dev => Staging'
+          label_name: 'automated  :robot:'
