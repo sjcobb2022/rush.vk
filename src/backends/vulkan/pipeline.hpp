@@ -2,50 +2,52 @@
 
 #include "rush_pch.hpp"
 #include "device.hpp"
+#include "shader.hpp"
 
 namespace rush
 {
 
-    struct ShaderModule
-    {
-        std::vector<uint32_t> code;
-        VkShaderModule module;
-    };
+    // struct ShaderModule
+    // {
+    //     std::vector<uint32_t> code;
+    //     VkShaderModule module;
+    // };
 
-    struct ShaderEffect
-    {
-        VkPipelineLayout layout;
+    // struct ShaderEffect
+    // {
+    //     VkPipelineLayout layout;
 
-        std::array<VkDescriptorSetLayout, 4> setLayouts;
+    //     std::array<VkDescriptorSetLayout, 4> setLayouts;
 
-    private:
-        struct ShaderStage
-        {
-            ShaderModule *shaderModule;
-            VkShaderStageFlagBits stage;
-        };
+    // private:
+    //     struct ShaderStage
+    //     {
+    //         ShaderModule *shaderModule;
+    //         VkShaderStageFlagBits stage;
+    //     };
 
-        std::vector<ShaderStage> stages;
-    };
+    //     std::vector<ShaderStage> stages;
+    // };
 
-    class ShaderEffectBuilder{}; 
+    // class ShaderEffectBuilder{}; 
 
-    struct ShaderPass
-    {
-        ShaderEffect *effect{nullptr};
-        VkPipeline pipeline{VK_NULL_HANDLE};
-        VkPipelineLayout layout{VK_NULL_HANDLE};
-    };
+    // struct ShaderPass
+    // {
+    //     ShaderEffect *effect{nullptr};
+    //     VkPipeline pipeline{VK_NULL_HANDLE};
+    //     VkPipelineLayout layout{VK_NULL_HANDLE};
+    // };
 
-    struct EffectTemplate{
+    // struct EffectTemplate{
         
-    };
+    // };
 
     struct Pipeline
     { // TODO: Make this into vkblancos pipeline creation thing
         VkPipeline pipeline;
-        VkShaderModule vert;
-        VkShaderModule frag;
+        VkShaderModule vert; //temporary
+        VkShaderModule frag; //temporary also...
+        //maybe have a vector of the stages.
 
         void bindBuffer(VkCommandBuffer buff, VkPipelineBindPoint bindPoint = VK_PIPELINE_BIND_POINT_GRAPHICS);
 
@@ -57,15 +59,11 @@ namespace rush
     public:
         PipelineBuilder(Device device);
 
-        PipelineBuilder &addStage(const std::string &path, VkShaderStageFlagBits stage = VK_SHADER_STAGE_VERTEX_BIT); // for more expandability
+        PipelineBuilder &addStage(ShaderStage stage); // for more expandability
 
         Pipeline build() const;
 
     private:
-        static std::vector<char> read_file(const std::string &filepath);
-
-        VkShaderModule create_shader_module(VkDevice device, const std::vector<char> &code) const;
-
         struct PipelineBuilderInfo
         {
             Device device;
