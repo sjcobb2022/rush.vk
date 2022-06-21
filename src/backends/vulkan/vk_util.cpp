@@ -22,6 +22,49 @@ const char *to_string_message_type(VkDebugUtilsMessageTypeFlagsEXT s)
 namespace rush
 {
 
+    VertexInputDescription Vertex::get_vertex_description()
+    {
+        VertexInputDescription description;
+        VkVertexInputBindingDescription binding = {};
+
+        binding.binding = 0;
+        binding.stride = sizeof(Vertex);
+        binding.inputRate = VK_VERTEX_INPUT_RATE_VERTEX;
+
+        description.bindings.push_back(binding);
+
+        VkVertexInputAttributeDescription positionAttribute = {};
+
+        positionAttribute.binding = 0;
+        positionAttribute.location = 0;
+        positionAttribute.format = VK_FORMAT_R32G32B32_SFLOAT;
+        positionAttribute.offset = offsetof(Vertex, position);
+
+        VkVertexInputAttributeDescription normalAttribute = {};
+        normalAttribute.binding = 0;
+        normalAttribute.location = 1;
+        normalAttribute.format = VK_FORMAT_R8G8_UNORM; // VK_FORMAT_R32G32B32_SFLOAT;
+        normalAttribute.offset = offsetof(Vertex, oct_normal);
+
+        VkVertexInputAttributeDescription colorAttribute = {};
+        colorAttribute.binding = 0;
+        colorAttribute.location = 2;
+        colorAttribute.format = VK_FORMAT_R8G8B8_UNORM; // VK_FORMAT_R32G32B32_SFLOAT;
+        colorAttribute.offset = offsetof(Vertex, color);
+
+        VkVertexInputAttributeDescription uvAttribute = {};
+        uvAttribute.binding = 0;
+        uvAttribute.location = 3;
+        uvAttribute.format = VK_FORMAT_R32G32_SFLOAT;
+        uvAttribute.offset = offsetof(Vertex, uv);
+
+        description.attributes.push_back(positionAttribute);
+        description.attributes.push_back(normalAttribute);
+        description.attributes.push_back(colorAttribute);
+        description.attributes.push_back(uvAttribute);
+        return description;
+    }
+
     VkResult create_debug_utils_messenger(VkInstance instance,
                                           PFN_vkDebugUtilsMessengerCallbackEXT debug_callback,
                                           VkDebugUtilsMessageSeverityFlagsEXT severity,
