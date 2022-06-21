@@ -19,8 +19,7 @@ jobs:
         os:
           - ubuntu-latest # This doesn't really matter, just merging. Ubuntu generally faster.
     steps:
-      - name: Get submodules
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
         with:
           submodules: recursive
           ref: dev
