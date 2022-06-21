@@ -71,7 +71,7 @@ namespace rush
 
         VkPipelineVertexInputStateCreateInfo vertex_input_state_create_info();
 
-        std::vector<VkPipelineShaderStageCreateInfo> PipelineBuilder::get_pipeline_stage_info();
+        std::vector<VkPipelineShaderStageCreateInfo> get_pipeline_stage_info();
     };
 
 }

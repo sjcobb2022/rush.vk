@@ -23,29 +23,24 @@ jobs:
              - Release
              - Debug
       steps:
-        - name: Get submodules
-          uses: actions/checkout@v3
+        - uses: actions/checkout@v3
           with:
             submodules: recursive
         
-        # NOTE: DO NOT USE NON-SYSTEM COMPILER, IT SEEMS TO BREAK (llvm does not work, gcc kinda works)
-        - name: Setup C++ with ${{ matrix.compiler }}
-          uses: aminya/setup-cpp@v1
+        # NOTE: USE SYSTEM COMPILER, IT SEEMS TO BREAK WITH EXTERNAL COMPILERS, probs need to set some env vars or something (llvm does not work, gcc kinda works)
+        - uses: aminya/setup-cpp@v1
           with:
             compiler: ${{ matrix.compiler }}
 
-        - name: Get Cmake and Ninja
-          uses: lukka/get-cmake@latest
+        - uses: lukka/get-cmake@latest
 
-        - name: Configure Vulkan SDK
-          uses: ./.github/actions/setup-vulkan-sdk
+        - uses: ./.github/actions/setup-vulkan-sdk
           with:
             vulkan-query-version: latest
             vulkan-components: Vulkan-Loader, shaderc
             vulkan-use-cache: on
 
-        - name: Run CMake + Ninja
-          uses: lukka/run-cmake@v10
+        - uses: lukka/run-cmake@v10
           with:
             cmakeListsTxtPath: '${{ github.workspace }}/CMakeLists.txt'
             configurePreset: '${{matrix.build-preset}}_${{matrix.build-config}}'
