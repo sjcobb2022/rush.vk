@@ -153,8 +153,10 @@ namespace rush
         }
         else
         {
-            printf("User provided VkPhysicalDeviceFeatures2 instance found in pNext chain. All "
+            spdlog::warn("User provided VkPhysicalDeviceFeatures2 instance found in pNext chain. All "
                    "requirements added via 'add_required_extension_features' will be ignored.");
+            // printf("User provided VkPhysicalDeviceFeatures2 instance found in pNext chain. All "
+            //        "requirements added via 'add_required_extension_features' will be ignored.");
         }
 
         if (!user_defined_phys_dev_features_2 && !has_phys_dev_features_2)
@@ -190,17 +192,12 @@ namespace rush
         if (res != VK_SUCCESS)
         {
             throw std::runtime_error("Failed to create device");
-            // return {DeviceError::failed_create_device, res};
         }
 
         device.physical_device = physical_device;
         device.surface = physical_device.surface;
         device.queue_families = physical_device.queue_families;
         device.allocation_callbacks = info.allocation_callbacks;
-        device.fp_vkGetDeviceProcAddr = vkGetDeviceProcAddr;
-        vkGetDeviceProcAddr(device.device, "vkGetDeviceQueue");
-        device.fp_vkGetDeviceQueue = (PFN_vkGetDeviceQueue)vkGetDeviceProcAddr(device.device, "vkGetDeviceQueue");
-        device.fp_vkDestroyDevice = (PFN_vkDestroyDevice)vkGetDeviceProcAddr(device.device, "vkDestroyDevice");
         return device;
     }
 
