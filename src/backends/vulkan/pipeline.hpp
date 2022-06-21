@@ -3,51 +3,23 @@
 #include "rush_pch.hpp"
 #include "device.hpp"
 #include "shader.hpp"
+#include "vk_util.hpp"
 
 namespace rush
 {
-
-    // struct ShaderModule
-    // {
-    //     std::vector<uint32_t> code;
-    //     VkShaderModule module;
-    // };
-
-    // struct ShaderEffect
-    // {
-    //     VkPipelineLayout layout;
-
-    //     std::array<VkDescriptorSetLayout, 4> setLayouts;
-
-    // private:
-    //     struct ShaderStage
-    //     {
-    //         ShaderModule *shaderModule;
-    //         VkShaderStageFlagBits stage;
-    //     };
-
-    //     std::vector<ShaderStage> stages;
-    // };
-
-    // class ShaderEffectBuilder{}; 
-
-    // struct ShaderPass
-    // {
-    //     ShaderEffect *effect{nullptr};
-    //     VkPipeline pipeline{VK_NULL_HANDLE};
-    //     VkPipelineLayout layout{VK_NULL_HANDLE};
-    // };
-
-    // struct EffectTemplate{
-        
-    // };
+    struct ReflectedBinding
+    {
+        uint32_t set;
+        uint32_t binding;
+        VkDescriptorType type;
+    };
 
     struct Pipeline
-    { // TODO: Make this into vkblancos pipeline creation thing
+    {
         VkPipeline pipeline;
-        VkShaderModule vert; //temporary
-        VkShaderModule frag; //temporary also...
-        //maybe have a vector of the stages.
+        VkPipelineLayout layout;
+        std::unordered_map<std::string, ReflectedBinding> bindings;
+        std::array<VkDescriptorSetLayout, 4> setLayouts;
 
         void bindBuffer(VkCommandBuffer buff, VkPipelineBindPoint bindPoint = VK_PIPELINE_BIND_POINT_GRAPHICS);
 
@@ -59,19 +31,47 @@ namespace rush
     public:
         PipelineBuilder(Device device);
 
-        PipelineBuilder &addStage(ShaderStage stage); // for more expandability
+        PipelineBuilder &add_stage(ShaderStage stage); // for more expandability
 
-        Pipeline build() const;
+        Pipeline build(VkRenderPass pass);
 
     private:
         struct PipelineBuilderInfo
         {
-            Device device;
-            VkPipelineVertexInputStateCreateInfo vertex_input_state;
-            VkGraphicsPipelineCreateInfo pipelineInfo;
-            // VkComputePipelineCreateInfo compute_pipeline_create;
+            Device device = {VK_NULL_HANDLE};
+            VkPipelineLayout builtLayout = {VK_NULL_HANDLE};
+            VkPrimitiveTopology topology = VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
+            VkPolygonMode polygonMode = VK_POLYGON_MODE_FILL;
+            VkCullModeFlags cullMode = VK_CULL_MODE_NONE;
+            VkFrontFace frontFace = VK_FRONT_FACE_CLOCKWISE;
+            VkCompareOp depthCompareOp = VK_COMPARE_OP_GREATER_OR_EQUAL;
+            VkLogicOp logicOp = VK_LOGIC_OP_COPY;
         } info;
-        
+
+        struct DescriptorSetLayoutData
+        {
+            uint32_t set_number;
+            VkDescriptorSetLayoutCreateInfo create_info;
+            std::vector<VkDescriptorSetLayoutBinding> bindings;
+        };
+
+        struct ReflectionOverrides
+        {
+            const char *name;
+            VkDescriptorType overridenType;
+        };
+
+        std::vector<ShaderStage> stages;
+        std::unordered_map<std::string, ReflectedBinding> bindings;
+        std::array<VkDescriptorSetLayout, 4> setLayouts;
+
+        void reflect_layout(VkDevice device, ReflectionOverrides *overrides, int overrideCount);
+
+        VkPipelineLayoutCreateInfo populate_pipeline_layout_create_info();
+
+        VkPipelineVertexInputStateCreateInfo vertex_input_state_create_info();
+
+        std::vector<VkPipelineShaderStageCreateInfo> PipelineBuilder::get_pipeline_stage_info();
     };
 
 }
