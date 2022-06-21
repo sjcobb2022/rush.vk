@@ -8,7 +8,7 @@ namespace rush
 
     struct ShaderModule
     {
-        std::vector<uint32_t> code;
+        std::vector<uint32_t> code; //needed for reflection --> TODO: make reflection part of shader instead of pipeline? depends
         VkShaderModule module;
     };
 

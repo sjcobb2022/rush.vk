@@ -6,6 +6,8 @@
 #include "physical_device.hpp"
 #include "device.hpp"
 #include "swapchain.hpp"
+#include "shader.hpp"
+#include "pipeline.hpp"
 
 // #include "vk_mem_alloc.h"
 
@@ -28,8 +30,8 @@ namespace rush
 
         PhysicalDeviceBuilder phb{instance, surface};
         PhysicalDevice physical_device = phb.set_surface(surface)
-                                                          .set_minimum_version(0, 1, 1, 0)
-                                                          .select();
+                                             .set_minimum_version(0, 1, 1, 0)
+                                             .select();
 
         // for (auto &psd : physical_device)
         // {
@@ -53,7 +55,32 @@ namespace rush
                                   .set_desired_present_mode(VK_PRESENT_MODE_FIFO_RELAXED_KHR)
                                   .build();
 
-        // swapchain.get_image_views();
+        auto images = swapchain.get_images();
+        auto views = swapchain.get_image_views();
+
+        //TODO:
+        // DEPTH IMAGES --> depth format, swapchain extent, then create image with allocated memory (use VMA) and create image views from there
+        // RENDERPASS --> swapchain image format, color attachments (color and depth attachment),
+        // FRAMEBUFFERS --> image views, swapchain extent, device, a renderpass, image count
+        // SYNC OBJECTS (semaphores, fences) --> dependant on: device, max frames, imagecount
+        // DESCRIPTORS (can use basic impl from vkguide)
+        // BUFFERS -- this is gonna take a while
+
+        // Need to get: triangle verts from brendans old one
+
+        //TODO: Pipeline deletion, image deletion, image view deletion
+
+        ShaderBuilder shaderBuilder{device};
+
+        auto vertS = shaderBuilder.set_path("assets/shaders/simple_shader.vert.spv").set_stage(VK_SHADER_STAGE_VERTEX_BIT).build();
+        auto fragS = shaderBuilder.set_path("assets/shaders/simple_shader.frag.spv").set_stage(VK_SHADER_STAGE_FRAGMENT_BIT).build();
+
+        PipelineBuilder pipelineBuilder{device};
+
+        VkRenderPass renderPass{};
+
+        pipelineBuilder.add_stage(vertS).add_stage(fragS);
+
     };
 
     Core::~Core(){
