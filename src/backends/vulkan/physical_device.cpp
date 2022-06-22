@@ -267,7 +267,6 @@ namespace rush
         return true;
     }
 
-
     PhysicalDevice PhysicalDeviceBuilder::populate_device_details(VkPhysicalDevice vk_phys_device,
                                                                   std::vector<GenericFeaturesPNextNode> const &src_extended_features_chain
 #if !defined(VK_API_VERSION_1_1)
@@ -540,6 +539,7 @@ namespace rush
             {
                 phys_dev.extensions.push_back("VK_KHR_portability_subset");
             }
+            phys_dev.instance = instance_info.instance; //it's a handle anyway so doesn't take up that much storage.
         };
 
         // if this option is set, always return only the first physical device found

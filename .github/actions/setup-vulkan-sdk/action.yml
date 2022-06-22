@@ -45,7 +45,8 @@ runs:
       run: |
         # dev prerequisites
         case `uname -s` in
-          Darwin) 
+          Darwin)
+            brew doctor 
             brew install gnu-sed
             echo "/usr/local/opt/gnu-sed/libexec/gnubin" >> $GITHUB_PATH
           ;;

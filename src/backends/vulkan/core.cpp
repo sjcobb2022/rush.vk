@@ -1,3 +1,6 @@
+#define VMA_IMPLEMENTATION
+#include "vk_mem_alloc.h"
+
 #include "core.hpp"
 
 // #include "device.hpp"
@@ -8,8 +11,6 @@
 #include "swapchain.hpp"
 #include "shader.hpp"
 #include "pipeline.hpp"
-
-// #include "vk_mem_alloc.h"
 
 namespace rush
 {
@@ -28,7 +29,7 @@ namespace rush
         VkSurfaceKHR surface;
         glfwCreateWindowSurface(instance.instance, window, nullptr, &surface);
 
-        PhysicalDeviceBuilder phb{instance, surface};
+        PhysicalDeviceBuilder phb{instance};
         PhysicalDevice physical_device = phb.set_surface(surface)
                                              .set_minimum_version(0, 1, 1, 0)
                                              .select();
@@ -41,8 +42,6 @@ namespace rush
         DeviceBuilder device_builder{physical_device};
 
         Device device = device_builder.build();
-
-        // spdlog::
 
         SwapchainBuilder swapchain_builder{device};
 
@@ -57,18 +56,20 @@ namespace rush
 
         auto images = swapchain.get_images();
         auto views = swapchain.get_image_views();
+        // auto d_images = swapchain.get_depth_images();
+        // auto d_views = swapchain.get_depth_views();
 
-        //TODO:
-        // DEPTH IMAGES --> depth format, swapchain extent, then create image with allocated memory (use VMA) and create image views from there
-        // RENDERPASS --> swapchain image format, color attachments (color and depth attachment),
-        // FRAMEBUFFERS --> image views, swapchain extent, device, a renderpass, image count
-        // SYNC OBJECTS (semaphores, fences) --> dependant on: device, max frames, imagecount
-        // DESCRIPTORS (can use basic impl from vkguide)
-        // BUFFERS -- this is gonna take a while
+        // TODO:
+        //  ☑️ DEPTH IMAGES --> depth format, swapchain extent, then create image with allocated memory (use VMA) and create image views from there
+        //  RENDERPASS --> swapchain image format, color attachments (color and depth attachment),
+        //  FRAMEBUFFERS --> image views, swapchain extent, device, a renderpass, image count
+        //  SYNC OBJECTS (semaphores, fences) --> dependant on: device, max frames, imagecount
+        //  DESCRIPTORS (can use basic impl from vkguide)
+        //  BUFFERS -- this is gonna take a while
 
         // Need to get: triangle verts from brendans old one
 
-        //TODO: Pipeline deletion, image deletion, image view deletion
+        // TODO: Pipeline deletion, image deletion, image view deletion
 
         ShaderBuilder shaderBuilder{device};
 
@@ -80,7 +81,6 @@ namespace rush
         VkRenderPass renderPass{};
 
         pipelineBuilder.add_stage(vertS).add_stage(fragS);
-
     };
 
     Core::~Core(){

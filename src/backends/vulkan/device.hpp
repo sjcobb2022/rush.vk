@@ -21,6 +21,7 @@ namespace rush
         VkSurfaceKHR surface = VK_NULL_HANDLE;
         std::vector<VkQueueFamilyProperties> queue_families;
         VkAllocationCallbacks *allocation_callbacks = VK_NULL_HANDLE;
+        VmaAllocator allocator;
 
         uint32_t get_queue_index(QueueType type) const;
         // Only a compute or transfer queue type is valid. All other queue types do not support a 'dedicated' queue index

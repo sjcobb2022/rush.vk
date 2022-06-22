@@ -142,7 +142,128 @@ namespace rush
         }
     }
 
-    SwapchainBuilder::SwapchainBuilder(Device const &device)
+    std::vector<VkImage> Swapchain::get_images()
+    {
+        std::vector<VkImage> swapchain_images;
+
+        auto swapchain_images_ret =
+            get_vector<VkImage>(swapchain_images, vkGetSwapchainImagesKHR, device, swapchain);
+        if (swapchain_images_ret != VK_SUCCESS)
+        {
+            throw std::runtime_error("Failed to get swapchain images");
+        }
+        return swapchain_images;
+    }
+
+    std::vector<VkImageView> Swapchain::get_image_views() { return get_image_views(nullptr); }
+
+    std::vector<VkImageView> Swapchain::get_image_views(const void *pNext)
+    {
+        const auto swapchain_images_ret = get_images();
+        //
+        const auto swapchain_images = swapchain_images_ret;
+
+        std::vector<VkImageView> views(swapchain_images.size());
+
+        for (size_t i = 0; i < swapchain_images.size(); i++)
+        {
+            VkImageViewCreateInfo createInfo = {};
+            createInfo.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
+            createInfo.pNext = pNext;
+            createInfo.image = swapchain_images[i];
+            createInfo.viewType = VK_IMAGE_VIEW_TYPE_2D;
+            createInfo.format = image_format;
+            createInfo.components.r = VK_COMPONENT_SWIZZLE_IDENTITY;
+            createInfo.components.g = VK_COMPONENT_SWIZZLE_IDENTITY;
+            createInfo.components.b = VK_COMPONENT_SWIZZLE_IDENTITY;
+            createInfo.components.a = VK_COMPONENT_SWIZZLE_IDENTITY;
+            createInfo.subresourceRange.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
+            createInfo.subresourceRange.baseMipLevel = 0;
+            createInfo.subresourceRange.levelCount = 1;
+            createInfo.subresourceRange.baseArrayLayer = 0;
+            createInfo.subresourceRange.layerCount = 1;
+
+            VkResult res = vkCreateImageView(device, &createInfo, allocation_callbacks, &views[i]);
+            if (res != VK_SUCCESS)
+                throw std::runtime_error("Failed to create swapchain image views");
+            // return detail::Error{SwapchainError::failed_create_swapchain_image_views, res};
+        }
+        return views;
+    }
+
+    void Swapchain::destroy_image_views(std::vector<VkImageView> const &image_views)
+    {
+        for (auto &image_view : image_views)
+        {
+            vkDestroyImageView(device, image_view, allocation_callbacks);
+        }
+    }
+
+    void Swapchain::create_depth_images(VkFormat depth_format, VkImageUsageFlags usage)
+    {
+
+        VmaAllocationCreateInfo img_allocinfo = {};
+        img_allocinfo.usage = VMA_MEMORY_USAGE_GPU_ONLY;
+        img_allocinfo.requiredFlags = VkMemoryPropertyFlags(VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT);
+
+        VkExtent3D extent3d;
+        extent3d.height = extent.height;
+        extent3d.width = extent.width;
+        extent3d.depth = 1;
+
+        VkImageCreateInfo depth_create_info = image_create_info(depth_format, usage, extent3d);
+
+        for (int i = 0; i < image_count; i++)
+        {
+            AllocatedImage image;
+
+            vmaCreateImage(allocator, &depth_create_info, &img_allocinfo, &image.image, &image.allocation, nullptr);
+
+            VkImageViewCreateInfo depth_view_info = imageview_create_info(depth_format, image.image, VK_IMAGE_ASPECT_DEPTH_BIT);
+
+            if (vkCreateImageView(device, &depth_view_info, nullptr, &image.view) != VK_SUCCESS)
+            {
+                throw std::runtime_error("Canot create depth image");
+                break; // I think this is unnecessary but whatever
+            }
+
+            depth_images.push_back(image);
+        }
+
+    }
+
+    std::vector<VkImage> Swapchain::get_depth_images(){
+        if(depth_images.size() == 0){
+            create_depth_images(VK_FORMAT_D32_SFLOAT, VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT | VK_IMAGE_USAGE_SAMPLED_BIT);
+        }
+
+        std::vector<VkImage> depth_is;
+
+        for(auto &alloc_img: depth_images){
+            depth_is.push_back(alloc_img.image);
+        }
+
+        return depth_is;
+    }
+
+    std::vector<VkImageView> Swapchain::get_depth_views(){
+        if(depth_images.size() == 0){
+            create_depth_images(VK_FORMAT_D32_SFLOAT, VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT | VK_IMAGE_USAGE_SAMPLED_BIT);
+        }
+
+        std::vector<VkImageView> depth_vs;
+
+        for(auto &alloc_img: depth_images){
+            depth_vs.push_back(alloc_img.view);
+        }
+
+        return depth_vs;
+    }
+
+
+    Swapchain::operator VkSwapchainKHR() const { return this->swapchain; }
+
+    SwapchainBuilder::SwapchainBuilder(Device &device)
     {
         info.device = device.device;
         info.physical_device = device.physical_device.physical_device;
@@ -153,9 +274,10 @@ namespace rush
         info.graphics_queue_index = present;
         info.present_queue_index = graphics;
         info.allocation_callbacks = device.allocation_callbacks;
+        info.allocator = device.allocator;
     }
 
-    SwapchainBuilder::SwapchainBuilder(Device const &device, VkSurfaceKHR const surface)
+    SwapchainBuilder::SwapchainBuilder(Device &device, VkSurfaceKHR const surface)
     {
         info.device = device.device;
         info.physical_device = device.physical_device.physical_device;
@@ -167,6 +289,7 @@ namespace rush
         info.graphics_queue_index = present;
         info.present_queue_index = graphics;
         info.allocation_callbacks = device.allocation_callbacks;
+        info.allocator = device.allocator;
     }
 
     SwapchainBuilder::SwapchainBuilder(VkPhysicalDevice const physical_device,
@@ -277,82 +400,18 @@ namespace rush
             // return detail::Error{SwapchainError::failed_create_swapchain, res};
         }
 
-
         swapchain.device = info.device;
         swapchain.image_format = surface_format.format;
         swapchain.extent = extent;
-        // detail::vulkan_functions().get_device_proc_addr(
-        //     info.device, swapchain.internal_table.fp_vkGetSwapchainImagesKHR, "vkGetSwapchainImagesKHR");
-        // detail::vulkan_functions().get_device_proc_addr(info.device, swapchain.internal_table.fp_vkCreateImageView, "vkCreateImageView");
-        // detail::vulkan_functions().get_device_proc_addr(info.device, swapchain.internal_table.fp_vkDestroyImageView, "vkDestroyImageView");
-        // detail::vulkan_functions().get_device_proc_addr(
-        // info.device, swapchain.internal_table.fp_vkDestroySwapchainKHR, "vkDestroySwapchainKHR");
         auto images = swapchain.get_images();
         swapchain.requested_min_image_count = image_count;
         swapchain.present_mode = present_mode;
         swapchain.image_count = static_cast<uint32_t>(images.size());
         swapchain.allocation_callbacks = info.allocation_callbacks;
+        swapchain.allocator = info.allocator;
+
         return swapchain;
     }
-
-    std::vector<VkImage> Swapchain::get_images()
-    {
-        std::vector<VkImage> swapchain_images;
-
-        auto swapchain_images_ret =
-            get_vector<VkImage>(swapchain_images, vkGetSwapchainImagesKHR, device, swapchain);
-        if (swapchain_images_ret != VK_SUCCESS)
-        {
-            throw std::runtime_error("Failed to get swapchain images");
-        }
-        return swapchain_images;
-    }
-
-    std::vector<VkImageView> Swapchain::get_image_views() { return get_image_views(nullptr); }
-
-    std::vector<VkImageView> Swapchain::get_image_views(const void *pNext)
-    {
-        const auto swapchain_images_ret = get_images();
-        //
-        const auto swapchain_images = swapchain_images_ret;
-
-        std::vector<VkImageView> views(swapchain_images.size());
-
-        for (size_t i = 0; i < swapchain_images.size(); i++)
-        {
-            VkImageViewCreateInfo createInfo = {};
-            createInfo.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
-            createInfo.pNext = pNext;
-            createInfo.image = swapchain_images[i];
-            createInfo.viewType = VK_IMAGE_VIEW_TYPE_2D;
-            createInfo.format = image_format;
-            createInfo.components.r = VK_COMPONENT_SWIZZLE_IDENTITY;
-            createInfo.components.g = VK_COMPONENT_SWIZZLE_IDENTITY;
-            createInfo.components.b = VK_COMPONENT_SWIZZLE_IDENTITY;
-            createInfo.components.a = VK_COMPONENT_SWIZZLE_IDENTITY;
-            createInfo.subresourceRange.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
-            createInfo.subresourceRange.baseMipLevel = 0;
-            createInfo.subresourceRange.levelCount = 1;
-            createInfo.subresourceRange.baseArrayLayer = 0;
-            createInfo.subresourceRange.layerCount = 1;
-
-            VkResult res = vkCreateImageView(device, &createInfo, allocation_callbacks, &views[i]);
-            if (res != VK_SUCCESS)
-                throw std::runtime_error("Failed to create swapchain image views");
-            // return detail::Error{SwapchainError::failed_create_swapchain_image_views, res};
-        }
-        return views;
-    }
-
-    void Swapchain::destroy_image_views(std::vector<VkImageView> const &image_views)
-    {
-        for (auto &image_view : image_views)
-        {
-            vkDestroyImageView(device, image_view, allocation_callbacks);
-        }
-    }
-
-    Swapchain::operator VkSwapchainKHR() const { return this->swapchain; }
 
     SwapchainBuilder &SwapchainBuilder::set_old_swapchain(VkSwapchainKHR old_swapchain)
     {
@@ -474,8 +533,7 @@ namespace rush
     }
     void SwapchainBuilder::add_desired_present_modes(std::vector<VkPresentModeKHR> &modes) const
     {
-        modes.push_back(VK_PRESENT_MODE_MAILBOX_KHR);
+        modes.push_back(VK_PRESENT_MODE_MAILBOX_KHR); // basically the backup 2 options if nothing else is available
         modes.push_back(VK_PRESENT_MODE_FIFO_KHR);
     }
-
 }
