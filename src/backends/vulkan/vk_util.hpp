@@ -1,6 +1,6 @@
 #pragma once
-
 #include "rush_pch.hpp"
+#include "vk_mem_alloc.h"
 
 const char *to_string_message_type(VkDebugUtilsMessageTypeFlagsEXT s);
 
@@ -15,6 +15,20 @@ namespace rush
 
         VkPipelineVertexInputStateCreateFlags flags = 0;
     };
+
+    struct AllocatedImage
+    {
+        VkImage image;
+        VmaAllocation allocation;
+        VkImageView view;
+        // int mips; <-- mips not integrated yet
+    };
+
+    void destroy_allocated_image(VmaAllocator allocator, AllocatedImage image);
+
+    VkImageCreateInfo image_create_info(VkFormat format, VkImageUsageFlags usageFlags, VkExtent3D extent);
+
+    VkImageViewCreateInfo imageview_create_info(VkFormat depth_format, VkImage image, VkImageAspectFlags aspectFlags);
 
     struct Vertex
     {
