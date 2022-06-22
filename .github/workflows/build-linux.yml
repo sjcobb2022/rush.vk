@@ -5,7 +5,7 @@ on:
       - 'src/**'
       - 'libs/**'
       - 'cmake/**'
-      - '.github/workflows/**'
+      - '.github/**'
       - '**/CMakeLists.txt'
     branches: [dev]
 jobs:
