@@ -1,6 +1,9 @@
 #include "rush_pch.hpp"
 #include "device.hpp"
 
+#include "vk_util.hpp"
+#include "vk_mem_alloc.h"
+
 namespace rush
 {
     // ---- Swapchain ---- //
@@ -14,15 +17,19 @@ namespace rush
         uint32_t requested_min_image_count = 0;                        // The value of minImageCount actually used when creating the swapchain; note that the presentation engine is always free to create more images than that.
         VkPresentModeKHR present_mode = VK_PRESENT_MODE_IMMEDIATE_KHR; // The present mode actually used when creating the swapchain.
         VkAllocationCallbacks *allocation_callbacks = VK_NULL_HANDLE;
+        VmaAllocator allocator;
 
         // Returns a vector of VkImage handles to the swapchain.
         std::vector<VkImage> get_images();
+        std::vector<VkImage> get_depth_images();
 
         // Returns a vector of VkImageView's to the VkImage's of the swapchain.
         // VkImageViews must be destroyed.  The pNext chain must be a nullptr or a valid
         // structure.
         std::vector<VkImageView> get_image_views();
         std::vector<VkImageView> get_image_views(const void *pNext);
+        std::vector<VkImageView> get_depth_views();
+
         void destroy_image_views(std::vector<VkImageView> const &image_views);
 
         // A conversion function which allows this Swapchain to be used
@@ -32,6 +39,8 @@ namespace rush
     private:
         friend class SwapchainBuilder;
         friend void destroy_swapchain(Swapchain const &swapchain);
+        std::vector<AllocatedImage> depth_images;
+        void create_depth_images(VkFormat depth_format, VkImageUsageFlags usage);
     };
 
     void destroy_swapchain(Swapchain const &swapchain);
@@ -39,13 +48,10 @@ namespace rush
     class SwapchainBuilder
     {
     public:
-        // Construct a SwapchainBuilder with a `vkb::Device`
-        explicit SwapchainBuilder(Device const &device);
-        // Construct a SwapchainBuilder with a specific VkSurfaceKHR handle and `vkb::Device`
-        explicit SwapchainBuilder(Device const &device, VkSurfaceKHR const surface);
-        // Construct a SwapchainBuilder with Vulkan handles for the physical device, device, and surface
-        // Optionally can provide the uint32_t indices for the graphics and present queue
-        // Note: The constructor will query the graphics & present queue if the indices are not provided
+        explicit SwapchainBuilder(Device &device);
+
+        explicit SwapchainBuilder(Device &device, VkSurfaceKHR const surface);
+
         explicit SwapchainBuilder(VkPhysicalDevice const physical_device,
                                   VkDevice const device,
                                   VkSurfaceKHR const surface,
@@ -128,6 +134,8 @@ namespace rush
         void add_desired_formats(std::vector<VkSurfaceFormatKHR> &formats) const;
         void add_desired_present_modes(std::vector<VkPresentModeKHR> &modes) const;
 
+        // std::vector<AllocatedImage> setup_depth_images(Device device, VmaAllocator allocator, uint32_t image_count, VkFormat depth_format, VkImageUsageFlagBits usage, VkExtent3D image_extent) const;
+
         struct SwapchainInfo
         {
             VkPhysicalDevice physical_device = VK_NULL_HANDLE;
@@ -149,6 +157,7 @@ namespace rush
             bool clipped = true;
             VkSwapchainKHR old_swapchain = VK_NULL_HANDLE;
             VkAllocationCallbacks *allocation_callbacks = VK_NULL_HANDLE;
+            VmaAllocator allocator; //this is also a handle so probs fine
         } info;
     };
 }
