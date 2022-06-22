@@ -14,6 +14,10 @@ namespace rush
             vkDestroyInstance(instance.instance, instance.allocation_callbacks);
     }
 
+    Instance::operator VkInstance() const {
+        return this->instance; 
+    }
+
     // creating builder does not assign anything
     InstanceBuilder::InstanceBuilder() {}
 
