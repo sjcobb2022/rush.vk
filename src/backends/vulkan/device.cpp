@@ -203,7 +203,7 @@ namespace rush
         alloc_info.instance = physical_device.instance; // has conversion operator
         alloc_info.physicalDevice = physical_device;    // has conversion operator
         alloc_info.device = device;                     // has conversion operator
-        alloc_info.pVulkanFunctions = &vulkanFunctions;
+        alloc_info.pVulkanFunctions = &vulkanFunctions; //pass vulkan functions
 
         vmaCreateAllocator(&alloc_info, &device.allocator); //allocator is already instantiated in header.
 
