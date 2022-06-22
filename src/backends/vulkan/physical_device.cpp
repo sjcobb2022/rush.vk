@@ -385,11 +385,11 @@ namespace rush
                              QUEUE_INDEX_MAX_VALUE;
 
         // TODO: Add better logging for each step
-        spdlog::debug("dedicated_compute: {}", dedicated_compute);
-        spdlog::debug("dedicated_transfer: {}", dedicated_transfer);
-        spdlog::debug("separate_compute: {}", separate_compute);
-        spdlog::debug("separate_transfer: {}", separate_transfer);
-        spdlog::debug("present_queue: {}", present_queue);
+        spdlog::debug("dedicated_compute:   {}", dedicated_compute);
+        spdlog::debug("dedicated_transfer:  {}", dedicated_transfer);
+        spdlog::debug("separate_compute:    {}", separate_compute);
+        spdlog::debug("separate_transfer:   {}", separate_transfer);
+        spdlog::debug("present_queue:       {}", present_queue);
 
         if (criteria.require_dedicated_compute_queue && !dedicated_compute)
             return PhysicalDevice::Suitable::no;
@@ -539,6 +539,7 @@ namespace rush
             {
                 phys_dev.extensions.push_back("VK_KHR_portability_subset");
             }
+            phys_dev.instance = instance_info.instance; //it's a handle anyway so doesn't take up that much storage.
         };
 
         // if this option is set, always return only the first physical device found

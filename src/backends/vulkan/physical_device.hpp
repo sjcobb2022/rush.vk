@@ -48,10 +48,11 @@ namespace rush
         operator VkPhysicalDevice() const;
 
     private:
-        uint32_t instance_version = VK_API_VERSION_1_0;
+        uint32_t instance_version = VK_API_VERSION_1_1;
         std::vector<std::string> extensions;
         std::vector<VkQueueFamilyProperties> queue_families;
         std::vector<GenericFeaturesPNextNode> extended_features_chain;
+        VkInstance instance; //its just a handle so probs ok to store
 #if defined(VK_API_VERSION_1_1)
         VkPhysicalDeviceFeatures2 features2{};
 #else

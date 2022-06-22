@@ -21,9 +21,7 @@ namespace rush
         VkSurfaceKHR surface = VK_NULL_HANDLE;
         std::vector<VkQueueFamilyProperties> queue_families;
         VkAllocationCallbacks *allocation_callbacks = VK_NULL_HANDLE;
-        PFN_vkGetDeviceProcAddr fp_vkGetDeviceProcAddr = nullptr;
-        PFN_vkDestroyDevice fp_vkDestroyDevice = nullptr;
-        PFN_vkGetDeviceQueue fp_vkGetDeviceQueue = nullptr;
+        VmaAllocator allocator;
 
         uint32_t get_queue_index(QueueType type) const;
         // Only a compute or transfer queue type is valid. All other queue types do not support a 'dedicated' queue index
@@ -42,11 +40,6 @@ namespace rush
         operator VkDevice() const;
 
     private:
-        struct
-        {
-            PFN_vkGetDeviceQueue fp_vkGetDeviceQueue = nullptr;
-            PFN_vkDestroyDevice fp_vkDestroyDevice = nullptr;
-        } internal_table;
 
         friend class DeviceBuilder;
         friend void destroy_device(Device device);

@@ -5,10 +5,13 @@
 // libs
 #include "rush_pch.hpp"
 
-
 namespace rush
 {
-    class PhysicalDeviceBuilder; //fwd declaration
+    class PhysicalDeviceBuilder; // fwd declaration :: TODO: make fwd declaration to make all this easier.
+
+    struct Instance;
+
+    void destroy_instance(Instance instance);
 
     struct Instance
     {
@@ -16,10 +19,13 @@ namespace rush
         VkDebugUtilsMessengerEXT debug_messenger = VK_NULL_HANDLE;
         VkAllocationCallbacks *allocation_callbacks = VK_NULL_HANDLE;
 
-    private:
-        bool supports_properties2_ext = false;
         uint32_t instance_version = VK_API_VERSION_1_0;
         uint32_t api_version = VK_API_VERSION_1_0;
+
+        operator VkInstance() const;
+
+    private:
+        bool supports_properties2_ext = false;
 
         friend class InstanceBuilder;
         friend class PhysicalDeviceBuilder;
@@ -30,7 +36,7 @@ namespace rush
     public:
         explicit InstanceBuilder();
 
-        Instance* build() const;
+        Instance build() const;
 
         InstanceBuilder &set_app_name(const char *app_name);
         InstanceBuilder &set_engine_name(const char *engine_name);
@@ -43,6 +49,9 @@ namespace rush
 
         InstanceBuilder &request_validation_layers(const bool enable_layers = true);
         InstanceBuilder &enable_validation_layers(const bool enable_layers);
+
+        InstanceBuilder &request_api_version(uint32_t major, uint32_t minor, uint32_t patch);
+        InstanceBuilder &request_api_version(uint32_t version);
 
         /**
          * @brief Set the debug callback function

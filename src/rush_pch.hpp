@@ -8,6 +8,7 @@
 #include <cstdlib>
 #include <deque>
 #include <functional>
+#include <fstream>
 #include <iostream>
 #include <memory>
 #include <stdexcept>
@@ -45,7 +46,7 @@
 #include "backends/imgui_impl_vulkan.h" //vulkan impl
 
 //  VMA
-#include "vk_mem_alloc.h" //core
+// #include "vk_mem_alloc.h" //core
 
 //  tinygltf
 #include <tiny_gltf.h> // get json.hpp from the repository
@@ -53,3 +54,4 @@
 //  TinyObjLoader
 #include <tiny_obj_loader.h> //core
 
+#include <spirv_reflect.h>

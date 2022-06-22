@@ -25,7 +25,7 @@
 
 ### <a name="Linux"></a> Unix Build Instructions
 
-- Install the dependencies: cmake, vulkan
+- Install the dependencies: cmake, vulkan, glfw
 
 - For example
   ```
@@ -72,7 +72,7 @@
   ```
   cd rush.vk
   cmake -S . -B .\build\
-  cmake --build .
+  cmake --build .\buidld\
   ```
 
 > **Noted** All dependencies are locally included as submodules, no need to install the dependencies.
@@ -105,7 +105,7 @@ Thanks to [LunarG](http://www.lunarg.com)
 
 Thanks to [Sascha Willems](https://github.com/SaschaWillems/Vulkan)
 
-Thanks to [ThinMatrix](https://www.youtube.com/user/ThinMatrix/featured)
+Thanks to [ThinMatrix](https://www.youtube.com/user/ThinMatrix)
 
 ## Attributions / Licenses
 

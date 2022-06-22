@@ -1,12 +1,48 @@
 #pragma once
-
 #include "rush_pch.hpp"
+#include "vk_mem_alloc.h"
 
 const char *to_string_message_type(VkDebugUtilsMessageTypeFlagsEXT s);
 
 namespace rush
 {
     const uint32_t QUEUE_INDEX_MAX_VALUE = 65536;
+
+    struct VertexInputDescription
+    {
+        std::vector<VkVertexInputBindingDescription> bindings;
+        std::vector<VkVertexInputAttributeDescription> attributes;
+
+        VkPipelineVertexInputStateCreateFlags flags = 0;
+    };
+
+    struct AllocatedImage
+    {
+        VkImage image;
+        VmaAllocation allocation;
+        VkImageView view;
+        // int mips; <-- mips not integrated yet
+    };
+
+    void destroy_allocated_image(VmaAllocator allocator, AllocatedImage image);
+
+    VkImageCreateInfo image_create_info(VkFormat format, VkImageUsageFlags usageFlags, VkExtent3D extent);
+
+    VkImageViewCreateInfo imageview_create_info(VkFormat depth_format, VkImage image, VkImageAspectFlags aspectFlags);
+
+    struct Vertex
+    {
+
+        glm::vec3 position;
+        // glm::vec3 normal;
+        glm::vec<2, uint8_t> oct_normal; // color;
+        glm::vec<3, uint8_t> color;
+        glm::vec2 uv;
+        static VertexInputDescription get_vertex_description();
+
+        void pack_normal(glm::vec3 n);
+        void pack_color(glm::vec3 c);
+    };
 
     VkResult create_debug_utils_messenger(VkInstance instance,
                                           PFN_vkDebugUtilsMessengerCallbackEXT debug_callback,
