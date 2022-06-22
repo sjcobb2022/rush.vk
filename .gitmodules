@@ -19,9 +19,6 @@
 [submodule "libs/imgui"]
 	path = libs/imgui
 	url = https://github.com/sjcobb2022/imgui.git
-[submodule ".github/actions/setup-vulkan-sdk"]
-	path = .github/actions/setup-vulkan-sdk
-	url = https://github.com/sjcobb2022/setup-vulkan-sdk
 [submodule "libs/tinyobjloader"]
 	path = libs/tinyobjloader
 	url = https://github.com/tinyobjloader/tinyobjloader.git
@@ -31,3 +28,6 @@
 [submodule "libs/SPIRV-Reflect"]
 	path = libs/SPIRV-Reflect
 	url = https://github.com/KhronosGroup/SPIRV-Reflect.git
+[submodule ".github/actions/setup-vulkan-sdk"]
+	path = .github/actions/setup-vulkan-sdk
+	url = https://github.com/sjcobb2022/setup-vulkan-sdk.git
