@@ -46,8 +46,9 @@ runs:
         # dev prerequisites
         case `uname -s` in
           Darwin)
-            brew doctor
+            brew doctor 
             brew update 
+            brew updgrade 
             brew install gnu-sed
             echo "/usr/local/opt/gnu-sed/libexec/gnubin" >> $GITHUB_PATH
           ;;
