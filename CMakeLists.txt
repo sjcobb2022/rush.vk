@@ -17,8 +17,15 @@ find_package(Vulkan REQUIRED)
 
 find_package(Shaderc REQUIRED)
 
+# unset(VMA_STATIC_VULKAN_FUNCTIONS CACHE)
+# unset(VMA_DYNAMIC_VULKAN_FUNCTIONS CACHE)
+
 message(NOTICE "Adding Vulkan Memory Allocator")
+set(VMA_STATIC_VULKAN_FUNCTIONS OFF CACHE BOOL "" FORCE)
+set(VMA_DYNAMIC_VULKAN_FUNCTIONS ON CACHE BOOL "" FORCE)
 add_subdirectory(libs/vma)
+# add_library(vma INTERFACE)
+# target_include_directories(vma INTERFACE "${CMAKE_CURRENT_SOURCE_DIR}/libs/vma/include")
 
 message(NOTICE "Adding GLFW")
 
