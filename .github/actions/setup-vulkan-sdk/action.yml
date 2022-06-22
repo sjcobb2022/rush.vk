@@ -48,7 +48,7 @@ runs:
           Darwin)
             brew doctor 
             brew update 
-            brew updgrade 
+            brew upgrade 
             brew install gnu-sed
             echo "/usr/local/opt/gnu-sed/libexec/gnubin" >> $GITHUB_PATH
           ;;
