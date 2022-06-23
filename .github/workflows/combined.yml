@@ -1,0 +1,163 @@
+name: combined
+on:
+  push:
+    paths:
+      - 'src/**'
+      - '.github/**'
+    branches: [dev]
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu-latest
+        compiler:
+          - gcc
+          - llvm
+        build-preset:
+          - Ninja
+        build-config:
+          - Release
+          - Debug
+        include:
+          - os: windows-latest
+            compiler: msvc
+            build-preset: VisualStudio
+            build-config: Release
+        
+          - os: windows-latest
+            compiler: msvc
+            build-preset: VisualStudio
+            build-config: Debug
+
+          - os: "macos-latest"
+            build-preset: Ninja
+            build-config: Release
+
+          - os: "macos-latest"
+            build-preset: Ninja
+            build-config: Debug
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: recursive
+
+      - uses: aminya/setup-cpp@v1
+        with:
+          compiler: ${{ matrix.compiler }}
+
+      - uses: lukka/get-cmake@latest
+
+      - uses: ./.github/actions/setup-vulkan-sdk
+        with:
+          vulkan-query-version: latest
+          vulkan-components: Vulkan-Loader, shaderc
+          vulkan-use-cache: on
+      
+      - uses: RpxdYTX/install-glfw-deps@v2
+        if: runner.os == 'Linux'
+      
+      - uses: lukka/run-cmake@v10
+        with:
+          cmakeListsTxtPath: '${{ github.workspace }}/CMakeLists.txt'
+          configurePreset: '${{matrix.build-preset}}_${{matrix.build-config}}'
+          buildPreset: '${{matrix.build-preset}}_${{matrix.build-config}}'
+
+  testing:
+    needs: [build]
+    if: ${{ needs.build.result == 'success' }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: true
+      matrix:
+        os:
+          - ubuntu-latest
+        compiler:
+          - gcc
+          - llvm
+        build-preset:
+          - Ninja
+        build-config:
+          - Release
+          - Debug
+        include:
+          - os: windows-latest
+            compiler: msvc
+            build-preset: VisualStudio
+            build-config: Release
+        
+          - os: windows-latest
+            compiler: msvc
+            build-preset: VisualStudio
+            build-config: Debug
+
+          - os: "macos-latest"
+            build-preset: Ninja
+            build-config: Release
+
+          - os: "macos-latest"
+            build-preset: Ninja
+            build-config: Debug
+    steps:
+      - name: "Placeholder: This does not do anything yet"
+        run: echo "running something so the workflow completes"
+
+  merge:
+    needs: [testing]
+    if: ${{ needs.testing.result == 'success' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: recursive
+          ref: dev
+      
+      - name: Merge dev => staging
+        uses: devmasx/merge-branch@master
+        with:
+          type: now
+          from_branch: dev
+          target_branch: staging
+          github_token: ${{ secrets.PAT }}
+          message: 'Merge dev => Staging'
+          label_name: 'automated  :robot:'
+
+  pull:
+    needs: [merge]
+    if: ${{ needs.merge.result == 'success' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: main
+      - name: Reset Staging Branch
+        run: |
+          git fetch origin staging:staging
+          git reset --hard staging
+      - run: echo "DATE=$(date +%Y-%m-%d)" >> $GITHUB_ENV
+
+      - uses: peter-evans/create-pull-request@v4
+        with:
+          token: ${{ secrets.PAT }}
+          branch: staging
+          commit-message: '[automated] Successful merge request from staging to main'
+          signoff: true
+          committer: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
+          title: '${{ github.actor }} - Request Staging Merge with Main at ${{env.DATE}}'
+          body: |
+              Request merge of staging and production
+              - Passed Building:  [![build](https://github.com/sjcobb2022/rush.vk/actions/workflows/build-all.yml/badge.svg)](https://github.com/sjcobb2022/rush.vk/actions/workflows/build-all.yml)
+              - Passed Testing:   [![testing](https://github.com/sjcobb2022/rush.vk/actions/workflows/testing.yml/badge.svg)](https://github.com/sjcobb2022/rush.vk/actions/workflows/testing.yml)
+              - Passed Merge:     [![merge](https://github.com/sjcobb2022/rush.vk/actions/workflows/merge.yml/badge.svg)](https://github.com/sjcobb2022/rush.vk/actions/workflows/merge.yml)
+
+              - Build Linux:   [![build](https://github.com/sjcobb2022/rush.vk/actions/workflows/build-linux.yml/badge.svg)](https://github.com/sjcobb2022/rush.vk/actions/workflows/build-linux.yml)
+              - Build MacOS:   [![build](https://github.com/sjcobb2022/rush.vk/actions/workflows/build-mac.yml/badge.svg)](https://github.com/sjcobb2022/rush.vk/actions/workflows/build-mac.yml)
+              - Build Windows: [![build](https://github.com/sjcobb2022/rush.vk/actions/workflows/build-windows.yml/badge.svg)](https://github.com/sjcobb2022/rush.vk/actions/workflows/build-windows.yml)
+
+              Request by: ${{ github.actor }}
+          reviewers: 'sjcobb2022'
+            
+          labels: 'automated  :robot:'

@@ -17,17 +17,10 @@ find_package(Vulkan REQUIRED)
 
 find_package(Shaderc REQUIRED)
 
-# unset(VMA_STATIC_VULKAN_FUNCTIONS CACHE)
-# unset(VMA_DYNAMIC_VULKAN_FUNCTIONS CACHE)
-
 message(NOTICE "Adding Vulkan Memory Allocator")
 set(VMA_STATIC_VULKAN_FUNCTIONS OFF CACHE BOOL "" FORCE)
 set(VMA_DYNAMIC_VULKAN_FUNCTIONS ON CACHE BOOL "" FORCE)
 add_subdirectory(libs/vma)
-# add_library(vma INTERFACE)
-# target_include_directories(vma INTERFACE "${CMAKE_CURRENT_SOURCE_DIR}/libs/vma/include")
-
-message(NOTICE "Adding GLFW")
 
 if(WIN32)
 	add_compile_definitions(_GLFW_WIN32=ON)
@@ -108,6 +101,9 @@ target_link_libraries(${PROJECT_NAME} PRIVATE glfw)
 target_link_libraries(${PROJECT_NAME} PUBLIC imgui)
 
 target_link_libraries(${PROJECT_NAME} PRIVATE glm)
+
+message(NOTICE "Adding GLFW")
+
 target_link_libraries(${PROJECT_NAME} PRIVATE VulkanMemoryAllocator)
 target_link_libraries(${PROJECT_NAME} PRIVATE EnTT::EnTT)
 target_link_libraries(${PROJECT_NAME} PRIVATE shaderc)
