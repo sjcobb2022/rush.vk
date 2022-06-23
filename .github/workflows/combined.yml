@@ -1,12 +1,14 @@
 name: combined
 on:
-  pull_request:
+  pull_request_review:
+    types: [submitted]
     paths:
       - 'src/**'
       - '.github/**'
     branches: [dev]
 jobs:
   build:
+    if: ${{ github.event.review.state == 'approved' }}
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
