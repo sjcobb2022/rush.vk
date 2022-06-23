@@ -1,6 +1,6 @@
 name: combined
 on:
-  push:
+  pull:
     paths:
       - 'src/**'
       - '.github/**'
