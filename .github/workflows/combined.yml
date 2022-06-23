@@ -1,6 +1,6 @@
 name: combined
 on:
-  pull:
+  pull_request:
     paths:
       - 'src/**'
       - '.github/**'
