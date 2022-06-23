@@ -7,102 +7,102 @@ on:
     branches: [dev]
 jobs:
   build:
-      runs-on: ${{ matrix.os }}
-      strategy:
-        fail-fast: true
-        matrix:
-          os:
-            - ubuntu-latest
-          compiler:
-            - gcc
-            - llvm
-          build-preset:
-            - Ninja
-          build-config:
-            - Release
-            - Debug
-          include:
-            - os: windows-latest
-              compiler: msvc
-              build-preset: VisualStudio
-              build-config: Release
-          
-            - os: windows-latest
-              compiler: msvc
-              build-preset: VisualStudio
-              build-config: Debug
-
-            - os: "macos-latest"
-              build-preset: Ninja
-              build-config: Release
-
-            - os: "macos-latest"
-              build-preset: Ninja
-              build-config: Debug
-
-      steps:
-        - uses: actions/checkout@v3
-          with:
-            submodules: recursive
-
-        - uses: aminya/setup-cpp@v1
-          with:
-            compiler: ${{ matrix.compiler }}
-
-        - uses: lukka/get-cmake@latest
-
-        - uses: ./.github/actions/setup-vulkan-sdk
-          with:
-            vulkan-query-version: latest
-            vulkan-components: Vulkan-Loader, shaderc
-            vulkan-use-cache: on
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: true
+      matrix:
+        os:
+          - ubuntu-latest
+        compiler:
+          - gcc
+          - llvm
+        build-preset:
+          - Ninja
+        build-config:
+          - Release
+          - Debug
+        include:
+          - os: windows-latest
+            compiler: msvc
+            build-preset: VisualStudio
+            build-config: Release
         
-        - uses: RpxdYTX/install-glfw-deps@v2
-          if: runner.os == 'Linux'
-        
-        - uses: lukka/run-cmake@v10
-          with:
-            cmakeListsTxtPath: '${{ github.workspace }}/CMakeLists.txt'
-            configurePreset: '${{matrix.build-preset}}_${{matrix.build-config}}'
-            buildPreset: '${{matrix.build-preset}}_${{matrix.build-config}}'
-  
+          - os: windows-latest
+            compiler: msvc
+            build-preset: VisualStudio
+            build-config: Debug
+
+          - os: "macos-latest"
+            build-preset: Ninja
+            build-config: Release
+
+          - os: "macos-latest"
+            build-preset: Ninja
+            build-config: Debug
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: recursive
+
+      - uses: aminya/setup-cpp@v1
+        with:
+          compiler: ${{ matrix.compiler }}
+
+      - uses: lukka/get-cmake@latest
+
+      - uses: ./.github/actions/setup-vulkan-sdk
+        with:
+          vulkan-query-version: latest
+          vulkan-components: Vulkan-Loader, shaderc
+          vulkan-use-cache: on
+      
+      - uses: RpxdYTX/install-glfw-deps@v2
+        if: runner.os == 'Linux'
+      
+      - uses: lukka/run-cmake@v10
+        with:
+          cmakeListsTxtPath: '${{ github.workspace }}/CMakeLists.txt'
+          configurePreset: '${{matrix.build-preset}}_${{matrix.build-config}}'
+          buildPreset: '${{matrix.build-preset}}_${{matrix.build-config}}'
+
   testing:
     needs: [build]
     runs-on: ${{ matrix.os }}
-      strategy:
-        fail-fast: true
-        matrix:
-          os:
-            - ubuntu-latest
-          compiler:
-            - gcc
-            - llvm
-          build-preset:
-            - Ninja
-          build-config:
-            - Release
-            - Debug
-          include:
-            - os: windows-latest
-              compiler: msvc
-              build-preset: VisualStudio
-              build-config: Release
-          
-            - os: windows-latest
-              compiler: msvc
-              build-preset: VisualStudio
-              build-config: Debug
+    strategy:
+      fail-fast: true
+      matrix:
+        os:
+          - ubuntu-latest
+        compiler:
+          - gcc
+          - llvm
+        build-preset:
+          - Ninja
+        build-config:
+          - Release
+          - Debug
+        include:
+          - os: windows-latest
+            compiler: msvc
+            build-preset: VisualStudio
+            build-config: Release
+        
+          - os: windows-latest
+            compiler: msvc
+            build-preset: VisualStudio
+            build-config: Debug
 
-            - os: "macos-latest"
-              build-preset: Ninja
-              build-config: Release
+          - os: "macos-latest"
+            build-preset: Ninja
+            build-config: Release
 
-            - os: "macos-latest"
-              build-preset: Ninja
-              build-config: Debug
-      steps:
-        - name: "Placeholder: This does not do anything yet"
-          run: echo "running something so the workflow completes"
+          - os: "macos-latest"
+            build-preset: Ninja
+            build-config: Debug
+    steps:
+      - name: "Placeholder: This does not do anything yet"
+        run: echo "running something so the workflow completes"
 
   merge:
     needs: [testing]
