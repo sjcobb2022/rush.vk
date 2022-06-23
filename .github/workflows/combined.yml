@@ -9,7 +9,7 @@ jobs:
   build:
     runs-on: ${{ matrix.os }}
     strategy:
-      fail-fast: true
+      fail-fast: false
       matrix:
         os:
           - ubuntu-latest
@@ -68,6 +68,7 @@ jobs:
 
   testing:
     needs: [build]
+    if: ${{ needs.build.result == 'success' }}
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: true
@@ -106,6 +107,7 @@ jobs:
 
   merge:
     needs: [testing]
+    if: ${{ needs.testing.result == 'success' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -125,6 +127,7 @@ jobs:
 
   pull:
     needs: [merge]
+    if: ${{ needs.merge.result == 'success' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -158,4 +161,3 @@ jobs:
           reviewers: 'sjcobb2022'
             
           labels: 'automated  :robot:'
-
