@@ -67,7 +67,7 @@ add_executable(${PROJECT_NAME} ${SOURCES})
 
 target_link_libraries(${PROJECT_NAME} PRIVATE Vulkan::Vulkan)
 
-if(NOT TARGET shaderc OR NOT ENV{USE_SHADERC})
+# if(NOT TARGET shaderc OR NOT ENV{USE_SHADERC})
     message(NOTICE "Building shaders without ShaderC")
 
     find_program(GLSL_VALIDATOR glslangValidator HINTS 
@@ -93,7 +93,12 @@ if(NOT TARGET shaderc OR NOT ENV{USE_SHADERC})
           DEPENDS ${GLSL})
       list(APPEND SPIRV_BINARY_FILES ${SPIRV})
     endforeach(GLSL)
-endif()
+# endif()
+
+add_custom_target(
+    Shaders
+    DEPENDS ${SPIRV_BINARY_FILES}
+)
 
 target_link_libraries(${PROJECT_NAME} PRIVATE spdlog::spdlog)
 target_link_libraries(${PROJECT_NAME} PRIVATE glfw)
