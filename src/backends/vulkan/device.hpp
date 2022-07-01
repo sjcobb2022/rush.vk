@@ -31,12 +31,6 @@ namespace rush
         // Only a compute or transfer queue type is valid. All other queue types do not support a 'dedicated' queue
         VkQueue get_dedicated_queue(QueueType type) const;
 
-
-        // Return a loaded dispatch table
-        // DispatchTable make_table() const;
-
-        // A conversion function which allows this Device to be used
-        // in places where VkDevice would have been used.
         operator VkDevice() const;
 
     private:

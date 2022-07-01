@@ -515,10 +515,9 @@ namespace rush
         if (vk_physical_devices.size() == 0)
         {
             throw std::runtime_error("No physical devices found in select_impl");
-            // return std::vector<PhysicalDevice>{PhysicalDeviceError::no_physical_devices_found};
         }
 
-        spdlog::debug("Size of vk_physical_devices: {}", vk_physical_devices.size());
+        // spdlog::debug("Size of vk_physical_devices: {}", vk_physical_devices.size());
 
         auto fill_out_phys_dev_with_criteria = [&](PhysicalDevice &phys_dev)
         {
@@ -562,7 +561,7 @@ namespace rush
             }
         }
 
-        // sort the list into fully and partially suitable devices. use stable_partition to maintain relative order
+        // sort the list into fully and partially suitable devices. use stable_partition to maintain relative order because order matters.
         const auto partition_index = std::stable_partition(physical_devices.begin(), physical_devices.end(), [](auto const &pd)
                                                            { return pd.suitable == PhysicalDevice::Suitable::yes; });
 
@@ -572,7 +571,7 @@ namespace rush
             physical_devices.erase(partition_index, physical_devices.end() - 1);
         }
 
-        // Make the physical device ready to be used to create a Device from it
+        // Fill physical device criteria from lambda that is defined above.
         for (auto &physical_device : physical_devices)
         {
             fill_out_phys_dev_with_criteria(physical_device);
@@ -585,13 +584,9 @@ namespace rush
     {
         auto const selected_devices = select_impl(selection);
 
-        // if (!selected_devices)
-        //     throw std::runtime_error();
-        // return PhysicalDevice{selected_devices.error()};
         if (selected_devices.size() == 0)
         {
             throw std::runtime_error("No suitable device found");
-            // return detail::Result<PhysicalDevice>{PhysicalDeviceError::no_suitable_device};
         }
 
         return selected_devices.at(0);
@@ -601,12 +596,10 @@ namespace rush
     std::vector<PhysicalDevice> PhysicalDeviceBuilder::select_devices(DeviceSelectionMode selection) const
     {
         auto const selected_devices = select_impl(selection);
-        // if (!selected_devices)
-        //     return detail::Result<std::vector<PhysicalDevice>>{selected_devices.error()};
+
         if (selected_devices.size() == 0)
         {
             throw std::runtime_error("No suitable devices");
-            // return detail::Result<std::vector<PhysicalDevice>>{PhysicalDeviceError::no_suitable_device};
         }
         return selected_devices;
     }
@@ -614,12 +607,9 @@ namespace rush
     std::vector<std::string> PhysicalDeviceBuilder::select_device_names(DeviceSelectionMode selection) const
     {
         auto const selected_devices = select_impl(selection);
-        // if (!selected_devices)
-        //     return detail::Result<std::vector<std::string>>{selected_devices.error()};
         if (selected_devices.size() == 0)
         {
             throw std::runtime_error("No suitable devices");
-            // return detail::Result<std::vector<std::string>>{PhysicalDeviceError::no_suitable_device};
         }
         std::vector<std::string> names;
         for (const auto &pd : selected_devices)

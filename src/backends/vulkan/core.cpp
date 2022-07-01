@@ -36,7 +36,7 @@ namespace rush
 
         // for (auto &psd : physical_device)
         // {
-        spdlog::debug("{}", physical_device.name);
+        spdlog::debug("Physical Device: \t {}", physical_device.name);
         // }
 
         DeviceBuilder device_builder{physical_device};
@@ -66,6 +66,14 @@ namespace rush
         //  SYNC OBJECTS (semaphores, fences) --> dependant on: device, max frames, imagecount
         //  DESCRIPTORS (can use basic impl from vkguide)
         //  BUFFERS -- this is gonna take a while
+
+        // vkDeviceWaitIdle(device);
+        // cleanupSwapChain();
+        // createSwapChain();
+        // createImageViews();
+        // createRenderPass();
+        // createGraphicsPipeline();
+        // createFramebuffers();
 
         // Need to get: triangle verts from brendans old one
 
