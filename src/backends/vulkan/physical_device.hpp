@@ -224,7 +224,7 @@ namespace rush
 
         PhysicalDevice populate_device_details(VkPhysicalDevice phys_device,
                                                std::vector<GenericFeaturesPNextNode> const &src_extended_features_chain
-#if !defined(VK_API_VERSION_1_1) // stupid hack to avoid having to use getInstanceProc
+#if !defined(VK_API_VERSION_1_1) // stupid hack to avoid having to use getInstanceProc in impl
                                                ,
                                                VkInstance instance
 #endif
