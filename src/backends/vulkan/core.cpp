@@ -64,7 +64,15 @@ namespace rush
         //  DESCRIPTORS (can use basic impl from vkguide)
         //  BUFFERS -- this is gonna take a while
 
-        // Need to get: triangle verts from brendans old tutorial
+        // vkDeviceWaitIdle(device);
+        // cleanupSwapChain();
+        // createSwapChain();
+        // createImageViews();
+        // createRenderPass();
+        // createGraphicsPipeline();
+        // createFramebuffers();
+
+        // Need to get: triangle verts from brendans old one
 
         // TODO: Pipeline deletion, image deletion, image view deletion
 

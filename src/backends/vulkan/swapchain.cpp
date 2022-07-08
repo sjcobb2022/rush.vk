@@ -160,7 +160,7 @@ namespace rush
     std::vector<VkImageView> Swapchain::get_image_views(const void *pNext)
     {
         const auto swapchain_images_ret = get_images();
-        //
+
         const auto swapchain_images = swapchain_images_ret;
 
         std::vector<VkImageView> views(swapchain_images.size());
@@ -186,7 +186,6 @@ namespace rush
             VkResult res = vkCreateImageView(device, &createInfo, allocation_callbacks, &views[i]);
             if (res != VK_SUCCESS)
                 throw std::runtime_error("Failed to create swapchain image views");
-            // return detail::Error{SwapchainError::failed_create_swapchain_image_views, res};
         }
         return views;
     }
@@ -206,12 +205,7 @@ namespace rush
         img_allocinfo.usage = VMA_MEMORY_USAGE_GPU_ONLY;
         img_allocinfo.requiredFlags = VkMemoryPropertyFlags(VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT);
 
-        VkExtent3D extent3d;
-        extent3d.height = extent.height;
-        extent3d.width = extent.width;
-        extent3d.depth = 1;
-
-        VkImageCreateInfo depth_create_info = image_create_info(depth_format, usage, extent3d);
+        VkImageCreateInfo depth_create_info = image_create_info(depth_format, usage, extent);
 
         for (int i = 0; i < image_count; i++)
         {
@@ -223,9 +217,11 @@ namespace rush
 
             if (vkCreateImageView(device, &depth_view_info, nullptr, &image.view) != VK_SUCCESS)
             {
-                throw std::runtime_error("Canot create depth image");
+                throw std::runtime_error("Cannot create depth image");
                 break; // I think this is unnecessary but whatever
             }
+
+            image.format = depth_format;
 
             depth_images.push_back(image);
         }
@@ -319,7 +315,6 @@ namespace rush
         if (info.surface == VK_NULL_HANDLE)
         {
             throw std::runtime_error("Surface handle not provided");
-            // return detail::Error{SwapchainError::surface_handle_not_provided};
         }
 
         auto desired_formats = info.desired_formats;
@@ -332,7 +327,7 @@ namespace rush
         auto surface_support_ret = query_surface_support_details(info.physical_device, info.surface); // throws errors anyway
         auto surface_support = surface_support_ret;
 
-        uint32_t image_count = surface_support.capabilities.minImageCount + 1;
+        uint32_t image_count = surface_support.capabilities.minImageCount + 1; // +1
         if (surface_support.capabilities.maxImageCount > 0 && image_count > surface_support.capabilities.maxImageCount)
         {
             image_count = surface_support.capabilities.maxImageCount;
@@ -391,18 +386,17 @@ namespace rush
         swapchain_create_info.clipped = info.clipped;
         swapchain_create_info.oldSwapchain = info.old_swapchain;
         Swapchain swapchain{};
-        PFN_vkCreateSwapchainKHR swapchain_create_proc = (PFN_vkCreateSwapchainKHR)vkGetDeviceProcAddr(info.device, "vkCreateSwapchainKHR");
+        PFN_vkCreateSwapchainKHR swapchain_create_proc = (PFN_vkCreateSwapchainKHR)vkGetDeviceProcAddr(info.device, "vkCreateSwapchainKHR"); //why did I do it like this.
         auto res = swapchain_create_proc(info.device, &swapchain_create_info, info.allocation_callbacks, &swapchain.swapchain);
 
         if (res != VK_SUCCESS)
         {
             throw std::runtime_error("Failed to create swapchain");
-            // return detail::Error{SwapchainError::failed_create_swapchain, res};
         }
 
         swapchain.device = info.device;
         swapchain.image_format = surface_format.format;
-        swapchain.extent = extent;
+        swapchain.extent = {extent.width, extent.height, 1}; //make extent 3d for later.
         auto images = swapchain.get_images();
         swapchain.requested_min_image_count = image_count;
         swapchain.present_mode = present_mode;

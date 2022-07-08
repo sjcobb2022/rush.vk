@@ -21,6 +21,7 @@ namespace rush
         VkImage image;
         VmaAllocation allocation;
         VkImageView view;
+        VkFormat format;
         // int mips; <-- mips not integrated yet
     };
 
