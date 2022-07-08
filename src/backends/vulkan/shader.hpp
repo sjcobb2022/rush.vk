@@ -2,6 +2,7 @@
 
 #include "rush_pch.hpp"
 #include "device.hpp"
+#include <shaderc/shaderc.hpp>
 
 namespace rush
 {
@@ -31,7 +32,7 @@ namespace rush
         ShaderStage build();
 
     private:
-        static std::vector<uint32_t> read_file(const std::string &filepath);
+        const std::vector<uint32_t> read_file(const std::string &filepath, VkShaderStageFlagBits stage);
         VkShaderModule create_shader_module(VkDevice device, const std::vector<uint32_t> &code) const;
 
         struct ShaderInfo

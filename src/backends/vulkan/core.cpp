@@ -63,6 +63,7 @@ namespace rush
         //  SYNC OBJECTS (semaphores, fences) --> dependant on: device, max frames, imagecount
         //  DESCRIPTORS (can use basic impl from vkguide)
         //  BUFFERS -- this is gonna take a while
+        //  SHADERC -- implement runtime
 
         // vkDeviceWaitIdle(device);
         // cleanupSwapChain();
