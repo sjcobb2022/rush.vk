@@ -21,7 +21,7 @@
 
 <br/>
 
-**Note** Remember to `git clone --recursive https://github.com/sjcobb2022/rush.vk.git`
+> **Note** Remember to `git clone --recursive https://github.com/sjcobb2022/rush.vk.git`
 
 ### <a name="Linux"></a> Unix Build Instructions
 
@@ -75,7 +75,7 @@
   cmake --build .\buidld\
   ```
 
-**Note** All dependencies are locally included as submodules, no need to install the dependencies.
+> **Note** All dependencies are locally included as submodules, no need to install the dependencies.
 
 - If cmake finished successfully, it will create a rush.vk.sln file in the build directory that can be opened with visual studio. In visual studio right click the Shaders project -> build, to build the shaders. Right click the rush.vk project -> set as startup project. Change from debug to release, and then build and start without debugging.
 
