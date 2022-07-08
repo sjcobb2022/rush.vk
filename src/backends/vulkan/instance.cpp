@@ -14,8 +14,9 @@ namespace rush
             vkDestroyInstance(instance.instance, instance.allocation_callbacks);
     }
 
-    Instance::operator VkInstance() const {
-        return this->instance; 
+    Instance::operator VkInstance() const
+    {
+        return this->instance;
     }
 
     // creating builder does not assign anything
@@ -36,8 +37,39 @@ namespace rush
         app_info.engineVersion = info.engine_v;
         app_info.apiVersion = VK_API_VERSION_1_0;
 
-        // init layers for future reference
         std::vector<const char *> layers;
+
+        for (auto &layer_name : info.requested_layers)
+        {
+            bool layerFound = false;
+            for (const auto &layerProperties : sys_inf.layers)
+            {
+                if (strcmp(layer_name, layerProperties.layerName) == 0)
+                {
+                    layerFound = true;
+                    break;
+                }
+            }
+
+            if (layerFound)
+            {
+                spdlog::warn("\t{} has been added", layer_name);
+                layers.push_back(layer_name);
+            }
+            else
+            {
+                spdlog::warn("\t{} is not supported and will not be included in the instance build", layer_name);
+            }
+        }
+
+        for (auto &layer : info.layers) //layers that are pushed back without potential for not being there
+            layers.push_back(layer);
+
+        // enable validation layers
+        if (info.enable_validation_layers || (info.request_validation_layers && sys_inf.validation_layers_available))
+        {
+            layers.push_back("VK_LAYER_KHRONOS_validation");
+        }
 
         // GET REQUIRED EXTENSIONS
         uint32_t glfwExtensionCount = 0;
@@ -53,7 +85,7 @@ namespace rush
             extensions.push_back(VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
         }
 
-        // macOS fuckery -- always push back even if not necessary, can provide some xtra features in the future
+        // macOS / MoltenVK fuckery -- always push back even if not necessary, can provide some xtra features in the future
         bool supports_properties2_ext =
             rush::check_extension_supported(sys_inf.extensions, VK_KHR_GET_PHYSICAL_DEVICE_PROPERTIES_2_EXTENSION_NAME);
 
@@ -73,21 +105,24 @@ namespace rush
         bool portability_enumeration_support = false;
 #endif
 
+        for (auto &req_ext : info.requested_extensions)
+        {
+            if (check_extension_supported(sys_inf.extensions, req_ext) != true)
+            {
+                spdlog::warn("\t{} is not supported by this machine and will not be included in the build step", req_ext);
+            }
+            else
+            {
+                spdlog::warn("\t{} has been added", req_ext);
+                extensions.push_back(req_ext);
+            }
+        }
+
         // ensure every extension on the stack (user pushed or required) is supported
         bool all_extensions_supported = rush::check_extensions_supported(sys_inf.extensions, extensions);
         if (!all_extensions_supported)
         {
-            // spdlog::critical("Requested extension not present");
             throw std::runtime_error("Requested vulkan extension not present");
-        }
-
-        for (auto &layer : info.layers)
-            layers.push_back(layer);
-
-        // enable validation layers
-        if (info.enable_validation_layers || (info.request_validation_layers && sys_inf.validation_layers_available))
-        {
-            layers.push_back("VK_LAYER_KHRONOS_validation");
         }
 
         std::vector<VkBaseOutStructure *> pNext_chain;
@@ -149,7 +184,7 @@ namespace rush
 
         vk_instance.api_version = info.api_v;
         vk_instance.supports_properties2_ext = supports_properties2_ext;
-        // to change. get required VK versions, not just 1.0
+        // to change. get required VK versions, not just 1.0 //i guess kinda done this with require_api_v
         vk_instance.instance_version = info.api_v;
 
         return vk_instance;
@@ -183,11 +218,27 @@ namespace rush
         return *this;
     }
 
+    InstanceBuilder &InstanceBuilder::request_layer(const char *layer)
+    {
+        if (!layer)
+            return *this;
+        info.requested_layers.push_back(layer);
+        return *this;
+    }
+
     InstanceBuilder &InstanceBuilder::enable_layer(const char *layer)
     {
         if (!layer)
             return *this;
         info.layers.push_back(layer);
+        return *this;
+    }
+
+    InstanceBuilder &InstanceBuilder::request_extension(const char *extension_name)
+    {
+        if (!extension_name)
+            return *this;
+        info.requested_extensions.push_back(extension_name);
         return *this;
     }
 

@@ -32,12 +32,9 @@ namespace rush
         PhysicalDeviceBuilder phb{instance};
         PhysicalDevice physical_device = phb.set_surface(surface)
                                              .set_minimum_version(0, 1, 1, 0)
-                                             .select();
+                                             .select(); //can select multiple
 
-        // for (auto &psd : physical_device)
-        // {
-        spdlog::debug("{}", physical_device.name);
-        // }
+        spdlog::debug("{}", physical_device.name); 
 
         DeviceBuilder device_builder{physical_device};
 
@@ -67,7 +64,7 @@ namespace rush
         //  DESCRIPTORS (can use basic impl from vkguide)
         //  BUFFERS -- this is gonna take a while
 
-        // Need to get: triangle verts from brendans old one
+        // Need to get: triangle verts from brendans old tutorial
 
         // TODO: Pipeline deletion, image deletion, image view deletion
 
