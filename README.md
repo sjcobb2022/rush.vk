@@ -65,7 +65,8 @@
 - [Download and install the Vulkan SDK](https://vulkan.lunarg.com/)
 - [Download and install CMake](https://cmake.org/download/)
   - Make sure to select "Add cmake to the system Path for all users"
-- If Vulkan is not in the default location, add .env.cmake and point cmake in the right direction to find the vulkan lib
+- If Vulkan is not in the default location, add .env.cmake and point cmake in the right direction to find the vulkan lib\
+
 #### Building for Visual Studio 2019
 
 - In windows powershell
@@ -74,12 +75,6 @@
   cmake -S . -B .\build\
   cmake --build .\buidld\
   ```
-
-> **Note** All dependencies are locally included as submodules, no need to install the dependencies.
-
-- If cmake finished successfully, it will create a rush.vk.sln file in the build directory that can be opened with visual studio. In visual studio right click the Shaders project -> build, to build the shaders. Right click the rush.vk project -> set as startup project. Change from debug to release, and then build and start without debugging.
-
-You can find this repository at https://github.com/KhronosGroup/Vulkan-Samples
 
 ## <a name="CreditsAttributions"></a> Credits
 
@@ -92,7 +87,7 @@ Thanks to the authors of these libraries :
 - [EnTT](https://github.com/skypjack/entt)
 - [GLFW](https://github.com/glfw/glfw)
 - [GLM](https://github.com/g-truc/glm)
-- [KTX](tps://github.com/KhronosGroup/KTX-Software)
+- [KTX](https://github.com/KhronosGroup/KTX-Software)
 - [spdlog](https://github.com/gabime/spdlog)
 - [TinyGltf](https://github.com/syoyo/tinygltf)
 - [TinyObjLoader](https://github.com/tinyobjloader/tinyobjloader)
