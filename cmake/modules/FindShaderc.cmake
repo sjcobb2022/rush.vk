@@ -5,9 +5,9 @@ include(SelectLibraryConfigurations)
 
 if(WIN32)
 	set(SHADERC_ENABLE_SHARED_CRT ON CACHE BOOL "" FORCE)
-	execute_process(COMMAND powershell "-c" "ls $ENV{VULKAN_SDK}")
+	execute_process(COMMAND powershell "-c" "ls $ENV{VULKAN_SDK}/lib")
 else()
-execute_process(COMMAND bash "-c" "ls $ENV{VULKAN_SDK}")
+execute_process(COMMAND bash "-c" "ls $ENV{VULKAN_SDK}/lib")
 endif()
 
 
