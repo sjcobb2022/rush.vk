@@ -79,14 +79,13 @@ namespace rush
 
         ShaderBuilder shaderBuilder{device};
 
-        auto vertS = shaderBuilder.set_path("assets/shaders/simple_shader.vert.spv").set_stage(VK_SHADER_STAGE_VERTEX_BIT).build();
+        auto vertS = shaderBuilder.set_path("assets/shaders/simple_shader.vert").set_stage(VK_SHADER_STAGE_VERTEX_BIT).build();
         auto fragS = shaderBuilder.set_path("assets/shaders/simple_shader.frag.spv").set_stage(VK_SHADER_STAGE_FRAGMENT_BIT).build();
 
         PipelineBuilder pipelineBuilder{device};
 
-        VkRenderPass renderPass{};
-
         pipelineBuilder.add_stage(vertS).add_stage(fragS);
+        
     };
 
     Core::~Core(){

@@ -1,9 +1,5 @@
 #include "shader.hpp"
 
-#ifndef ENGINE_DIR
-#define ENGINE_DIR "C:/dev/rush.vk/"
-#endif
-
 namespace rush
 {
     ShaderBuilder::ShaderBuilder(Device device)
@@ -45,10 +41,11 @@ namespace rush
     // TODO: MAKE THIS A LOT BETTER WITH CACHING AND SHIT
     const std::vector<uint32_t> ShaderBuilder::read_file(const std::string &filepath, VkShaderStageFlagBits stage)
     {
-        std::filesystem::path path = std::filesystem::current_path().append(filepath);
+        std::filesystem::path path = std::filesystem::path{ENGINE_DIR}.append(filepath);
         const std::string file_extension = path.extension().string();
 
-        std::ifstream file{path, std::ios::ate | std::ios::binary};
+        std::ifstream file{path.string(), std::ios::ate | std::ios::binary};
+
         if (!file.is_open())
         {
             throw std::runtime_error("failed to open file: " + path.string());
@@ -58,7 +55,7 @@ namespace rush
 
         if ((file_extension.find("spv") != std::string::npos) || (file_extension.find("spvasm") != std::string::npos))
         {
-            spdlog::info("using precompiled bin");
+            spdlog::debug("using precompiled binary shader");
             std::vector<uint32_t> buffer(fileSize / sizeof(uint32_t));
             file.seekg(0);
             file.read((char *)buffer.data(), fileSize); // read as char* since that is what the file is. Will read the uint32_t into the buffer instead. cred vkblanco
@@ -67,10 +64,13 @@ namespace rush
         }
         else
         {
-#if _DEBUG || !NDEBUG || DEBUG
-            throw std::runtime_error("I haven't fixed this yet, but please use precompiled shaders in debug mode, shaderc needs to be the same build and the default vulkan install does not have debug");
+#if defined(RUSH_SHADER_COMPILE)
+            spdlog::debug("rush_shader_compile_defined");
+#endif
+#if !RUSH_SHADER_COMPILE
+            throw std::runtime_error("Please include the debug shaderc_combined (shaderc_combinedd.lib) library in your vulkan package to compile runtime shaders in debug builds");
 #else
-            spdlog::info("compiling file on our own");
+            spdlog::debug("compiling file on our own");
             shaderc::Compiler compiler;
             shaderc::CompileOptions options;
 

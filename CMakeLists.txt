@@ -23,7 +23,7 @@ set(VMA_DYNAMIC_VULKAN_FUNCTIONS ON CACHE BOOL "" FORCE)
 add_subdirectory(libs/vma)
 
 if(WIN32)
-	add_compile_definitions(_GLFW_WIN32=ON)
+  add_compile_definitions(_GLFW_WIN32=ON)
 endif()
 
 set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
@@ -68,36 +68,36 @@ add_executable(${PROJECT_NAME} ${SOURCES})
 target_link_libraries(${PROJECT_NAME} PRIVATE Vulkan::Vulkan)
 
 # if(NOT TARGET shaderc OR NOT ENV{USE_SHADERC})
-    message(NOTICE "Building shaders without ShaderC")
+message(NOTICE "Building shaders without ShaderC")
 
-    find_program(GLSL_VALIDATOR glslangValidator HINTS 
-      ${Vulkan_GLSLANG_VALIDATOR_EXECUTABLE} 
-      /usr/bin 
-      /usr/local/bin 
-      ${VULKAN_SDK_PATH}/Bin
-      ${VULKAN_SDK_PATH}/Bin32
-      $ENV{VULKAN_SDK}/Bin/ 
-      $ENV{VULKAN_SDK}/Bin32/)
+find_program(GLSL_VALIDATOR glslangValidator HINTS
+  ${Vulkan_GLSLANG_VALIDATOR_EXECUTABLE}
+  /usr/bin
+  /usr/local/bin
+  ${VULKAN_SDK_PATH}/Bin
+  ${VULKAN_SDK_PATH}/Bin32
+  $ENV{VULKAN_SDK}/Bin/
+  $ENV{VULKAN_SDK}/Bin32/)
 
-    file(GLOB_RECURSE GLSL_SOURCE_FILES
-      "${PROJECT_SOURCE_DIR}/assets/shaders/*.frag"
-      "${PROJECT_SOURCE_DIR}/assets/shaders/*.vert"
-    )
+file(GLOB_RECURSE GLSL_SOURCE_FILES
+  "${PROJECT_SOURCE_DIR}/assets/shaders/*.frag"
+  "${PROJECT_SOURCE_DIR}/assets/shaders/*.vert"
+)
 
-    foreach(GLSL ${GLSL_SOURCE_FILES})
-      get_filename_component(FILE_NAME ${GLSL} NAME)
-      set(SPIRV "${PROJECT_SOURCE_DIR}/assets/shaders/${FILE_NAME}.spv")
-      add_custom_command(
-          OUTPUT ${SPIRV}
-          COMMAND ${GLSL_VALIDATOR} -V ${GLSL} -o ${SPIRV}
-          DEPENDS ${GLSL})
-      list(APPEND SPIRV_BINARY_FILES ${SPIRV})
-    endforeach(GLSL)
+foreach(GLSL ${GLSL_SOURCE_FILES})
+  get_filename_component(FILE_NAME ${GLSL} NAME)
+  set(SPIRV "${PROJECT_SOURCE_DIR}/assets/shaders/${FILE_NAME}.spv")
+  add_custom_command(
+    OUTPUT ${SPIRV}
+    COMMAND ${GLSL_VALIDATOR} -V ${GLSL} -o ${SPIRV}
+    DEPENDS ${GLSL})
+  list(APPEND SPIRV_BINARY_FILES ${SPIRV})
+endforeach(GLSL)
+
 # endif()
-
 add_custom_target(
-    Shaders
-    DEPENDS ${SPIRV_BINARY_FILES}
+  Shaders
+  DEPENDS ${SPIRV_BINARY_FILES}
 )
 
 target_link_libraries(${PROJECT_NAME} PRIVATE spdlog::spdlog)
@@ -121,5 +121,12 @@ target_link_libraries(${PROJECT_NAME} PRIVATE spirv-reflect-static)
 target_include_directories(${PROJECT_NAME} PUBLIC "${PROJECT_SOURCE_DIR}/src")
 
 target_precompile_headers(${PROJECT_NAME} PRIVATE ${PROJECT_SOURCE_DIR}/src/rush_pch.hpp)
+
+# add_compile_definitions($<IF:$<BOOL:"${ENGINE_DIR}">,"-DENGINE_DIR=${ENGINE_DIR}","-DENGINE_DIR=${CMAKE_CURRENT_SOURCE_DIR}">)
+if("${ENGINE_DIR}")
+  target_compile_definitions(${PROJECT_NAME} PRIVATE -DENGINE_DIR="${ENGINE_DIR}")
+else()
+  target_compile_definitions(${PROJECT_NAME} PRIVATE -DENGINE_DIR="${CMAKE_CURRENT_SOURCE_DIR}")
+endif()
 
 # target_compile_definitions(${PROJECT_NAME} PRIVATE $<$<CONFIG:DEBUG>:"DEBUG">)
