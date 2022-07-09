@@ -7,10 +7,12 @@ if(WIN32)
 	set(SHADERC_ENABLE_SHARED_CRT ON CACHE BOOL "" FORCE)
 endif()
 
-find_library(SHADERC_LIBRARY_DEBUG NAMES shaderc_combined HINTS $ENV{VULKAN_SDK} PATH_SUFFIXES DEBUG/lib DEBUG/Lib Debug)
+find_library(SHADERC_LIBRARY_DEBUG NAMES shaderc_combined HINTS $ENV{VULKAN_SDK} PATH_SUFFIXES Debug)
 find_library(SHADERC_LIBRARY_RELEASE NAMES shaderc_combined HINTS $ENV{VULKAN_SDK} PATH_SUFFIXES lib)
 find_path(SHADERC_INLCUDE_DIRS NAMES shaderc/shaderc.h HINTS $ENV{VULKAN_SDK} PATH_SUFFIXES include)
 find_program(GLSLANG_VALIDATOR_EXE NAMES glslangValidator HINTS $ENV{VULKAN_SDK} PATH_SUFFIXES bin)
+
+message(STATUS "shaderc_library_debug ${SHADERC_LIBRARY_DEBUG}")
 
 select_library_configurations(SHADERC)
 
