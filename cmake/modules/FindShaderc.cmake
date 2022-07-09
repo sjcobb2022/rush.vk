@@ -7,6 +7,8 @@ if(WIN32)
 	set(SHADERC_ENABLE_SHARED_CRT ON CACHE BOOL "" FORCE)
 endif()
 
+execute_process(COMMAND bash "-c" "ls $ENV{VULKAN_SDK}")
+
 find_library(SHADERC_LIBRARY_DEBUG NAMES shaderc_combined HINTS $ENV{VULKAN_SDK} PATH_SUFFIXES Debug)
 find_library(SHADERC_LIBRARY_RELEASE NAMES shaderc_combined HINTS $ENV{VULKAN_SDK} PATH_SUFFIXES lib)
 find_path(SHADERC_INLCUDE_DIRS NAMES shaderc/shaderc.h HINTS $ENV{VULKAN_SDK} PATH_SUFFIXES include)
