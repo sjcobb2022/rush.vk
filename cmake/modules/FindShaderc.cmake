@@ -19,11 +19,11 @@ find_package_handle_standard_args(
 )
 
 if(WIN32)
-	execute_process(COMMAND powershell "-c" "ls $ENV{VULKAN_SDK}")
-	execute_process(COMMAND powershell "-c" "ls $ENV{VULKAN_SDK}/lib")
+	execute_process(COMMAND powershell "-c" "ls ${VULKAN_SDK}")
+	execute_process(COMMAND powershell "-c" "ls ${VULKAN_SDK}/lib")
 else()
-	execute_process(COMMAND bash "-c" "ls $ENV{VULKAN_SDK}")
-	execute_process(COMMAND bash "-c" "ls $ENV{VULKAN_SDK}/lib")
+	execute_process(COMMAND bash "-c" "ls ${VULKAN_SDK}")
+	execute_process(COMMAND bash "-c" "ls ${VULKAN_SDK}/lib")
 endif()
 
 message(STATUS "${SHADERC_LIBRARY}")
