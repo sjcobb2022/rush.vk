@@ -8,7 +8,7 @@
             "binaryDir": "${sourceDir}/build/${presetName}",
             "generator": "Visual Studio 17 2022",
             "cacheVariables": {
-                "CMAKE_BUILD_TYPE": "Release",
+                "CMAKE_BUILD_TYPE": "Debug",
                 "CMAKE_TOOLCHAIN_FILE": ""
             }
         },
@@ -30,7 +30,7 @@
             "binaryDir": "${sourceDir}/build/${presetName}",
             "generator": "Ninja", 
             "cacheVariables": {
-                "CMAKE_BUILD_TYPE": "Release",
+                "CMAKE_BUILD_TYPE": "Debug",
                 "CMAKE_TOOLCHAIN_FILE": ""
             }
         },
@@ -52,28 +52,32 @@
             "description": "Debug build using Visual Studio",
             "displayName": "VS-dbg",
             "configurePreset": "VisualStudio_Debug",
-            "configuration": "Debug"
+            "configuration": "Debug",
+            "targets": ["Shaders", "rush_vk"]
         },
         {
             "name": "VisualStudio_Release",
             "description": "Release build using Visual Studio",
             "displayName": "VS-rls",
             "configurePreset": "VisualStudio_Release",
-            "configuration": "Release"
+            "configuration": "Release",
+            "targets": ["Shaders", "rush_vk"]
         },
         {
             "name": "Ninja_Debug",
             "description": "Debug build using Ninja",
             "displayName": "Ninja-dbg",
             "configurePreset": "Ninja_Debug",
-            "configuration": "Debug"
+            "configuration": "Debug",
+            "targets": ["Shaders", "rush_vk"]
         },
         {
             "name": "Ninja_Release",
             "description": "Debug build using Ninja",
             "displayName": "Ninja-rls",
             "configurePreset": "Ninja_Release",
-            "configuration": "Release"
+            "configuration": "Release",
+            "targets": ["Shaders", "rush_vk"]
         }
     ]
 }

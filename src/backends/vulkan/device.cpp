@@ -155,8 +155,6 @@ namespace rush
         {
             spdlog::warn("User provided VkPhysicalDeviceFeatures2 instance found in pNext chain. All "
                          "requirements added via 'add_required_extension_features' will be ignored.");
-            // printf("User provided VkPhysicalDeviceFeatures2 instance found in pNext chain. All "
-            //        "requirements added via 'add_required_extension_features' will be ignored.");
         }
 
         if (!user_defined_phys_dev_features_2 && !has_phys_dev_features_2)
@@ -195,7 +193,7 @@ namespace rush
         }
 
         VmaVulkanFunctions vulkanFunctions = {};
-        vulkanFunctions.vkGetInstanceProcAddr = &vkGetInstanceProcAddr; //wasn't working for some reason by default? no harm in doing it this way
+        vulkanFunctions.vkGetInstanceProcAddr = &vkGetInstanceProcAddr; //using this cause the other method didn't seem to work
         vulkanFunctions.vkGetDeviceProcAddr = &vkGetDeviceProcAddr;
 
         VmaAllocatorCreateInfo alloc_info = {};
@@ -205,12 +203,14 @@ namespace rush
         alloc_info.device = device;                     // has conversion operator
         alloc_info.pVulkanFunctions = &vulkanFunctions; //pass vulkan functions
 
-        vmaCreateAllocator(&alloc_info, &device.allocator); //allocator is already instantiated in header.
+        vmaCreateAllocator(&alloc_info, &device.allocator); //allocator is already instantiated in struct, properly allocate it here.
+
+        //pass on info shit
 
         device.physical_device = physical_device;
         device.surface = physical_device.surface;
         device.queue_families = physical_device.queue_families;
-        device.allocation_callbacks = info.allocation_callbacks;
+        device.allocation_callbacks = info.allocation_callbacks; 
         return device;
     }
 

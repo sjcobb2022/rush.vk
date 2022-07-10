@@ -32,12 +32,9 @@ namespace rush
         PhysicalDeviceBuilder phb{instance};
         PhysicalDevice physical_device = phb.set_surface(surface)
                                              .set_minimum_version(0, 1, 1, 0)
-                                             .select();
+                                             .select(); //can select multiple
 
-        // for (auto &psd : physical_device)
-        // {
-        spdlog::debug("{}", physical_device.name);
-        // }
+        spdlog::debug("{}", physical_device.name); 
 
         DeviceBuilder device_builder{physical_device};
 
@@ -66,6 +63,15 @@ namespace rush
         //  SYNC OBJECTS (semaphores, fences) --> dependant on: device, max frames, imagecount
         //  DESCRIPTORS (can use basic impl from vkguide)
         //  BUFFERS -- this is gonna take a while
+        //  SHADERC -- implement runtime
+
+        // vkDeviceWaitIdle(device);
+        // cleanupSwapChain();
+        // createSwapChain();
+        // createImageViews();
+        // createRenderPass();
+        // createGraphicsPipeline();
+        // createFramebuffers();
 
         // Need to get: triangle verts from brendans old one
 
@@ -73,14 +79,13 @@ namespace rush
 
         ShaderBuilder shaderBuilder{device};
 
-        auto vertS = shaderBuilder.set_path("assets/shaders/simple_shader.vert.spv").set_stage(VK_SHADER_STAGE_VERTEX_BIT).build();
+        auto vertS = shaderBuilder.set_path("assets/shaders/simple_shader.vert").set_stage(VK_SHADER_STAGE_VERTEX_BIT).build();
         auto fragS = shaderBuilder.set_path("assets/shaders/simple_shader.frag.spv").set_stage(VK_SHADER_STAGE_FRAGMENT_BIT).build();
 
         PipelineBuilder pipelineBuilder{device};
 
-        VkRenderPass renderPass{};
-
         pipelineBuilder.add_stage(vertS).add_stage(fragS);
+        
     };
 
     Core::~Core(){

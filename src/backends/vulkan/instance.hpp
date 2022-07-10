@@ -44,7 +44,9 @@ namespace rush
         InstanceBuilder &set_app_version(uint32_t major, uint32_t minor, uint32_t patch);
         InstanceBuilder &set_engine_version(uint32_t major, uint32_t minor, uint32_t patch);
 
+        InstanceBuilder &request_layer(const char *layer);
         InstanceBuilder &enable_layer(const char *layer);
+        InstanceBuilder &request_extension(const char *layer);
         InstanceBuilder &enable_extension(const char *ext);
 
         InstanceBuilder &request_validation_layers(const bool enable_layers = true);
@@ -61,8 +63,6 @@ namespace rush
          */
         InstanceBuilder &set_debug_callback(PFN_vkDebugUtilsMessengerCallbackEXT callback);
 
-        InstanceBuilder &add_validation_feature_enable(VkValidationFeatureEnableEXT enable);
-
         InstanceBuilder &set_allocation_callbacks(VkAllocationCallbacks *callbacks);
 
     private:
@@ -78,6 +78,9 @@ namespace rush
             std::vector<const char *> extensions;
             VkInstanceCreateFlags flags = static_cast<VkInstanceCreateFlags>(0);
 
+            std::vector<const char *> requested_layers;
+            std::vector<const char *> requested_extensions;
+
             PFN_vkDebugUtilsMessengerCallbackEXT debug_callback = default_debug_callback;
 
             void *debug_user_data_pointer = nullptr;
@@ -89,7 +92,9 @@ namespace rush
             bool use_debug_messenger = false;
 
             VkDebugUtilsMessageSeverityFlagsEXT debug_message_severity =
+                VK_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT |
                 VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT |
+                VK_DEBUG_UTILS_MESSAGE_SEVERITY_INFO_BIT_EXT |
                 VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT;
 
             VkDebugUtilsMessageTypeFlagsEXT debug_message_type =
