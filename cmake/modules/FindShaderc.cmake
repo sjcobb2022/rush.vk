@@ -32,22 +32,20 @@ find_package_handle_standard_args(
 
 message(STATUS "${SHADERC_LIBRARY}")
 
-# if(${CMAKE_BUILD_TYPE} STREQUAL "Debug")
-# 	message(STATUS "CMAKE BUILD IS DEBUG")
-# endif()
+if(${CMAKE_BUILD_TYPE} STREQUAL "Debug")
+	message(STATUS "CMAKE BUILD IS DEBUG")
+endif()
 
-# if(NOT ${SHADERC_LIBRARY_DEBUG} MATCHES "shaderc_combinedd")
-# 	message(STATUS "shaderc does not match debug")
-# endif()
+if(NOT ${SHADERC_LIBRARY_DEBUG} MATCHES "shadercd")
+	message(STATUS "shaderc does not match debug")
+endif()
 
-# if(${SHADERC_LIBRARY_DEBUG} MATCHES "shaderc_combinedd")
-# 	message(STATUS "shaderc matches debug")
-# endif()
+if(${SHADERC_LIBRARY_DEBUG} MATCHES "shadercd")
+	message(STATUS "shaderc matches debug")
+endif()
 
 if(NOT(NOT (${SHADERC_LIBRARY_DEBUG} MATCHES "shadercd") AND ${CMAKE_BUILD_TYPE} STREQUAL "Debug"))
-	message(WARNING "shaderc in release, build in debug. Unable to compile runtime shaders")
-else()
-	add_compile_definitions(RUSH_SHADER_COMPILE) #set macro for shader compiling (see src/backends/vulkan/shader.hpp)
+	message(FATAL_ERROR "shaderc and ${PROJECT_NAME} have build type mismatch. Please install or compile the debug shaderc library")
 endif()
 
 add_executable(glslangValidator IMPORTED)
