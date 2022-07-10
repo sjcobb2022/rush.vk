@@ -3,15 +3,7 @@
 include(FindPackageHandleStandardArgs)
 include(SelectLibraryConfigurations)
 
-if(WIN32)
-	set(SHADERC_ENABLE_SHARED_CRT ON CACHE BOOL "" FORCE)
-	execute_process(COMMAND powershell "-c" "ls $ENV{VULKAN_SDK}/lib")
-else()
-execute_process(COMMAND bash "-c" "ls $ENV{VULKAN_SDK}/lib")
-endif()
-
-
-find_library(SHADERC_LIBRARY_DEBUG NAMES shaderc_combined HINTS $ENV{VULKAN_SDK} PATH_SUFFIXES Debug)
+find_library(SHADERC_LIBRARY_DEBUG NAMES shaderc_combined HINTS $ENV{VULKAN_SDK} PATH_SUFFIXES lib)
 find_library(SHADERC_LIBRARY_RELEASE NAMES shaderc_combined HINTS $ENV{VULKAN_SDK} PATH_SUFFIXES lib)
 find_path(SHADERC_INLCUDE_DIRS NAMES shaderc/shaderc.h HINTS $ENV{VULKAN_SDK} PATH_SUFFIXES include)
 find_program(GLSLANG_VALIDATOR_EXE NAMES glslangValidator HINTS $ENV{VULKAN_SDK} PATH_SUFFIXES bin)
@@ -28,11 +20,11 @@ find_package_handle_standard_args(
 	GLSLANG_VALIDATOR_EXE
 )
 
-if(NOT(NOT (${SHADERC_LIBRARY_DEBUG} MATCHES "shaderc_combinedd") AND ${CMAKE_BUILD_TYPE} STREQUAL "Debug"))
-	message(WARNING "shaderc in release, build in debug. Unable to compile runtime shaders")
-else()
-	add_compile_definitions(RUSH_SHADER_COMPILE) #set macro for shader compiling (see src/backends/vulkan/shader.hpp)
-endif()
+# if(NOT(NOT (${SHADERC_LIBRARY_DEBUG} MATCHES "shaderc_combinedd") AND ${CMAKE_BUILD_TYPE} STREQUAL "Debug"))
+# 	message(WARNING "shaderc in release, build in debug. Unable to compile runtime shaders")
+# else()
+# 	add_compile_definitions(RUSH_SHADER_COMPILE) #set macro for shader compiling (see src/backends/vulkan/shader.hpp)
+# endif()
 
 add_executable(glslangValidator IMPORTED)
 set_target_properties(glslangValidator PROPERTIES IMPORTED_LOCATION ${GLSLANG_VALIDATOR_EXE})
