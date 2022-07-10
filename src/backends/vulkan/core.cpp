@@ -24,6 +24,7 @@ namespace rush
                                 .build();
         
         // spdlog::info("instance_api in core: {}", instance->api_version);
+        
         // glfwCreateWindowSurface
         VkSurfaceKHR surface;
         glfwCreateWindowSurface(instance.instance, window, nullptr, &surface);
