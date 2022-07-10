@@ -45,6 +45,9 @@ jobs:
 
             - os: ubuntu-latest
               compiler: msvc
+            
+            - os: ubuntu-latest
+              build-preset: VisualStudio
 
       steps:
         - uses: actions/checkout@v3
