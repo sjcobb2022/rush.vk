@@ -3,7 +3,6 @@
 
 #include "core.hpp"
 
-// #include "device.hpp"
 #include "rush_pch.hpp"
 #include "instance.hpp"
 #include "physical_device.hpp"
