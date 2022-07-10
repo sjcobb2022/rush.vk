@@ -44,11 +44,11 @@ if(${SHADERC_LIBRARY_DEBUG} MATCHES "shadercd")
 	message(STATUS "shaderc matches debug")
 endif()
 
-if((${SHADERC_LIBRARY} MATCHES "shadercd") AND (${CMAKE_BUILD_TYPE} STREQUAL "Debug"))
+if((NOT ${SHADERC_LIBRARY} MATCHES "shadercd") AND (${CMAKE_BUILD_TYPE} STREQUAL "Debug"))
 	message(FATAL_ERROR "Shaderc and ${PROJECT_NAME} build type mismatch. Please install or compile the shaderc Debug mode.")
 endif()
 
-if((NOT ${SHADERC_LIBRARY} MATCHES "shadercd") AND (${CMAKE_BUILD_TYPE} STREQUAL "Release"))
+if((${SHADERC_LIBRARY} MATCHES "shadercd") AND (${CMAKE_BUILD_TYPE} STREQUAL "Release"))
 	message(FATAL_ERROR "Shaderc and ${PROJECT_NAME} build type mismatch. Please build shaderc in Release mode.")
 endif()
 
