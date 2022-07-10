@@ -38,7 +38,7 @@ jobs:
           with:
             vulkan-query-version: latest
             vulkan-components: Vulkan-Loader, shaderc
-            vulkan-use-cache: off
+            vulkan-use-cache: true
             build-config: ${{ matrix.build-config }}
 
         - uses: lukka/run-cmake@v10
