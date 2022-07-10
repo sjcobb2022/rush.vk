@@ -21,8 +21,8 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          ref: main
-      # Create pull request on current branch (main) from staging 
+          ref: prod
+      # Create pull request on current branch (prod) from staging 
       - name: Reset Staging Branch
         run: |
           git fetch origin staging:staging
@@ -34,7 +34,7 @@ jobs:
         with:
           token: ${{ secrets.PAT }}
           branch: staging
-          commit-message: '[automated] Successful merge request from staging to main'
+          commit-message: '[automated] Successful merge request from staging to prod'
           signoff: true
           committer: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
           title: '${{ github.actor }} - Request Staging Merge with Main at ${{env.DATE}}'
