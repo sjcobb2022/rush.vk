@@ -21,6 +21,7 @@ jobs:
             - msvc
           build-preset:
             - VisualStudio
+            - Ninja
           build-config:
             - Debug
             - Release

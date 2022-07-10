@@ -50,7 +50,7 @@
             "configurePreset": "VisualStudio_Debug",
             "configuration": "Debug",
             "targets": ["Shaders", "rush_vk"],
-            "jobs": 4
+            "jobs": 8
         },
         {
             "name": "VisualStudio_Release",
@@ -59,7 +59,7 @@
             "configurePreset": "VisualStudio_Release",
             "configuration": "Release",
             "targets": ["Shaders", "rush_vk"],
-            "jobs": 4
+            "jobs": 8
         },
         {
             "name": "Ninja_Debug",
@@ -68,7 +68,7 @@
             "configurePreset": "Ninja_Debug",
             "configuration": "Debug",
             "targets": ["Shaders", "rush_vk"],
-            "jobs": 4
+            "jobs": 8
         },
         {
             "name": "Ninja_Release",
@@ -77,7 +77,7 @@
             "configurePreset": "Ninja_Release",
             "configuration": "Release",
             "targets": ["Shaders", "rush_vk"],
-            "jobs": 4
+            "jobs": 8
         }
     ]
 }
