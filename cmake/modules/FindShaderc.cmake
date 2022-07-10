@@ -21,9 +21,13 @@ find_package_handle_standard_args(
 if(WIN32)
 	execute_process(COMMAND powershell "-c" "ls ${CMAKE_SOURCE_DIR}/VULKAN_SDK")
 	execute_process(COMMAND powershell "-c" "ls ${CMAKE_SOURCE_DIR}/VULKAN_SDK/lib")
+	execute_process(COMMAND powershell "-c" "ls ${CMAKE_SOURCE_DIR}/VULKAN_SDK/lib/cmake")
+	execute_process(COMMAND powershell "-c" "ls ${CMAKE_SOURCE_DIR}/VULKAN_SDK/lib/pkgconfig")
 else()
 	execute_process(COMMAND bash "-c" "ls ${CMAKE_SOURCE_DIR}/VULKAN_SDK")
 	execute_process(COMMAND bash "-c" "ls ${CMAKE_SOURCE_DIR}/VULKAN_SDK/lib")
+	execute_process(COMMAND bash "-c" "ls ${CMAKE_SOURCE_DIR}/VULKAN_SDK/lib/cmake")
+	execute_process(COMMAND bash "-c" "ls ${CMAKE_SOURCE_DIR}/VULKAN_SDK/lib/pkgconfig")
 endif()
 
 message(STATUS "${SHADERC_LIBRARY}")
