@@ -44,9 +44,9 @@ if(${SHADERC_LIBRARY_DEBUG} MATCHES "shadercd")
 	message(STATUS "shaderc matches debug")
 endif()
 
-if(NOT(NOT (${SHADERC_LIBRARY_DEBUG} MATCHES "shadercd") AND ${CMAKE_BUILD_TYPE} STREQUAL "Debug"))
-	message(FATAL_ERROR "shaderc and ${PROJECT_NAME} have build type mismatch. Please install or compile the debug shaderc library")
-endif()
+# if(NOT(NOT (${SHADERC_LIBRARY_DEBUG} MATCHES "shadercd") AND ${CMAKE_BUILD_TYPE} STREQUAL "Debug"))
+# 	message(FATAL_ERROR "shaderc and ${PROJECT_NAME} have build type mismatch. Please install or compile the debug shaderc library")
+# endif()
 
 add_executable(glslangValidator IMPORTED)
 set_target_properties(glslangValidator PROPERTIES IMPORTED_LOCATION ${GLSLANG_VALIDATOR_EXE})
