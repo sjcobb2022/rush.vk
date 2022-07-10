@@ -39,7 +39,7 @@ jobs:
           with:
             vulkan-query-version: latest
             vulkan-components: Vulkan-Loader, shaderc
-            vulkan-use-cache: true
+            vulkan-use-cache: false
             build-config: ${{ matrix.build-config }}
         
         - uses: RpxdYTX/install-glfw-deps@v2
