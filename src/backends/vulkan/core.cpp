@@ -27,7 +27,6 @@ namespace rush
 
         // glfwCreateWindowSurface
         VkSurfaceKHR surface;
-        
         glfwCreateWindowSurface(instance.instance, window, nullptr, &surface);
 
         PhysicalDeviceBuilder phb{instance};
