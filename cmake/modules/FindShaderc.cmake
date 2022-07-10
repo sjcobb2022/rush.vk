@@ -3,8 +3,8 @@
 include(FindPackageHandleStandardArgs)
 include(SelectLibraryConfigurations)
 
-find_library(SHADERC_LIBRARY_DEBUG NAMES shadercd HINTS $ENV{VULKAN_SDK} PATH_SUFFIXES lib Debug/lib)
-find_library(SHADERC_LIBRARY_RELEASE NAMES shaderc HINTS $ENV{VULKAN_SDK} PATH_SUFFIXES lib)
+find_library(SHADERC_LIBRARY_DEBUG NAMES shaderc_sharedd HINTS $ENV{VULKAN_SDK} PATH_SUFFIXES lib Debug/lib)
+find_library(SHADERC_LIBRARY_RELEASE NAMES shaderc_shared HINTS $ENV{VULKAN_SDK} PATH_SUFFIXES lib)
 find_path(SHADERC_INLCUDE_DIRS NAMES shaderc/shaderc.h HINTS $ENV{VULKAN_SDK} PATH_SUFFIXES include)
 find_program(GLSLANG_VALIDATOR_EXE NAMES glslangValidator HINTS $ENV{VULKAN_SDK} PATH_SUFFIXES bin)
 
@@ -32,30 +32,13 @@ find_package_handle_standard_args(
 
 message(STATUS "${SHADERC_LIBRARY}")
 
-if(${CMAKE_BUILD_TYPE} STREQUAL "Debug")
-	message(STATUS "CMAKE BUILD IS DEBUG")
-endif()
-
-if(NOT ${SHADERC_LIBRARY_DEBUG} MATCHES "shadercd")
-	message(STATUS "shaderc does not match debug")
-endif()
-
-if(${SHADERC_LIBRARY_DEBUG} MATCHES "shadercd")
-	message(STATUS "shaderc matches debug")
-endif()
-
-if((NOT ${SHADERC_LIBRARY} MATCHES "shadercd") AND (${CMAKE_BUILD_TYPE} STREQUAL "Debug"))
+if((NOT ${SHADERC_LIBRARY_DEBUG} MATCHES "shaderc_sharedd") AND (${CMAKE_BUILD_TYPE} STREQUAL "Debug"))
 	message(FATAL_ERROR "Shaderc and ${PROJECT_NAME} build type mismatch. Please install or compile the shaderc Debug mode.")
 endif()
 
-if((${SHADERC_LIBRARY} MATCHES "shadercd") AND (${CMAKE_BUILD_TYPE} STREQUAL "Release"))
+if((${SHADERC_LIBRARY_DEBUG} MATCHES "shaderc_sharedd") AND (${CMAKE_BUILD_TYPE} STREQUAL "Release"))
 	message(FATAL_ERROR "Shaderc and ${PROJECT_NAME} build type mismatch. Please build shaderc in Release mode.")
 endif()
-
-# if((${SHADERC_LIBRARY_DEBUG} MATCHES "shaderc.lib" AND ${CMAKE_BUILD_TYPE} STREQUAL "Debug") OR ((${SHADERC_LIBRARY_DEBUG} MATCHES "shadercd" AND ${CMAKE_BUILD_TYPE} STREQUAL "Debug")))
-# if(NOT(NOT (${SHADERC_LIBRARY_DEBUG} MATCHES "shadercd") AND ${CMAKE_BUILD_TYPE} STREQUAL "Debug"))
-# 	message(FATAL_ERROR "shaderc and ${PROJECT_NAME} have build type mismatch. Please install or compile the debug shaderc library")
-# endif()
 
 add_executable(glslangValidator IMPORTED)
 set_target_properties(glslangValidator PROPERTIES IMPORTED_LOCATION ${GLSLANG_VALIDATOR_EXE})
