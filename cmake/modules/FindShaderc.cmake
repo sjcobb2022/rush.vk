@@ -3,8 +3,8 @@
 include(FindPackageHandleStandardArgs)
 include(SelectLibraryConfigurations)
 
-find_library(SHADERC_LIBRARY_DEBUG NAMES shaderc_combinedd shaderc_combined HINTS $ENV{VULKAN_SDK} PATH_SUFFIXES lib DEBUG/lib)
-find_library(SHADERC_LIBRARY_RELEASE NAMES shaderc_combined HINTS $ENV{VULKAN_SDK} PATH_SUFFIXES lib)
+find_library(SHADERC_LIBRARY_DEBUG NAMES shadercd HINTS $ENV{VULKAN_SDK} PATH_SUFFIXES lib Debug/lib)
+find_library(SHADERC_LIBRARY_RELEASE NAMES shaderc HINTS $ENV{VULKAN_SDK} PATH_SUFFIXES lib)
 find_path(SHADERC_INLCUDE_DIRS NAMES shaderc/shaderc.h HINTS $ENV{VULKAN_SDK} PATH_SUFFIXES include)
 find_program(GLSLANG_VALIDATOR_EXE NAMES glslangValidator HINTS $ENV{VULKAN_SDK} PATH_SUFFIXES bin)
 
@@ -18,17 +18,17 @@ find_package_handle_standard_args(
 	GLSLANG_VALIDATOR_EXE
 )
 
-if(WIN32)
-	execute_process(COMMAND powershell "-c" "ls ${CMAKE_SOURCE_DIR}/VULKAN_SDK")
-	execute_process(COMMAND powershell "-c" "ls ${CMAKE_SOURCE_DIR}/VULKAN_SDK/lib")
-	execute_process(COMMAND powershell "-c" "ls ${CMAKE_SOURCE_DIR}/VULKAN_SDK/lib/cmake")
-	execute_process(COMMAND powershell "-c" "ls ${CMAKE_SOURCE_DIR}/VULKAN_SDK/lib/pkgconfig")
-else()
-	execute_process(COMMAND bash "-c" "ls ${CMAKE_SOURCE_DIR}/VULKAN_SDK")
-	execute_process(COMMAND bash "-c" "ls ${CMAKE_SOURCE_DIR}/VULKAN_SDK/lib")
-	execute_process(COMMAND bash "-c" "ls ${CMAKE_SOURCE_DIR}/VULKAN_SDK/lib/cmake")
-	execute_process(COMMAND bash "-c" "ls ${CMAKE_SOURCE_DIR}/VULKAN_SDK/lib/pkgconfig")
-endif()
+# if(WIN32)
+# 	execute_process(COMMAND powershell "-c" "ls ${CMAKE_SOURCE_DIR}/VULKAN_SDK")
+# 	execute_process(COMMAND powershell "-c" "ls ${CMAKE_SOURCE_DIR}/VULKAN_SDK/lib")
+# 	execute_process(COMMAND powershell "-c" "ls ${CMAKE_SOURCE_DIR}/VULKAN_SDK/lib/cmake")
+# 	execute_process(COMMAND powershell "-c" "ls ${CMAKE_SOURCE_DIR}/VULKAN_SDK/lib/pkgconfig")
+# else()
+# 	execute_process(COMMAND bash "-c" "ls ${CMAKE_SOURCE_DIR}/VULKAN_SDK")
+# 	execute_process(COMMAND bash "-c" "ls ${CMAKE_SOURCE_DIR}/VULKAN_SDK/lib")
+# 	execute_process(COMMAND bash "-c" "ls ${CMAKE_SOURCE_DIR}/VULKAN_SDK/lib/cmake")
+# 	execute_process(COMMAND bash "-c" "ls ${CMAKE_SOURCE_DIR}/VULKAN_SDK/lib/pkgconfig")
+# endif()
 
 message(STATUS "${SHADERC_LIBRARY}")
 
@@ -44,7 +44,7 @@ message(STATUS "${SHADERC_LIBRARY}")
 # 	message(STATUS "shaderc matches debug")
 # endif()
 
-if(NOT(NOT (${SHADERC_LIBRARY_DEBUG} MATCHES "shaderc_combinedd") AND ${CMAKE_BUILD_TYPE} STREQUAL "Debug"))
+if(NOT(NOT (${SHADERC_LIBRARY_DEBUG} MATCHES "shadercd") AND ${CMAKE_BUILD_TYPE} STREQUAL "Debug"))
 	message(WARNING "shaderc in release, build in debug. Unable to compile runtime shaders")
 else()
 	add_compile_definitions(RUSH_SHADER_COMPILE) #set macro for shader compiling (see src/backends/vulkan/shader.hpp)
