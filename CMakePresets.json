@@ -8,8 +8,7 @@
             "binaryDir": "${sourceDir}/build/${presetName}",
             "generator": "Visual Studio 17 2022",
             "cacheVariables": {
-                "CMAKE_BUILD_TYPE": "Debug",
-                "CMAKE_TOOLCHAIN_FILE": ""
+                "CMAKE_BUILD_TYPE": "Debug"
             }
         },
         {
@@ -19,8 +18,7 @@
             "binaryDir": "${sourceDir}/build/${presetName}",
             "generator": "Visual Studio 17 2022",
             "cacheVariables": {
-                "CMAKE_BUILD_TYPE": "Release",
-                "CMAKE_TOOLCHAIN_FILE": ""
+                "CMAKE_BUILD_TYPE": "Release"
             }
         },
         {
@@ -30,8 +28,7 @@
             "binaryDir": "${sourceDir}/build/${presetName}",
             "generator": "Ninja", 
             "cacheVariables": {
-                "CMAKE_BUILD_TYPE": "Debug",
-                "CMAKE_TOOLCHAIN_FILE": ""
+                "CMAKE_BUILD_TYPE": "Debug"
             }
         },
         {
@@ -41,8 +38,7 @@
             "binaryDir": "${sourceDir}/build/${presetName}",
             "generator": "Ninja",
             "cacheVariables": {
-                "CMAKE_BUILD_TYPE": "Release",
-                "CMAKE_TOOLCHAIN_FILE": ""
+                "CMAKE_BUILD_TYPE": "Release"
             }
         }
     ],
@@ -53,7 +49,8 @@
             "displayName": "VS-dbg",
             "configurePreset": "VisualStudio_Debug",
             "configuration": "Debug",
-            "targets": ["Shaders", "rush_vk"]
+            "targets": ["Shaders", "rush_vk"],
+            "jobs": 8
         },
         {
             "name": "VisualStudio_Release",
@@ -61,7 +58,8 @@
             "displayName": "VS-rls",
             "configurePreset": "VisualStudio_Release",
             "configuration": "Release",
-            "targets": ["Shaders", "rush_vk"]
+            "targets": ["Shaders", "rush_vk"],
+            "jobs": 8
         },
         {
             "name": "Ninja_Debug",
@@ -69,7 +67,8 @@
             "displayName": "Ninja-dbg",
             "configurePreset": "Ninja_Debug",
             "configuration": "Debug",
-            "targets": ["Shaders", "rush_vk"]
+            "targets": ["Shaders", "rush_vk"],
+            "jobs": 8
         },
         {
             "name": "Ninja_Release",
@@ -77,7 +76,8 @@
             "displayName": "Ninja-rls",
             "configurePreset": "Ninja_Release",
             "configuration": "Release",
-            "targets": ["Shaders", "rush_vk"]
+            "targets": ["Shaders", "rush_vk"],
+            "jobs": 8
         }
     ]
 }

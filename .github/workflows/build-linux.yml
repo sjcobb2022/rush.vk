@@ -7,7 +7,7 @@ on:
       - 'cmake/**'
       - '.github/**'
       - '**/CMakeLists.txt'
-    branches: [dev]
+    branches: [main]
 jobs:
   build-matrix:
       runs-on: ${{ matrix.os }}
@@ -39,7 +39,7 @@ jobs:
           with:
             vulkan-query-version: latest
             vulkan-components: Vulkan-Loader, shaderc
-            vulkan-use-cache: on
+            vulkan-use-cache: true
             build-config: ${{ matrix.build-config }}
         
         - uses: RpxdYTX/install-glfw-deps@v2

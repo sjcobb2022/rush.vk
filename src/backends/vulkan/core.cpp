@@ -22,11 +22,12 @@ namespace rush
                                 .request_api_version(VK_VERSION_1_1)
                                 .request_validation_layers()
                                 .build();
-
+        
         // spdlog::info("instance_api in core: {}", instance->api_version);
 
         // glfwCreateWindowSurface
         VkSurfaceKHR surface;
+        
         glfwCreateWindowSurface(instance.instance, window, nullptr, &surface);
 
         PhysicalDeviceBuilder phb{instance};
