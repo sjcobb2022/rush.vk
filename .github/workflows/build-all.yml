@@ -3,11 +3,11 @@ on:
   push:
     paths:
       paths:
-      - 'src/**'
-      - 'libs/**'
-      - 'cmake/**'
-      - '.github/workflows/**'
-      - '**/CMakeLists.txt'
+        - 'src/**'
+        - 'libs/**'
+        - 'cmake/**'
+        - '.github/workflows/**'
+        - '**/CMakeLists.txt'
     branches: [dev]
 jobs:
   build:
