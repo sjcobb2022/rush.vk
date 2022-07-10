@@ -16,32 +16,38 @@ jobs:
         matrix:
           os:
             - ubuntu-latest
+            - windows-latest
           compiler:
             - gcc
             - llvm
+            - msvc
           build-preset:
             - Ninja
+            - VisualStudio
           build-config:
             - Release
             - Debug
           include:
-            - os: windows-latest
-              compiler: msvc
-              build-preset: VisualStudio
-              build-config: Release
-          
-            - os: windows-latest
-              compiler: msvc
-              build-preset: VisualStudio
-              build-config: Debug
-
-            - os: "macos-latest"
+            - os: macos-latest
               build-preset: Ninja
               build-config: Release
 
-            - os: "macos-latest"
+            - os: macos-latest
               build-preset: Ninja
               build-config: Debug
+
+          exclude:
+            - os: windows-latest
+              compiler: gcc
+
+            - os: windows-latest
+              compiler: llvm
+
+            - os: ubuntu-latest
+              compiler: msvc
+            
+            - os: ubuntu-latest
+              build-preset: VisualStudio
 
       steps:
         - uses: actions/checkout@v3
