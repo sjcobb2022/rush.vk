@@ -18,6 +18,14 @@ find_package_handle_standard_args(
 	GLSLANG_VALIDATOR_EXE
 )
 
+if(WIN32)
+	execute_process(COMMAND powershell "-c" "ls ${CMAKE_INSTALL_PREFIX}")
+	execute_process(COMMAND powershell "-c" "ls ${CMAKE_INSTALL_PREFIX}/lib")
+else()
+	execute_process(COMMAND powershell "-c" "ls ${CMAKE_INSTALL_PREFIX}")
+	execute_process(COMMAND bash "-c" "ls ${CMAKE_INSTALL_PREFIX}/lib")
+endif()
+
 message(STATUS "${SHADERC_LIBRARY}")
 
 # if(${CMAKE_BUILD_TYPE} STREQUAL "Debug")
