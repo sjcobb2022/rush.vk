@@ -7,7 +7,7 @@ on:
       - 'cmake/**'
       - '.github/**'
       - '**/CMakeLists.txt'
-    branches: [dev]
+    branches: [main]
 
 jobs:
   build-matrix:
@@ -21,6 +21,7 @@ jobs:
             - msvc
           build-preset:
             - VisualStudio
+            - Ninja
           build-config:
             - Debug
             - Release
@@ -39,7 +40,7 @@ jobs:
           with:
             vulkan-query-version: latest
             vulkan-components: Vulkan-Loader, shaderc
-            vulkan-use-cache: on
+            vulkan-use-cache: off
             build-config: ${{ matrix.build-config }}
         
         - uses: lukka/run-cmake@v10
