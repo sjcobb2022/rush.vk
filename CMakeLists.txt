@@ -107,8 +107,6 @@ target_link_libraries(${PROJECT_NAME} PUBLIC imgui)
 
 target_link_libraries(${PROJECT_NAME} PRIVATE glm)
 
-message(NOTICE "Adding GLFW")
-
 target_link_libraries(${PROJECT_NAME} PRIVATE VulkanMemoryAllocator)
 target_link_libraries(${PROJECT_NAME} PRIVATE EnTT::EnTT)
 target_link_libraries(${PROJECT_NAME} PRIVATE shaderc)
@@ -122,7 +120,6 @@ target_include_directories(${PROJECT_NAME} PUBLIC "${PROJECT_SOURCE_DIR}/src")
 
 target_precompile_headers(${PROJECT_NAME} PRIVATE ${PROJECT_SOURCE_DIR}/src/rush_pch.hpp)
 
-# add_compile_definitions($<IF:$<BOOL:"${ENGINE_DIR}">,"-DENGINE_DIR=${ENGINE_DIR}","-DENGINE_DIR=${CMAKE_CURRENT_SOURCE_DIR}">)
 if("${ENGINE_DIR}")
   target_compile_definitions(${PROJECT_NAME} PRIVATE -DENGINE_DIR="${ENGINE_DIR}")
 else()
