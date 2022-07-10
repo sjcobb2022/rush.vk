@@ -3,8 +3,8 @@
 include(FindPackageHandleStandardArgs)
 include(SelectLibraryConfigurations)
 
-find_library(SHADERC_LIBRARY_DEBUG NAMES shaderc_combinedd shaderc_combined HINTS $ENV{VULKAN_SDK} PATH_SUFFIXES lib DEBUG/lib)
-find_library(SHADERC_LIBRARY_RELEASE NAMES shaderc_combined HINTS $ENV{VULKAN_SDK} PATH_SUFFIXES lib)
+find_library(SHADERC_LIBRARY_DEBUG NAMES shadercd HINTS $ENV{VULKAN_SDK} PATH_SUFFIXES lib Debug/lib)
+find_library(SHADERC_LIBRARY_RELEASE NAMES shaderc HINTS $ENV{VULKAN_SDK} PATH_SUFFIXES lib)
 find_path(SHADERC_INLCUDE_DIRS NAMES shaderc/shaderc.h HINTS $ENV{VULKAN_SDK} PATH_SUFFIXES include)
 find_program(GLSLANG_VALIDATOR_EXE NAMES glslangValidator HINTS $ENV{VULKAN_SDK} PATH_SUFFIXES bin)
 
@@ -18,10 +18,34 @@ find_package_handle_standard_args(
 	GLSLANG_VALIDATOR_EXE
 )
 
-# if(NOT(NOT (${SHADERC_LIBRARY_DEBUG} MATCHES "shaderc_combinedd") AND ${CMAKE_BUILD_TYPE} STREQUAL "Debug"))
-# 	message(WARNING "shaderc in release, build in debug. Unable to compile runtime shaders")
+# if(WIN32)
+# 	execute_process(COMMAND powershell "-c" "ls ${CMAKE_SOURCE_DIR}/VULKAN_SDK")
+# 	execute_process(COMMAND powershell "-c" "ls ${CMAKE_SOURCE_DIR}/VULKAN_SDK/lib")
+# 	execute_process(COMMAND powershell "-c" "ls ${CMAKE_SOURCE_DIR}/VULKAN_SDK/lib/cmake")
+# 	execute_process(COMMAND powershell "-c" "ls ${CMAKE_SOURCE_DIR}/VULKAN_SDK/lib/pkgconfig")
 # else()
-# 	add_compile_definitions(RUSH_SHADER_COMPILE) #set macro for shader compiling (see src/backends/vulkan/shader.hpp)
+# 	execute_process(COMMAND bash "-c" "ls ${CMAKE_SOURCE_DIR}/VULKAN_SDK")
+# 	execute_process(COMMAND bash "-c" "ls ${CMAKE_SOURCE_DIR}/VULKAN_SDK/lib")
+# 	execute_process(COMMAND bash "-c" "ls ${CMAKE_SOURCE_DIR}/VULKAN_SDK/lib/cmake")
+# 	execute_process(COMMAND bash "-c" "ls ${CMAKE_SOURCE_DIR}/VULKAN_SDK/lib/pkgconfig")
+# endif()
+
+message(STATUS "${SHADERC_LIBRARY}")
+
+if(${CMAKE_BUILD_TYPE} STREQUAL "Debug")
+	message(STATUS "CMAKE BUILD IS DEBUG")
+endif()
+
+if(NOT ${SHADERC_LIBRARY_DEBUG} MATCHES "shadercd")
+	message(STATUS "shaderc does not match debug")
+endif()
+
+if(${SHADERC_LIBRARY_DEBUG} MATCHES "shadercd")
+	message(STATUS "shaderc matches debug")
+endif()
+
+# if(NOT(NOT (${SHADERC_LIBRARY_DEBUG} MATCHES "shadercd") AND ${CMAKE_BUILD_TYPE} STREQUAL "Debug"))
+# 	message(FATAL_ERROR "shaderc and ${PROJECT_NAME} have build type mismatch. Please install or compile the debug shaderc library")
 # endif()
 
 add_executable(glslangValidator IMPORTED)
