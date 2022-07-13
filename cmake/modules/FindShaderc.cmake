@@ -3,7 +3,7 @@
 include(FindPackageHandleStandardArgs)
 include(SelectLibraryConfigurations)
 
-find_library(SHADERC_LIBRARY_DEBUG NAMES shaderc_combinedd shaderc_combined HINTS $ENV{VULKAN_SDK} PATH_SUFFIXES lib Debug/lib)
+find_library(SHADERC_LIBRARY_DEBUG NAMES shaderc_combinedd HINTS $ENV{VULKAN_SDK} PATH_SUFFIXES lib Debug/lib)
 find_library(SHADERC_LIBRARY_RELEASE NAMES shaderc_combined HINTS $ENV{VULKAN_SDK} PATH_SUFFIXES lib)
 find_path(SHADERC_INLCUDE_DIRS NAMES shaderc/shaderc.h HINTS $ENV{VULKAN_SDK} PATH_SUFFIXES include)
 find_program(GLSLANG_VALIDATOR_EXE NAMES glslangValidator HINTS $ENV{VULKAN_SDK} PATH_SUFFIXES bin)
@@ -18,11 +18,13 @@ find_package_handle_standard_args(
 	GLSLANG_VALIDATOR_EXE
 )
 
-if((${SHADERC_LIBRARY_DEBUG} MATCHES "shaderc_sharedd") AND (${CMAKE_BUILD_TYPE} STREQUAL "Release"))
+message(STATUS "${SHADERC_LIBRARY_DEBUG}")
+
+if((${SHADERC_LIBRARY_DEBUG} MATCHES "shaderc_combinedd") AND (${CMAKE_BUILD_TYPE} STREQUAL "Release"))
 	message(FATAL_ERROR "Shaderc and ${PROJECT_NAME} build type mismatch. Please build shaderc in Release mode.")
 endif()
 
-if((NOT ${SHADERC_LIBRARY_DEBUG} MATCHES "shaderc_sharedd") AND (${CMAKE_BUILD_TYPE} STREQUAL "Debug"))
+if((NOT ${SHADERC_LIBRARY_DEBUG} MATCHES "shaderc_combinedd") AND (${CMAKE_BUILD_TYPE} STREQUAL "Debug"))
 	message(FATAL_ERROR "Shaderc and ${PROJECT_NAME} build type mismatch. Please install or compile the shaderc Debug mode.")
 endif()
 
