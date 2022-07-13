@@ -3,8 +3,8 @@
 include(FindPackageHandleStandardArgs)
 include(SelectLibraryConfigurations)
 
-find_library(SHADERC_LIBRARY_DEBUG NAMES shaderc_sharedd HINTS $ENV{VULKAN_SDK} PATH_SUFFIXES lib Debug/lib)
-find_library(SHADERC_LIBRARY_RELEASE NAMES shaderc_shared HINTS $ENV{VULKAN_SDK} PATH_SUFFIXES lib)
+find_library(SHADERC_LIBRARY_DEBUG NAMES shaderc_combinedd HINTS $ENV{VULKAN_SDK} PATH_SUFFIXES lib Debug/lib)
+find_library(SHADERC_LIBRARY_RELEASE NAMES shaderc_combinedd HINTS $ENV{VULKAN_SDK} PATH_SUFFIXES lib)
 find_path(SHADERC_INLCUDE_DIRS NAMES shaderc/shaderc.h HINTS $ENV{VULKAN_SDK} PATH_SUFFIXES include)
 find_program(GLSLANG_VALIDATOR_EXE NAMES glslangValidator HINTS $ENV{VULKAN_SDK} PATH_SUFFIXES bin)
 
