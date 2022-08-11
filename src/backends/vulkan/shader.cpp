@@ -64,12 +64,6 @@ namespace rush
         }
         else
         {
-#if defined(RUSH_SHADER_COMPILE)
-            spdlog::debug("rush_shader_compile_defined");
-#endif
-#if !RUSH_SHADER_COMPILE
-            throw std::runtime_error("Please include the debug shaderc_combined (shaderc_combinedd.lib) library in your vulkan package to compile runtime shaders in debug builds");
-#else
             spdlog::debug("compiling file on our own");
             shaderc::Compiler compiler;
             shaderc::CompileOptions options;
@@ -102,7 +96,7 @@ namespace rush
             }
 
             return {module.cbegin(), module.cend()};
-#endif
+// #endif
         }
     }
 
