@@ -18,8 +18,8 @@ find_package(Vulkan REQUIRED)
 find_package(Shaderc REQUIRED)
 
 message(NOTICE "Adding Vulkan Memory Allocator")
-set(VMA_STATIC_VULKAN_FUNCTIONS OFF CACHE BOOL "" FORCE)
-set(VMA_DYNAMIC_VULKAN_FUNCTIONS ON CACHE BOOL "" FORCE)
+# set(VMA_STATIC_VULKAN_FUNCTIONS ON CACHE BOOL "" FORCE)
+# set(VMA_DYNAMIC_VULKAN_FUNCTIONS OFF CACHE BOOL "" FORCE)
 add_subdirectory(libs/vma)
 
 if(WIN32)
@@ -122,11 +122,8 @@ target_include_directories(${PROJECT_NAME} PUBLIC "${PROJECT_SOURCE_DIR}/src")
 
 target_precompile_headers(${PROJECT_NAME} PRIVATE ${PROJECT_SOURCE_DIR}/src/rush_pch.hpp)
 
-# add_compile_definitions($<IF:$<BOOL:"${ENGINE_DIR}">,"-DENGINE_DIR=${ENGINE_DIR}","-DENGINE_DIR=${CMAKE_CURRENT_SOURCE_DIR}">)
 if("${ENGINE_DIR}")
   target_compile_definitions(${PROJECT_NAME} PRIVATE -DENGINE_DIR="${ENGINE_DIR}")
 else()
   target_compile_definitions(${PROJECT_NAME} PRIVATE -DENGINE_DIR="${CMAKE_CURRENT_SOURCE_DIR}")
 endif()
-
-# target_compile_definitions(${PROJECT_NAME} PRIVATE $<$<CONFIG:DEBUG>:"DEBUG">)
