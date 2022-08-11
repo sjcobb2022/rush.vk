@@ -1,4 +1,3 @@
-# Taken from https://github.com/thegeeko/geg/blob/master/geg/cmake/modules/FindShaderc.cmake#L3. 
 
 include(FindPackageHandleStandardArgs)
 include(SelectLibraryConfigurations)
@@ -18,11 +17,21 @@ find_package_handle_standard_args(
 	GLSLANG_VALIDATOR_EXE
 )
 
-# if(NOT(NOT (${SHADERC_LIBRARY_DEBUG} MATCHES "shaderc_combinedd") AND ${CMAKE_BUILD_TYPE} STREQUAL "Debug"))
-# 	message(WARNING "shaderc in release, build in debug. Unable to compile runtime shaders")
-# else()
-# 	add_compile_definitions(RUSH_SHADER_COMPILE) #set macro for shader compiling (see src/backends/vulkan/shader.hpp)
-# endif()
+if((NOT(${SHADERC_LIBRARY_DEBUG} MATCHES "shaderc_combinedd")) AND (${CMAKE_BUILD_TYPE} STREQUAL "Debug") OR (${SHADERC_LIBRARY_RELEASE} MATCHES "shaderc_combinedd") AND (${CMAKE_BUILD_TYPE} STREQUAL "Release"))
+	if((${CMAKE_BUILD_TYPE} STREQUAL "Debug"))
+		message(FATAL_ERROR "
+		Building project in ${CMAKE_BUILD_TYPE}. 
+		Shaderc in Release. 
+		Please use or install the Debug Shader API Libraries
+		")
+	elseif((${CMAKE_BUILD_TYPE} STREQUAL "Release"))
+		message(FATAL_ERROR "
+		Building project in ${CMAKE_BUILD_TYPE}. 
+		Shaderc in Debug. 
+		Please use or install the Release Shader API Libraries
+		")
+	endif()
+endif()
 
 add_executable(glslangValidator IMPORTED)
 set_target_properties(glslangValidator PROPERTIES IMPORTED_LOCATION ${GLSLANG_VALIDATOR_EXE})
