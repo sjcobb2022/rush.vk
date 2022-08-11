@@ -1,4 +1,3 @@
-# Taken from https://github.com/thegeeko/geg/blob/master/geg/cmake/modules/FindShaderc.cmake#L3. 
 
 include(FindPackageHandleStandardArgs)
 include(SelectLibraryConfigurations)
@@ -18,14 +17,20 @@ find_package_handle_standard_args(
 	GLSLANG_VALIDATOR_EXE
 )
 
-message(STATUS "${SHADERC_LIBRARY_DEBUG}")
-
-if((${SHADERC_LIBRARY_DEBUG} MATCHES "shaderc_combinedd" OR ${SHADERC_LIBRARY_DEBUG} MATCHES "shaderc_sharedd") AND (${CMAKE_BUILD_TYPE} STREQUAL "Release"))
-	message(FATAL_ERROR "Shaderc and ${PROJECT_NAME} build type mismatch. Please build shaderc in Release mode.")
-endif()
-
-if((NOT ${SHADERC_LIBRARY_DEBUG} MATCHES "shaderc_combinedd" OR ${SHADERC_LIBRARY_DEBUG} MATCHES "shaderc_sharedd") AND (${CMAKE_BUILD_TYPE} STREQUAL "Debug"))
-	message(FATAL_ERROR "Shaderc and ${PROJECT_NAME} build type mismatch. Please install or compile the shaderc Debug mode.")
+if((NOT(${SHADERC_LIBRARY_DEBUG} MATCHES "shaderc_combinedd")) AND (${CMAKE_BUILD_TYPE} STREQUAL "Debug") OR (${SHADERC_LIBRARY_RELEASE} MATCHES "shaderc_combinedd") AND (${CMAKE_BUILD_TYPE} STREQUAL "Release"))
+	if((${CMAKE_BUILD_TYPE} STREQUAL "Debug"))
+		message(FATAL_ERROR "
+		Building project in ${CMAKE_BUILD_TYPE}. 
+		Shaderc in Release. 
+		Please use or install the Debug Shader API Libraries
+		")
+	elseif((${CMAKE_BUILD_TYPE} STREQUAL "Release"))
+		message(FATAL_ERROR "
+		Building project in ${CMAKE_BUILD_TYPE}. 
+		Shaderc in Debug. 
+		Please use or install the Release Shader API Libraries
+		")
+	endif()
 endif()
 
 add_executable(glslangValidator IMPORTED)

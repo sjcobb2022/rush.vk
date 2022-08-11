@@ -501,9 +501,6 @@ namespace rush
         auto vk_physical_devices_ret = get_vector<VkPhysicalDevice>(
             vk_physical_devices, vkEnumeratePhysicalDevices, instance_info.instance);
 
-        // for(auto &dv : vk_physical_devices){
-        //     spdlog::info("{}", dv.)
-        // }
 
         if (vk_physical_devices_ret != VK_SUCCESS)
         {
@@ -512,12 +509,13 @@ namespace rush
             //                                                    vk_physical_devices_ret};
         }
 
+        spdlog::debug("Size of vk_physical_devices: {}", vk_physical_devices.size());
+
         if (vk_physical_devices.size() == 0)
         {
             throw std::runtime_error("No physical devices found in select_impl");
         }
 
-        // spdlog::debug("Size of vk_physical_devices: {}", vk_physical_devices.size());
 
         auto fill_out_phys_dev_with_criteria = [&](PhysicalDevice &phys_dev)
         {
