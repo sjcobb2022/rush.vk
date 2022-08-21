@@ -33,8 +33,6 @@ namespace rush
                                              .set_minimum_version(0, 1, 1, 0)
                                              .select(); //can select multiple
 
-        spdlog::debug("{}", physical_device.name); 
-
         DeviceBuilder device_builder{physical_device};
 
         Device device = device_builder.build();
