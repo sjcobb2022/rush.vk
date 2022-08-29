@@ -10,6 +10,8 @@ project(${NAME})
 
 set(CMAKE_CXX_STANDARD 17)
 
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON CACHE BOOL "" FORCE)
+
 list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake/modules")
 
 message(NOTICE "Find Vulkan Loader and Shaderc")
@@ -106,8 +108,6 @@ target_link_libraries(${PROJECT_NAME} PRIVATE glfw)
 target_link_libraries(${PROJECT_NAME} PUBLIC imgui)
 
 target_link_libraries(${PROJECT_NAME} PRIVATE glm)
-
-message(NOTICE "Adding GLFW")
 
 target_link_libraries(${PROJECT_NAME} PRIVATE VulkanMemoryAllocator)
 target_link_libraries(${PROJECT_NAME} PRIVATE EnTT::EnTT)

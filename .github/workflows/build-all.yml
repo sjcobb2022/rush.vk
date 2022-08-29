@@ -12,7 +12,7 @@ jobs:
   build:
       runs-on: ${{ matrix.os }}
       strategy:
-        fail-fast: true
+        fail-fast: false
         matrix:
           os:
             - ubuntu-latest
@@ -59,7 +59,7 @@ jobs:
             compiler: ${{ matrix.compiler }}
 
         - uses: lukka/get-cmake@latest
-
+          
         - uses: ./.github/actions/setup-vulkan-sdk
           with:
             vulkan-query-version: latest
@@ -75,3 +75,7 @@ jobs:
             cmakeListsTxtPath: '${{ github.workspace }}/CMakeLists.txt'
             configurePreset: '${{matrix.build-preset}}_${{matrix.build-config}}'
             buildPreset: '${{matrix.build-preset}}_${{matrix.build-config}}'
+
+        - name: Setup tmate session
+          if: ${{ failure() }}
+          uses: mxschmitt/action-tmate@v3

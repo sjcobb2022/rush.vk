@@ -3,7 +3,6 @@
 
 #include "core.hpp"
 
-// #include "device.hpp"
 #include "rush_pch.hpp"
 #include "instance.hpp"
 #include "physical_device.hpp"
@@ -27,15 +26,12 @@ namespace rush
 
         // glfwCreateWindowSurface
         VkSurfaceKHR surface;
-        
         glfwCreateWindowSurface(instance.instance, window, nullptr, &surface);
 
         PhysicalDeviceBuilder phb{instance};
         PhysicalDevice physical_device = phb.set_surface(surface)
                                              .set_minimum_version(0, 1, 1, 0)
                                              .select(); //can select multiple
-
-        spdlog::debug("{}", physical_device.name); 
 
         DeviceBuilder device_builder{physical_device};
 

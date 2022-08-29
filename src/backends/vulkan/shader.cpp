@@ -96,7 +96,6 @@ namespace rush
             }
 
             return {module.cbegin(), module.cend()};
-// #endif
         }
     }
 
