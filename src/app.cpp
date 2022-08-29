@@ -9,8 +9,6 @@
 
 #include "rush_pch.hpp"
 
-// libs
-
 namespace rush
 {
     struct ignore_t
