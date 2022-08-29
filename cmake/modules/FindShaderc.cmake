@@ -1,10 +1,9 @@
-# Taken from https://github.com/thegeeko/geg/blob/master/geg/cmake/modules/FindShaderc.cmake#L3. 
 
 include(FindPackageHandleStandardArgs)
 include(SelectLibraryConfigurations)
 
-find_library(SHADERC_LIBRARY_DEBUG NAMES shaderc_sharedd HINTS $ENV{VULKAN_SDK} PATH_SUFFIXES lib Debug/lib)
-find_library(SHADERC_LIBRARY_RELEASE NAMES shaderc_shared HINTS $ENV{VULKAN_SDK} PATH_SUFFIXES lib)
+find_library(SHADERC_LIBRARY_DEBUG NAMES shaderc_combinedd shaderc_combined HINTS $ENV{VULKAN_SDK} PATH_SUFFIXES lib Debug/lib) #hack for debug libs in windows, pretty bad
+find_library(SHADERC_LIBRARY_RELEASE NAMES shaderc_combined HINTS $ENV{VULKAN_SDK} PATH_SUFFIXES lib)
 find_path(SHADERC_INLCUDE_DIRS NAMES shaderc/shaderc.h HINTS $ENV{VULKAN_SDK} PATH_SUFFIXES include)
 find_program(GLSLANG_VALIDATOR_EXE NAMES glslangValidator HINTS $ENV{VULKAN_SDK} PATH_SUFFIXES bin)
 
@@ -18,12 +17,23 @@ find_package_handle_standard_args(
 	GLSLANG_VALIDATOR_EXE
 )
 
-if((${SHADERC_LIBRARY_DEBUG} MATCHES "shaderc_sharedd") AND (${CMAKE_BUILD_TYPE} STREQUAL "Release"))
-	message(FATAL_ERROR "Shaderc and ${PROJECT_NAME} build type mismatch. Please build shaderc in Release mode.")
-endif()
-
-if((NOT ${SHADERC_LIBRARY_DEBUG} MATCHES "shaderc_sharedd") AND (${CMAKE_BUILD_TYPE} STREQUAL "Debug"))
-	message(FATAL_ERROR "Shaderc and ${PROJECT_NAME} build type mismatch. Please install or compile the shaderc Debug mode.")
+if(((NOT(${SHADERC_LIBRARY_DEBUG} MATCHES "shaderc_combinedd")) AND (${CMAKE_BUILD_TYPE} STREQUAL "Debug") 
+	OR 
+	(${SHADERC_LIBRARY_RELEASE} MATCHES "shaderc_combinedd") AND (${CMAKE_BUILD_TYPE} STREQUAL "Release")) 
+	AND WIN32)
+	if((${CMAKE_BUILD_TYPE} STREQUAL "Debug"))
+		message(FATAL_ERROR "
+		Building project in ${CMAKE_BUILD_TYPE}. 
+		Shaderc in Release. 
+		Please use or install the Debug Shader API Libraries
+		")
+	elseif((${CMAKE_BUILD_TYPE} STREQUAL "Release"))
+		message(FATAL_ERROR "
+		Building project in ${CMAKE_BUILD_TYPE}. 
+		Shaderc in Debug. 
+		Please use or install the Release Shader API Libraries
+		")
+	endif()
 endif()
 
 add_executable(glslangValidator IMPORTED)

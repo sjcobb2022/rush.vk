@@ -10,6 +10,8 @@ project(${NAME})
 
 set(CMAKE_CXX_STANDARD 17)
 
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON CACHE BOOL "" FORCE)
+
 list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake/modules")
 
 message(NOTICE "Find Vulkan Loader and Shaderc")
@@ -18,8 +20,8 @@ find_package(Vulkan REQUIRED)
 find_package(Shaderc REQUIRED)
 
 message(NOTICE "Adding Vulkan Memory Allocator")
-set(VMA_STATIC_VULKAN_FUNCTIONS OFF CACHE BOOL "" FORCE)
-set(VMA_DYNAMIC_VULKAN_FUNCTIONS ON CACHE BOOL "" FORCE)
+# set(VMA_STATIC_VULKAN_FUNCTIONS ON CACHE BOOL "" FORCE)
+# set(VMA_DYNAMIC_VULKAN_FUNCTIONS OFF CACHE BOOL "" FORCE)
 add_subdirectory(libs/vma)
 
 if(WIN32)
@@ -125,5 +127,3 @@ if("${ENGINE_DIR}")
 else()
   target_compile_definitions(${PROJECT_NAME} PRIVATE -DENGINE_DIR="${CMAKE_CURRENT_SOURCE_DIR}")
 endif()
-
-# target_compile_definitions(${PROJECT_NAME} PRIVATE $<$<CONFIG:DEBUG>:"DEBUG">)

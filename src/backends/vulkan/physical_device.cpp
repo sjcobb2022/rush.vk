@@ -384,12 +384,15 @@ namespace rush
         bool present_queue = get_present_queue_index(pd.physical_device, instance_info.surface, pd.queue_families) !=
                              QUEUE_INDEX_MAX_VALUE;
 
+        spdlog::debug("");
+        spdlog::debug("{}", pd.name);
+
         // TODO: Add better logging for each step
-        spdlog::debug("dedicated_compute:   {}", dedicated_compute);
-        spdlog::debug("dedicated_transfer:  {}", dedicated_transfer);
-        spdlog::debug("separate_compute:    {}", separate_compute);
-        spdlog::debug("separate_transfer:   {}", separate_transfer);
-        spdlog::debug("present_queue:       {}", present_queue);
+        spdlog::debug("\tdedicated_compute:   {}", dedicated_compute);
+        spdlog::debug("\tdedicated_transfer:  {}", dedicated_transfer);
+        spdlog::debug("\tseparate_compute:    {}", separate_compute);
+        spdlog::debug("\tseparate_transfer:   {}", separate_transfer);
+        spdlog::debug("\tpresent_queue:       {}", present_queue);
 
         if (criteria.require_dedicated_compute_queue && !dedicated_compute)
             return PhysicalDevice::Suitable::no;
@@ -501,9 +504,6 @@ namespace rush
         auto vk_physical_devices_ret = get_vector<VkPhysicalDevice>(
             vk_physical_devices, vkEnumeratePhysicalDevices, instance_info.instance);
 
-        // for(auto &dv : vk_physical_devices){
-        //     spdlog::info("{}", dv.)
-        // }
 
         if (vk_physical_devices_ret != VK_SUCCESS)
         {
@@ -512,12 +512,13 @@ namespace rush
             //                                                    vk_physical_devices_ret};
         }
 
+        spdlog::debug("Size of vk_physical_devices: {}", vk_physical_devices.size());
+
         if (vk_physical_devices.size() == 0)
         {
             throw std::runtime_error("No physical devices found in select_impl");
         }
 
-        // spdlog::debug("Size of vk_physical_devices: {}", vk_physical_devices.size());
 
         auto fill_out_phys_dev_with_criteria = [&](PhysicalDevice &phys_dev)
         {
@@ -588,6 +589,8 @@ namespace rush
         {
             throw std::runtime_error("No suitable device found");
         }
+
+        spdlog::debug("Selected Physical Device: {}", selected_devices.at(0).name);
 
         return selected_devices.at(0);
     }
