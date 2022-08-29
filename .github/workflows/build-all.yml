@@ -75,7 +75,3 @@ jobs:
             cmakeListsTxtPath: '${{ github.workspace }}/CMakeLists.txt'
             configurePreset: '${{matrix.build-preset}}_${{matrix.build-config}}'
             buildPreset: '${{matrix.build-preset}}_${{matrix.build-config}}'
-
-        - name: Setup tmate session
-          if: ${{ failure() }}
-          uses: mxschmitt/action-tmate@v3
