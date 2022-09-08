@@ -48,8 +48,8 @@ add_subdirectory(libs/imgui)
 message(NOTICE "Adding entt")
 add_subdirectory(libs/entt)
 
-message(NOTICE "Adding tinyobjloader")
-add_subdirectory(libs/tinyobjloader)
+message(NOTICE "Adding rapidobj")
+add_subdirectory(libs/rapidobj)
 
 message(NOTICE "Adding SPIRV-Reflect")
 set(SPIRV_REFLECT_EXAMPLES OFF CACHE BOOL "" FORCE)
