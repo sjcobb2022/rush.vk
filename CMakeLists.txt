@@ -113,7 +113,7 @@ target_link_libraries(${PROJECT_NAME} PRIVATE VulkanMemoryAllocator)
 target_link_libraries(${PROJECT_NAME} PRIVATE EnTT::EnTT)
 target_link_libraries(${PROJECT_NAME} PRIVATE shaderc)
 
-target_link_libraries(${PROJECT_NAME} PRIVATE tinyobjloader)
+target_link_libraries(${PROJECT_NAME} PRIVATE rapidobj::rapidobj)
 target_link_libraries(${PROJECT_NAME} PRIVATE tinygltf)
 
 target_link_libraries(${PROJECT_NAME} PRIVATE spirv-reflect-static)
