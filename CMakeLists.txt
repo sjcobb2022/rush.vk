@@ -48,8 +48,8 @@ add_subdirectory(libs/imgui)
 message(NOTICE "Adding entt")
 add_subdirectory(libs/entt)
 
-message(NOTICE "Adding tinyobjloader")
-add_subdirectory(libs/tinyobjloader)
+message(NOTICE "Adding rapidobj")
+add_subdirectory(libs/rapidobj)
 
 message(NOTICE "Adding SPIRV-Reflect")
 set(SPIRV_REFLECT_EXAMPLES OFF CACHE BOOL "" FORCE)
@@ -113,7 +113,7 @@ target_link_libraries(${PROJECT_NAME} PRIVATE VulkanMemoryAllocator)
 target_link_libraries(${PROJECT_NAME} PRIVATE EnTT::EnTT)
 target_link_libraries(${PROJECT_NAME} PRIVATE shaderc)
 
-target_link_libraries(${PROJECT_NAME} PRIVATE tinyobjloader)
+target_link_libraries(${PROJECT_NAME} PRIVATE rapidobj::rapidobj)
 target_link_libraries(${PROJECT_NAME} PRIVATE tinygltf)
 
 target_link_libraries(${PROJECT_NAME} PRIVATE spirv-reflect-static)

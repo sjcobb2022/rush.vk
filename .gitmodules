@@ -19,9 +19,6 @@
 [submodule "libs/imgui"]
 	path = libs/imgui
 	url = https://github.com/sjcobb2022/imgui.git
-[submodule "libs/tinyobjloader"]
-	path = libs/tinyobjloader
-	url = https://github.com/tinyobjloader/tinyobjloader.git
 [submodule "libs/tinygltf"]
 	path = libs/tinygltf
 	url = https://github.com/syoyo/tinygltf.git
@@ -31,3 +28,6 @@
 [submodule ".github/actions/setup-vulkan-sdk"]
 	path = .github/actions/setup-vulkan-sdk
 	url = https://github.com/sjcobb2022/setup-vulkan-sdk.git
+[submodule "libs/rapidobj"]
+	path = libs/rapidobj
+	url = https://github.com/guybrush77/rapidobj
