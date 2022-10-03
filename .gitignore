@@ -15,6 +15,10 @@ build/**
 
 compile_commands.json
 
+.cache
+.cache/*
+.cache/**
+
 c_cpp_**.**
 
 
