@@ -3,8 +3,8 @@ on:
   pull_request_review:
     types: [submitted]
     paths:
-      - 'src/**'
-      - '.github/**'
+      - "src/**"
+      - ".github/**"
     branches: [main]
 jobs:
   build:
@@ -28,7 +28,7 @@ jobs:
             compiler: msvc
             build-preset: VisualStudio
             build-config: Release
-        
+
           - os: windows-latest
             compiler: msvc
             build-preset: VisualStudio
@@ -58,15 +58,18 @@ jobs:
           vulkan-query-version: latest
           vulkan-components: Vulkan-Loader, shaderc
           vulkan-use-cache: on
-      
+
       - uses: RpxdYTX/install-glfw-deps@v2
         if: runner.os == 'Linux'
-      
+
+      - run: sudo apt install libaio-dev
+        if: runner.os == 'Linux'
+
       - uses: lukka/run-cmake@v10
         with:
-          cmakeListsTxtPath: '${{ github.workspace }}/CMakeLists.txt'
-          configurePreset: '${{matrix.build-preset}}_${{matrix.build-config}}'
-          buildPreset: '${{matrix.build-preset}}_${{matrix.build-config}}'
+          cmakeListsTxtPath: "${{ github.workspace }}/CMakeLists.txt"
+          configurePreset: "${{matrix.build-preset}}_${{matrix.build-config}}"
+          buildPreset: "${{matrix.build-preset}}_${{matrix.build-config}}"
 
   testing:
     needs: [build]
@@ -90,7 +93,7 @@ jobs:
             compiler: msvc
             build-preset: VisualStudio
             build-config: Release
-        
+
           - os: windows-latest
             compiler: msvc
             build-preset: VisualStudio
@@ -116,7 +119,7 @@ jobs:
         with:
           submodules: recursive
           ref: main
-      
+
       - name: Merge main => staging
         uses: devmasx/merge-branch@master
         with:
@@ -124,8 +127,8 @@ jobs:
           from_branch: main
           target_branch: staging
           github_token: ${{ secrets.PAT }}
-          message: 'Merge Main => Staging'
-          label_name: 'automated  :robot:'
+          message: "Merge Main => Staging"
+          label_name: "automated  :robot:"
 
   pull:
     needs: [merge]
@@ -140,26 +143,24 @@ jobs:
           git fetch origin staging:staging
           git reset --hard staging
       - run: echo "DATE=$(date +%Y-%m-%d)" >> $GITHUB_ENV
-
       - uses: peter-evans/create-pull-request@v4
         with:
           token: ${{ secrets.PAT }}
           branch: staging
-          commit-message: '[automated] Successful merge request from staging to prod'
+          commit-message: "[automated] Successful merge request from staging to prod"
           signoff: true
           committer: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
-          title: '${{ github.actor }} - Request Staging Merge with Main at ${{env.DATE}}'
+          title: "${{ github.actor }} - Request Staging Merge with Main at ${{env.DATE}}"
           body: |
-              Request merge of staging and production
-              - Passed Building:  [![build](https://github.com/sjcobb2022/rush.vk/actions/workflows/build-all.yml/badge.svg)](https://github.com/sjcobb2022/rush.vk/actions/workflows/build-all.yml)
-              - Passed Testing:   [![testing](https://github.com/sjcobb2022/rush.vk/actions/workflows/testing.yml/badge.svg)](https://github.com/sjcobb2022/rush.vk/actions/workflows/testing.yml)
-              - Passed Merge:     [![merge](https://github.com/sjcobb2022/rush.vk/actions/workflows/merge.yml/badge.svg)](https://github.com/sjcobb2022/rush.vk/actions/workflows/merge.yml)
+            Request merge of staging and production
+            - Passed Building:  [![build](https://github.com/sjcobb2022/rush.vk/actions/workflows/build-all.yml/badge.svg)](https://github.com/sjcobb2022/rush.vk/actions/workflows/build-all.yml)
+            - Passed Testing:   [![testing](https://github.com/sjcobb2022/rush.vk/actions/workflows/testing.yml/badge.svg)](https://github.com/sjcobb2022/rush.vk/actions/workflows/testing.yml)
+            - Passed Merge:     [![merge](https://github.com/sjcobb2022/rush.vk/actions/workflows/merge.yml/badge.svg)](https://github.com/sjcobb2022/rush.vk/actions/workflows/merge.yml)
 
-              - Build Linux:   [![build](https://github.com/sjcobb2022/rush.vk/actions/workflows/build-linux.yml/badge.svg)](https://github.com/sjcobb2022/rush.vk/actions/workflows/build-linux.yml)
-              - Build MacOS:   [![build](https://github.com/sjcobb2022/rush.vk/actions/workflows/build-mac.yml/badge.svg)](https://github.com/sjcobb2022/rush.vk/actions/workflows/build-mac.yml)
-              - Build Windows: [![build](https://github.com/sjcobb2022/rush.vk/actions/workflows/build-windows.yml/badge.svg)](https://github.com/sjcobb2022/rush.vk/actions/workflows/build-windows.yml)
+            - Build Linux:   [![build](https://github.com/sjcobb2022/rush.vk/actions/workflows/build-linux.yml/badge.svg)](https://github.com/sjcobb2022/rush.vk/actions/workflows/build-linux.yml)
+            - Build MacOS:   [![build](https://github.com/sjcobb2022/rush.vk/actions/workflows/build-mac.yml/badge.svg)](https://github.com/sjcobb2022/rush.vk/actions/workflows/build-mac.yml)
+            - Build Windows: [![build](https://github.com/sjcobb2022/rush.vk/actions/workflows/build-windows.yml/badge.svg)](https://github.com/sjcobb2022/rush.vk/actions/workflows/build-windows.yml)
 
-              Request by: ${{ github.actor }}
-          reviewers: 'sjcobb2022'
-            
-          labels: 'automated  :robot:'
+            Request by: ${{ github.actor }}
+          reviewers: "sjcobb2022"
+          labels: "automated  :robot:"

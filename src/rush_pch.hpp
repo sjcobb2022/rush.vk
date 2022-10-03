@@ -52,7 +52,7 @@
 //  tinygltf
 #include <tiny_gltf.h> // get json.hpp from the repository
 
-//  TinyObjLoader
-#include <tiny_obj_loader.h> //core
+//  RapidObj because RapidObj faster
+#include "rapidobj/rapidobj.hpp"//core
 
 #include <spirv_reflect.h>

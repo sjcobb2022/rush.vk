@@ -9,7 +9,7 @@
 
 #include "rush_pch.hpp"
 
-// libs
+// lib
 
 namespace rush
 {
